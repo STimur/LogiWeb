@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - logiweb@localhost" uuid="86086f26-375c-4c7f-bcec-4e3ba899c7e5">
+    <database-info product="MySQL" version="5.6.26-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="mixed" quoted-identifiers="upper"/>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.4">
+      <schema id="1" name="logiweb"/>
+      <table id="2" parent="1" name="Cities"/>
+      <table id="3" parent="1" name="Trucks"/>
+      <column id="4" parent="2" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="5" parent="2" name="name">
+        <mandatory>1</mandatory>
+        <data-type>varchar(45)</data-type>
+      </column>
+      <key id="6" parent="2" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="7" parent="3" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="8" parent="3" name="regNumber">
+        <mandatory>1</mandatory>
+        <data-type>varchar(7)</data-type>
+      </column>
+      <column id="9" parent="3" name="shiftSize">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+        <default-expression>&apos;2&apos;</default-expression>
+      </column>
+      <column id="10" parent="3" name="capacity">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+        <default-expression>&apos;10&apos;</default-expression>
+      </column>
+      <column id="11" parent="3" name="state">
+        <mandatory>1</mandatory>
+        <data-type>varchar(10)</data-type>
+      </column>
+      <column id="12" parent="3" name="currentCityId">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="13" parent="3" name="city_id_idx">
+        <columns>currentCityId</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="14" parent="3" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="15" parent="3" name="FK_trucks_cities">
+        <columns>currentCityId</columns>
+        <ref-key>~.Cities.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+    </database-model>
+  </data-source>
+</component>
