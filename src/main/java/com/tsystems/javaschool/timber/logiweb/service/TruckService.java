@@ -8,33 +8,33 @@ import java.util.List;
 
 public class TruckService {
 
-    private static GeneralDaoInterface bookDao;
+    private static GeneralDaoInterface truckDao;
 
     public TruckService() {
-        bookDao = new TruckDao();
+        truckDao = new TruckDao();
     }
 
     public void create(Truck truck) {
-        bookDao.persist(truck);
+        truckDao.persist(truck);
     }
 
     public void update(Truck truck) {
-        bookDao.update(truck);
+        truckDao.update(truck);
     }
 
-    public Truck findById(String id) {
-        return (Truck)bookDao.find(id);
+    public Truck findById(int id) {
+        return (Truck) truckDao.find(id);
     }
 
-    public void delete(String id) {
-        bookDao.delete(id);
+    public void delete(int id) {
+        truckDao.delete(id);
     }
 
     public List<Truck> findAll() {
-        return bookDao.findAll();
+        return truckDao.findAll();
     }
 
     public void deleteAll() {
-        bookDao.deleteAll();
+        truckDao.deleteAll();
     }
 }

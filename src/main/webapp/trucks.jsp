@@ -1,4 +1,5 @@
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Truck" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.City" %>
 <%@ page import="java.util.List" %>
 <html>
 <body>
@@ -23,7 +24,14 @@
         <td><%= truck.getShiftSize() %></td>
         <td><%= truck.getCapacity() %></td>
         <td><%= truck.getState() %></td>
-        <td><%= truck.getCity().getName() %></td>
+        <% City city = truck.getCity();
+            String cityName;
+            if (city == null)
+                cityName = "no city";
+            else
+                cityName = city.getName();
+        %>
+        <td><%= cityName %></td>
     </tr>
     <% }} %>
 </table>

@@ -1,13 +1,13 @@
 package com.tsystems.javaschool.timber.logiweb.dao;
 
-import com.tsystems.javaschool.timber.logiweb.entity.Truck;
+import com.tsystems.javaschool.timber.logiweb.entity.City;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
 
-public class TruckDao implements GeneralDaoInterface<Truck, Integer> {
+public class CityDao implements GeneralDaoInterface<City, Integer> {
 
     private EntityManager eManager;
 
@@ -37,46 +37,46 @@ public class TruckDao implements GeneralDaoInterface<Truck, Integer> {
         eManager.close();
     }
 
-    public void persist(Truck truck) {
+    public void persist(City city) {
         openEntityManagerWithTransaction();
-        getEntityManager().persist(truck);
+        getEntityManager().persist(city);
         closeEntityManagerWithTransaction();
     }
 
-    public void update(Truck truck) {
+    public void update(City city) {
         openEntityManagerWithTransaction();
-        getEntityManager().merge(truck);
+        getEntityManager().merge(city);
         closeEntityManagerWithTransaction();
     }
 
-    public Truck find(Integer id) {
+    public City find(Integer id) {
         openEntityManager();
-        Truck truck = getEntityManager().find(Truck.class, id);
+        City city = getEntityManager().find(City.class, id);
         closeEntityManager();
-        return truck;
+        return city;
     }
 
     public void delete(Integer id) {
         openEntityManagerWithTransaction();
-        Truck found = getEntityManager().find(Truck.class, id);
+        City found = getEntityManager().find(City.class, id);
         getEntityManager().remove(found);
         closeEntityManagerWithTransaction();
     }
 
     @SuppressWarnings("unchecked")
-    public List<Truck> findAll() {
+    public List<City> findAll() {
         openEntityManager();
-        List<Truck> trucks = (List<Truck>) getEntityManager().createQuery("from Truck").getResultList();
+        List<City> cities = (List<City>) getEntityManager().createQuery("from City").getResultList();
         closeEntityManager();
-        return trucks;
+        return cities;
     }
 
     @SuppressWarnings("unchecked")
     public void deleteAll() {
         openEntityManagerWithTransaction();
-        List<Truck> trucks = (List<Truck>) getEntityManager().createQuery("from Truck").getResultList();
-        for (Truck entity : trucks) {
-            getEntityManager().remove(entity);
+        List<City> cities = (List<City>) getEntityManager().createQuery("from City").getResultList();
+        for (City city : cities) {
+            getEntityManager().remove(city);
         }
         closeEntityManagerWithTransaction();
     }

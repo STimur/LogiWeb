@@ -1,6 +1,8 @@
 package com.tsystems.javaschool.timber.logiweb.controller;
 
+import com.tsystems.javaschool.timber.logiweb.entity.City;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
+import com.tsystems.javaschool.timber.logiweb.service.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.TruckService;
 
 import java.io.IOException;
@@ -30,7 +32,36 @@ public class TruckController extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        String id_param = request.getParameter("id");
+        int id = -1;
+        if (id_param != null)
+            id = Integer.valueOf(request.getParameter("id"));
+
         TruckService truckService = new TruckService();
+
+        if (action != null) {
+            switch (action) {
+                case "create":
+                    Truck newTruck = new Truck();
+                    newTruck.setRegNumber("XXXXXXX");
+                    newTruck.setShiftSize(1);
+                    newTruck.setCapacity(10);
+                    newTruck.setState("OK");
+                    truckService.create(newTruck);
+                    break;
+                case "delete":
+                    truckService.delete(id);
+                    break;
+                case "edit":
+                    Truck truckToEdit = truckService.findById(id);
+                    String state = truckToEdit.getState();
+                    if (state.compareTo("OK")==0) truckToEdit.setState("BROKEN");
+                    else truckToEdit.setState("OK");
+                    truckService.update(truckToEdit);
+            }
+        }
+
         List<Truck> trucks = truckService.findAll();
         request.setAttribute("trucks", trucks);
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/trucks.jsp");
