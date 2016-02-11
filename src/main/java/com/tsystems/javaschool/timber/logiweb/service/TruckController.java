@@ -1,6 +1,6 @@
-package com.tsystems.javaschool.timber.logiweb.services;
+package com.tsystems.javaschool.timber.logiweb.service;
 
-import com.tsystems.javaschool.timber.logiweb.entities.Truck;
+import com.tsystems.javaschool.timber.logiweb.entity.Truck;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Test
  */
-public class TrucksService extends HttpServlet {
+public class TruckController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TrucksService() {
+    public TruckController() {
         super();
         // TODO Auto-generated constructor stub
     }

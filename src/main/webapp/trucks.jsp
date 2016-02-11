@@ -1,4 +1,4 @@
-<%@ page import="com.tsystems.javaschool.timber.logiweb.entities.Truck" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Truck" %>
 <%@ page import="java.util.List" %>
 <html>
 <body>

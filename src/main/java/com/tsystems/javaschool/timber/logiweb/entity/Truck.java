@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.timber.logiweb.entities;
+package com.tsystems.javaschool.timber.logiweb.entity;
 
 import com.tsystems.javaschool.timber.logiweb.HibernateUtilities;
 
