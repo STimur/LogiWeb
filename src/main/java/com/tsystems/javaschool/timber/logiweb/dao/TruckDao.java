@@ -14,7 +14,7 @@ public class TruckDao implements GeneralDaoInterface<Truck, String> {
 
     static {
         try {
-            emFactory = Persistence.createEntityManagerFactory("library");
+            emFactory = Persistence.createEntityManagerFactory("Logiweb");
         } catch (Throwable ex) {
             System.err.println("Initial EntityManagerFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);
@@ -22,8 +22,6 @@ public class TruckDao implements GeneralDaoInterface<Truck, String> {
     }
 
     public static EntityManagerFactory getEntityManagerFactory() {
-        if (emFactory != null)
-            return emFactory;
         return emFactory;
     }
 
@@ -83,6 +81,7 @@ public class TruckDao implements GeneralDaoInterface<Truck, String> {
         return trucks;
     }
 
+    @SuppressWarnings("unchecked")
     public void deleteAll() {
         openEntityManagerWithTransaction();
         List<Truck> trucks = (List<Truck>) getEntityManager().createQuery("from Truck").getResultList();

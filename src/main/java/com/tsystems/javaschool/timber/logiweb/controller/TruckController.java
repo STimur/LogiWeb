@@ -1,6 +1,7 @@
-package com.tsystems.javaschool.timber.logiweb.service;
+package com.tsystems.javaschool.timber.logiweb.controller;
 
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
+import com.tsystems.javaschool.timber.logiweb.service.TruckService;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +30,8 @@ public class TruckController extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Truck> trucks = Truck.getTrucks();
+        TruckService truckService = new TruckService();
+        List<Truck> trucks = truckService.findAll();
         request.setAttribute("trucks", trucks);
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/trucks.jsp");
         rd.forward(request, response);

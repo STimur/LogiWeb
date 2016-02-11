@@ -7,7 +7,7 @@
   <servlet>
     <servlet-name>TruckController</servlet-name>
     <display-name>Truck</display-name>
-    <servlet-class>com.tsystems.javaschool.timber.logiweb.service.TruckController</servlet-class>
+    <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.TruckController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>TruckController</servlet-name>
