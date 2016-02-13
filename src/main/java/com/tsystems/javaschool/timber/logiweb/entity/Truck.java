@@ -1,7 +1,5 @@
 package com.tsystems.javaschool.timber.logiweb.entity;
 
-import com.tsystems.javaschool.timber.logiweb.HibernateUtilities;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -19,6 +17,7 @@ public class Truck {
     private City city;
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -76,12 +75,5 @@ public class Truck {
 
     public void setCity(City city) {
         this.city = city;
-    }
-
-    public static List<Truck> getTrucks() {
-        EntityManager em = HibernateUtilities.getEntityManagerFactory().createEntityManager();
-        Query query = em.createQuery("Select t from Truck t");
-        List<Truck> trucks = query.getResultList();
-        return trucks;
     }
 }

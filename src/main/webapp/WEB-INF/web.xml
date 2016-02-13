@@ -9,8 +9,22 @@
     <display-name>Truck</display-name>
     <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.TruckController</servlet-class>
   </servlet>
+
+    <servlet>
+        <servlet-name>TruckJSController</servlet-name>
+        <display-name>TruckJS</display-name>
+        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.TruckJSController</servlet-class>
+    </servlet>
+
   <servlet-mapping>
     <servlet-name>TruckController</servlet-name>
     <url-pattern>/Truck</url-pattern>
   </servlet-mapping>
+
+
+  <servlet-mapping>
+    <servlet-name>TruckJSController</servlet-name>
+    <url-pattern>/TruckJSController</url-pattern>
+  </servlet-mapping>
+
 </web-app>

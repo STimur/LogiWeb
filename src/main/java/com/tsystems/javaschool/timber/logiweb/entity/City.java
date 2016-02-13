@@ -41,4 +41,9 @@ public class City {
     public void setTrucks(List<Truck> trucks) {
         this.trucks = trucks;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

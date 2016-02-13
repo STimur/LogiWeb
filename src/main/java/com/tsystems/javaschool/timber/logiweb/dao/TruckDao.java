@@ -40,6 +40,8 @@ public class TruckDao implements GeneralDaoInterface<Truck, Integer> {
     public void persist(Truck truck) {
         openEntityManagerWithTransaction();
         getEntityManager().persist(truck);
+        //getEntityManager().flush();
+        //int id = truck.getId();
         closeEntityManagerWithTransaction();
     }
 
