@@ -1,14 +1,16 @@
 package com.tsystems.javaschool.timber.logiweb.dao;
 
-import com.tsystems.javaschool.timber.logiweb.entity.Truck;
+import com.tsystems.javaschool.timber.logiweb.entity.Driver;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import java.io.Serializable;
 import java.util.List;
 
-public class TruckDao implements GeneralDaoInterface<Truck, Integer> {
-
+/**
+ * Created by tims on 2/15/2016.
+ */
+public class DriverDao implements GeneralDaoInterface<Driver, Integer> {
     private EntityManager eManager;
 
     public static EntityManagerFactory getEntityManagerFactory() {
@@ -37,49 +39,47 @@ public class TruckDao implements GeneralDaoInterface<Truck, Integer> {
         eManager.close();
     }
 
-    public void persist(Truck truck) {
+    public void persist(Driver driver) {
         openEntityManagerWithTransaction();
-        getEntityManager().persist(truck);
+        getEntityManager().persist(driver);
         closeEntityManagerWithTransaction();
     }
 
-    public void update(Truck truck) {
+    public void update(Driver driver) {
         openEntityManagerWithTransaction();
-        getEntityManager().merge(truck);
+        getEntityManager().merge(driver);
         closeEntityManagerWithTransaction();
     }
 
-    public Truck find(Integer id) {
+    public Driver find(Integer id) {
         openEntityManager();
-        Truck truck = getEntityManager().find(Truck.class, id);
+        Driver driver = getEntityManager().find(Driver.class, id);
         closeEntityManager();
-        return truck;
+        return driver;
     }
 
     public void delete(Integer id) {
         openEntityManagerWithTransaction();
-        Truck found = getEntityManager().find(Truck.class, id);
+        Driver found = getEntityManager().find(Driver.class, id);
         getEntityManager().remove(found);
         closeEntityManagerWithTransaction();
     }
 
     @SuppressWarnings("unchecked")
-    public List<Truck> findAll() {
+    public List<Driver> findAll() {
         openEntityManager();
-        List<Truck> trucks = (List<Truck>) getEntityManager().createQuery("from Truck").getResultList();
+        List<Driver> drivers = (List<Driver>) getEntityManager().createQuery("from Driver").getResultList();
         closeEntityManager();
-        return trucks;
+        return drivers;
     }
 
     @SuppressWarnings("unchecked")
     public void deleteAll() {
         openEntityManagerWithTransaction();
-        List<Truck> trucks = (List<Truck>) getEntityManager().createQuery("from Truck").getResultList();
-        for (Truck entity : trucks) {
-            getEntityManager().remove(entity);
+        List<Driver> drivers = (List<Driver>) getEntityManager().createQuery("from Driver").getResultList();
+        for (Driver driver: drivers) {
+            getEntityManager().remove(driver);
         }
         closeEntityManagerWithTransaction();
     }
-
-
 }

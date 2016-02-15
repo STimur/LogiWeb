@@ -16,6 +16,17 @@ public class Truck {
     private String state;
     private City city;
 
+    public Truck() {}
+
+    public Truck(int id, String regNumber, int shiftSize, int capacity, String state, City city) {
+        this.id = id;
+        this.regNumber = regNumber;
+        this.shiftSize = shiftSize;
+        this.capacity = capacity;
+        this.state = state;
+        this.city = city;
+    }
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")

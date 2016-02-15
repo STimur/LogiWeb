@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.timber.logiweb.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,6 +13,17 @@ public class City {
     private int id;
     private String name;
     private List<Truck> trucks;
+
+    public City() {}
+
+    public City(int id, String name, List<Truck> trucks) {
+        this.id = id;
+        this.name = name;
+        if (trucks != null)
+            this.trucks = trucks;
+        else
+            this.trucks = new ArrayList<Truck>();
+    }
 
     @Id
     @Column(name = "id")

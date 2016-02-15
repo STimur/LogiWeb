@@ -7,6 +7,7 @@
           <element id="module-output" name="LogiWeb" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-core:1.3" />
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-core:5.0.7.Final" />
           <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.3.0.Final" />
           <element id="library" level="project" name="Maven: org.javassist:javassist:3.18.1-GA" />
@@ -21,6 +22,15 @@
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-entitymanager:5.0.7.Final" />
           <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.1.0" />
           <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.6.1" />
+          <element id="library" level="project" name="Maven: org.jmock:jmock-junit4:2.8.2" />
+          <element id="library" level="project" name="Maven: org.jmock:jmock:2.8.2" />
+          <element id="library" level="project" name="Maven: org.jmock:jmock-testjar:2.8.2" />
+          <element id="library" level="project" name="Maven: cglib:cglib:3.2.0" />
+          <element id="library" level="project" name="Maven: org.apache.ant:ant:1.9.4" />
+          <element id="library" level="project" name="Maven: org.apache.ant:ant-launcher:1.9.4" />
+          <element id="library" level="project" name="Maven: org.ow2.asm:asm:5.0.4" />
+          <element id="library" level="project" name="Maven: org.beanshell:bsh:1.3.0" />
+          <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-library:1.3" />
         </element>
       </element>
       <element id="directory" name="META-INF">
