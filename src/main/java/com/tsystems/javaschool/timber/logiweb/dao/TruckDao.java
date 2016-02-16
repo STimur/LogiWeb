@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.dao;
 
+import com.tsystems.javaschool.timber.logiweb.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
 
 import javax.persistence.EntityManager;
@@ -7,7 +8,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
 
-public class TruckDao implements GeneralDaoInterface<Truck, Integer> {
+public class TruckDao implements TruckDaoInterface {
 
     private EntityManager eManager;
 
@@ -82,4 +83,8 @@ public class TruckDao implements GeneralDaoInterface<Truck, Integer> {
     }
 
 
+    @Override
+    public List<Truck> getSuitableTrucksForOrder(Order order) {
+        return null;
+    }
 }

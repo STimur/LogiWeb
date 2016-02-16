@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.test.serviceDaoIntegration;
 
+import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
 import com.tsystems.javaschool.timber.logiweb.entity.City;
 import com.tsystems.javaschool.timber.logiweb.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.entity.DriverState;
@@ -26,7 +27,7 @@ public class DriverServiceDaoIntegrationTest {
         driver.setState(DriverState.DRIVE);
         City city = new CityService().findById(1);
         driver.setCurrentCity(city);
-        Truck truck = new TruckService().findById(1);
+        Truck truck = new TruckService(new TruckDao()).findById(1);
         driver.setCurrentTruck(truck);
 
         DriverService driverService = new DriverService();
@@ -76,7 +77,7 @@ public class DriverServiceDaoIntegrationTest {
         driver.setState(DriverState.DRIVE);
         City city = new CityService().findById(1);
         driver.setCurrentCity(city);
-        Truck truck = new TruckService().findById(1);
+        Truck truck = new TruckService(new TruckDao()).findById(1);
         driver.setCurrentTruck(truck);
 
         DriverService driverService = new DriverService();

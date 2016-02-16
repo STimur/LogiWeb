@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.controller;
 
+import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
 import com.tsystems.javaschool.timber.logiweb.entity.City;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.service.CityService;
@@ -38,7 +39,7 @@ public class TruckController extends HttpServlet {
         if (id_param != null)
             id = Integer.valueOf(request.getParameter("id"));
 
-        TruckService truckService = new TruckService();
+        TruckService truckService = new TruckService(new TruckDao());
 
         if (action != null) {
             switch (action) {

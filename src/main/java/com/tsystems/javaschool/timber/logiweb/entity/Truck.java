@@ -15,16 +15,18 @@ public class Truck {
     private int capacity;
     private String state;
     private City city;
+    private Order order;
 
     public Truck() {}
 
-    public Truck(int id, String regNumber, int shiftSize, int capacity, String state, City city) {
+    public Truck(int id, String regNumber, int shiftSize, int capacity, String state, City city, Order order) {
         this.id = id;
         this.regNumber = regNumber;
         this.shiftSize = shiftSize;
         this.capacity = capacity;
         this.state = state;
         this.city = city;
+        this.order = order;
     }
 
     @Id

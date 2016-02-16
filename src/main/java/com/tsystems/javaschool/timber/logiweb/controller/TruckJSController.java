@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
+import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.service.TruckService;
 import com.tsystems.javaschool.timber.logiweb.utility.TruckSerializer;
@@ -29,7 +30,7 @@ public class TruckJSController extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public TruckJSController() {
-        truckService = new TruckService();
+        truckService = new TruckService(new TruckDao());
     }
 
     /**

@@ -59,4 +59,23 @@ public class Order {
     public void setAssignedDrivers(List<Driver> assignedDrivers) {
         this.assignedDrivers = assignedDrivers;
     }
+
+    public int maxLoad() {
+        RoutePoint currentRoutePoint = route;
+        int maxLoad = 0;
+        int currentLoad = 0;
+        while (currentRoutePoint != null) {
+            switch (currentRoutePoint.getType()) {
+                case LOAD:
+                    currentLoad += currentRoutePoint.getCargo().getWeight();
+                    if (currentLoad >= maxLoad)
+                        maxLoad = currentLoad;
+                    break;
+                case UNLOAD:
+                    currentLoad -= currentRoutePoint.getCargo().getWeight();
+            }
+            currentRoutePoint = currentRoutePoint.getNextRoutePoint();
+        }
+        return maxLoad;
+    }
 }
