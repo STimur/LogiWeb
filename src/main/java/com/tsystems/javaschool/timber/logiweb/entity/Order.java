@@ -78,4 +78,9 @@ public class Order {
         }
         return maxLoad;
     }
+
+    public int getTimeEstimate() {
+        //TODO reimplement to really estimate based on route
+        return 40;
+    }
 }

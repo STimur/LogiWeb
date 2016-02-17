@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.timber.logiweb.entity;
 
 import javax.persistence.*;
+import java.util.Calendar;
 
 /**
  * Created by tims on 2/15/2016.
@@ -139,5 +140,19 @@ public class Driver {
         result = 31 * result + (currentCity != null ? currentCity.hashCode() : 0);
         result = 31 * result + (currentTruck != null ? currentTruck.hashCode() : 0);
         return result;
+    }
+
+    public boolean IsEnoughTimeForOrder(Order order) {
+        //TODO unit test and reimplement/refactor it if needed
+        int maxHoursOfWorkInDay = 8;
+        int maxHoursOfWorkMonthly = 176;
+        Calendar c = Calendar.getInstance();
+        int monthMaxDays = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+        int daysRemaining = monthMaxDays - c.get(Calendar.DAY_OF_MONTH);
+        int timeRemainingInThisMonth = Math.min((maxHoursOfWorkMonthly - getHoursWorkedThisMonth()), daysRemaining * maxHoursOfWorkInDay);
+
+        boolean isEnoughTime = (timeRemainingInThisMonth > order.getTimeEstimate());
+        if (isEnoughTime) return true;
+        return false;
     }
 }
