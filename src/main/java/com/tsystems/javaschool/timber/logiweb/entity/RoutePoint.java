@@ -75,4 +75,9 @@ public class RoutePoint {
     public void setNextRoutePoint(RoutePoint nextRoutePoint) {
         this.nextRoutePoint = nextRoutePoint;
     }
+
+    @Override
+    public String toString() {
+        return city + " " + type + " " + cargo.getName();
+    }
 }

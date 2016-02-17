@@ -1,4 +1,9 @@
-<%--
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.OrderService" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.OrderDao" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Order" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.RoutePoint" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Driver" %><%--
   Created by IntelliJ IDEA.
   User: tims
   Date: 2/17/2016
@@ -13,6 +18,11 @@
 </head>
 <body>
 <div id="ordersTable" class="container">
+    <%
+        OrderService orderService = new OrderService(new OrderDao());
+        List<Order> orders = orderService.findAll();
+    %>
+
     <h2>Orders Table</h2>
     <p>Current orders:</p>
     <table class="table table-bordered table-striped table-hover">
@@ -26,57 +36,31 @@
         </tr>
         </thead>
         <tbody>
+        <% for (Order order : orders) { %>
         <tr>
-            <td>1</td>
-            <td>No</td>
+            <td><%= order.getId() %></td>
+            <td><%= order.isFinished() %></td>
             <td>
                 <ol>
-                    <li>SPb Load CargoA</li>
-                    <li>SPb Unload CargoA</li>
+                    <%
+                        RoutePoint currentPoint = order.getRoute();
+                        while (currentPoint != null) {
+                    %>
+                    <li><%= currentPoint %>
+                    </li>
+                    <% currentPoint = currentPoint.getNextRoutePoint(); } %>
                 </ol>
             </td>
-            <th>AA12345</th>
+            <td><%= order.getAssignedTruck().getRegNumber() %></td>
             <th>
                 <ol>
-                    <li>1 John Ivanov</li>
-                    <li>2 Max Petrov</li>
+                    <% for (Driver driver : order.getAssignedDrivers()) { %>
+                    <li><%= driver %></li>
+                    <% } %>
                 </ol>
             </th>
         </tr>
-        <tr>
-            <td>1</td>
-            <td>No</td>
-            <td>
-                <ol>
-                    <li>SPb Load CargoA</li>
-                    <li>SPb Unload CargoA</li>
-                </ol>
-            </td>
-            <th>AA12345</th>
-            <th>
-                <ol>
-                    <li>1 John Ivanov</li>
-                    <li>2 Max Petrov</li>
-                </ol>
-            </th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>No</td>
-            <td>
-                <ol>
-                    <li>SPb Load CargoA</li>
-                    <li>SPb Unload CargoA</li>
-                </ol>
-            </td>
-            <th>AA12345</th>
-            <th>
-                <ol>
-                    <li>1 John Ivanov</li>
-                    <li>2 Max Petrov</li>
-                </ol>
-            </th>
-        </tr>
+        <% } %>
         </tbody>
     </table>
 </div>

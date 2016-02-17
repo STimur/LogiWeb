@@ -156,4 +156,9 @@ public class Driver {
         if (isEnoughTime) return true;
         return false;
     }
+
+    @Override
+    public String toString() {
+        return name + " " + surname;
+    }
 }
