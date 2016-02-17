@@ -104,7 +104,8 @@ public class Driver {
         this.currentTruck = truck;
     }
 
-    @Transient
+    @ManyToOne
+    @JoinColumn(name = "currentOrderId")
     public Order getOrder() {
         return order;
     }

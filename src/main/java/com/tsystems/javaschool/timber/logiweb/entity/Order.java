@@ -1,16 +1,21 @@
 package com.tsystems.javaschool.timber.logiweb.entity;
 
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by tims on 2/15/2016.
  */
+@Entity
+@Table(name = "Orders", schema = "logiweb")
 public class Order {
     private int id;
     private boolean isFinished;
     private RoutePoint route;
     private Truck assignedTruck;
     private List<Driver> assignedDrivers;
+
+    public Order() {}
 
     public Order(int id, boolean isFinished, RoutePoint route, Truck assignedTruck, List<Driver> assignedDrivers) {
         this.id = id;
@@ -20,6 +25,9 @@ public class Order {
         this.assignedDrivers = assignedDrivers;
     }
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -28,6 +36,7 @@ public class Order {
         this.id = id;
     }
 
+    @Column(name = "isFinished")
     public boolean isFinished() {
         return isFinished;
     }
@@ -36,6 +45,8 @@ public class Order {
         isFinished = finished;
     }
 
+    @OneToOne
+    @JoinColumn(name="routeId")
     public RoutePoint getRoute() {
         return route;
     }
@@ -44,14 +55,8 @@ public class Order {
         this.route = route;
     }
 
-    public Truck getAssignedTruckTruckId() {
-        return assignedTruck;
-    }
-
-    public void setAssignedTruckTruckId(int assignedTruckId) {
-        this.assignedTruck = assignedTruck;
-    }
-
+    @OneToOne
+    @JoinColumn(name="truckId")
     public Truck getAssignedTruck() {
         return assignedTruck;
     }
@@ -60,6 +65,7 @@ public class Order {
         this.assignedTruck = assignedTruck;
     }
 
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     public List<Driver> getAssignedDrivers() {
         return assignedDrivers;
     }
@@ -87,6 +93,7 @@ public class Order {
         return maxLoad;
     }
 
+    @Transient
     public int getTimeEstimate() {
         //TODO reimplement to really estimate based on route
         return 40;

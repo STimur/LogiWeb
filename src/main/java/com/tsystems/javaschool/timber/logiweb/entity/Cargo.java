@@ -1,13 +1,20 @@
 package com.tsystems.javaschool.timber.logiweb.entity;
 
+import javax.persistence.*;
+
 /**
  * Created by tims on 2/15/2016.
  */
+@Entity
+@Table(name = "Cargos", schema = "logiweb")
 public class Cargo {
     private int id;
     private String name;
     private int weight;
     private CargoState state;
+
+    public Cargo() {
+    }
 
     public Cargo(int id, String name, int weight, CargoState state) {
         this.id = id;
@@ -16,6 +23,9 @@ public class Cargo {
         this.state = state;
     }
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -24,6 +34,7 @@ public class Cargo {
         this.id = id;
     }
 
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -32,6 +43,7 @@ public class Cargo {
         this.name = name;
     }
 
+    @Column(name = "weight")
     public int getWeight() {
         return weight;
     }
@@ -40,6 +52,8 @@ public class Cargo {
         this.weight = weight;
     }
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="state", columnDefinition = "ENUM('READY', 'SHIPPED', 'DELIVERED')")
     public CargoState getState() {
         return state;
     }

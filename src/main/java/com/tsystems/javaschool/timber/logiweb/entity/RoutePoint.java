@@ -1,14 +1,21 @@
 package com.tsystems.javaschool.timber.logiweb.entity;
 
+import javax.persistence.*;
+
 /**
  * Created by tims on 2/15/2016.
  */
+@Entity
+@Table(name = "RoutePoints", schema = "logiweb")
 public class RoutePoint {
     private int id;
     private City city;
     private Cargo cargo;
     private RoutePointType type;
     private RoutePoint nextRoutePoint;
+
+    public RoutePoint() {
+    }
 
     public RoutePoint(int id, City city, Cargo cargo, RoutePointType type, RoutePoint nextRoutePoint) {
         this.id = id;
@@ -18,6 +25,9 @@ public class RoutePoint {
         this.nextRoutePoint = nextRoutePoint;
     }
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -26,6 +36,8 @@ public class RoutePoint {
         this.id = id;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "cityId")
     public City getCity() {
         return city;
     }
@@ -34,6 +46,8 @@ public class RoutePoint {
         this.city = city;
     }
 
+    @OneToOne
+    @JoinColumn(name = "cargoId")
     public Cargo getCargo() {
         return cargo;
     }
@@ -42,6 +56,8 @@ public class RoutePoint {
         this.cargo = cargo;
     }
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="type", columnDefinition = "ENUM('LOAD', 'UNLOAD')")
     public RoutePointType getType() {
         return type;
     }
@@ -50,6 +66,8 @@ public class RoutePoint {
         this.type = type;
     }
 
+    @OneToOne
+    @JoinColumn(name = "nextPointId")
     public RoutePoint getNextRoutePoint() {
         return nextRoutePoint;
     }
