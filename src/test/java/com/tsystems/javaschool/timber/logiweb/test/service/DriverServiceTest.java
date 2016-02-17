@@ -35,13 +35,6 @@ public class DriverServiceTest {
         this.drivers.add(driver3);
     }
 
-    private List<Driver> getDriversNotOnOrder(List<Driver> drivers) {
-        List<Driver> driversNotOnOrder = new ArrayList<Driver>();
-        for (Driver driver: drivers)
-            if (driver.getOrder() == null) driversNotOnOrder.add(driver);
-        return driversNotOnOrder;
-    }
-
     @Test
     public void GetFreeDriversForOrder() {
         Mockery context = new Mockery();
@@ -71,15 +64,31 @@ public class DriverServiceTest {
 
         context.checking(new Expectations() {{
             oneOf(mockDriverDao).getSuitableDriversForOrder(order);
-            will(returnValue(getDriversNotOnOrder(drivers)));
+            will(returnValue(getDriversInSameCityAsOrder(drivers, order)));
         }});
 
-        List<Driver> driversNotOnOrder = driverService.getSuitableDriversForOrder(order);
+        List<Driver> driversInSameCityAsOrder = driverService.getSuitableDriversForOrder(order);
 
-        assertTrue(driversNotOnOrder.size()==1);
-        assertEquals(3, driversNotOnOrder.get(0).getId());
+        assertTrue(driversInSameCityAsOrder.size()==2);
+        assertEquals(1, driversInSameCityAsOrder.get(0).getId());
+        assertEquals(2, driversInSameCityAsOrder.get(1).getId());
 
         context.assertIsSatisfied();
+    }
+
+    private Object getDriversInSameCityAsOrder(List<Driver> drivers, Order order) {
+        List<Driver> driversInSameCityAsOrder = new ArrayList<Driver>();
+        for (Driver driver: drivers)
+            if (driver.getOrder() == order) driversInSameCityAsOrder.add(driver);
+        return driversInSameCityAsOrder;
+    }
+
+    // imitating DB query
+    private List<Driver> getDriversNotOnOrder(List<Driver> drivers) {
+        List<Driver> driversNotOnOrder = new ArrayList<Driver>();
+        for (Driver driver: drivers)
+            if (driver.getOrder() == null) driversNotOnOrder.add(driver);
+        return driversNotOnOrder;
     }
 
 
