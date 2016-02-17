@@ -1,7 +1,7 @@
-package com.tsystems.javaschool.timber.logiweb.test.service;
+package com.tsystems.javaschool.timber.logiweb.test.unit;
 
-import com.tsystems.javaschool.timber.logiweb.dao.TruckDaoInterface;
 import com.tsystems.javaschool.timber.logiweb.entity.*;
+import com.tsystems.javaschool.timber.logiweb.dao.TruckDaoInterface;
 import com.tsystems.javaschool.timber.logiweb.service.TruckService;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -55,7 +55,7 @@ public class TruckServiceTest {
         //List<Driver> drivers = new ArrayList<Driver>();
         //drivers.add(driver);
 
-        Cargo cargoA = new Cargo(1,"A",10,CargoState.READY);
+        Cargo cargoA = new Cargo(1,"A",10, CargoState.READY);
         Cargo cargoB = new Cargo(1,"B",10,CargoState.READY);
         Cargo cargoC = new Cargo(1,"C",10,CargoState.READY);
         RoutePoint sixthPoint = new RoutePoint(6,citySochi,cargoC,RoutePointType.UNLOAD,null);

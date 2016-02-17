@@ -4,7 +4,6 @@ import com.tsystems.javaschool.timber.logiweb.entity.City;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.List;
 
 public class CityDao implements GeneralDaoInterface<City, Integer> {

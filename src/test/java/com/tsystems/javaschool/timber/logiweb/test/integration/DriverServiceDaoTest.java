@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.timber.logiweb.test.serviceDaoIntegration;
+package com.tsystems.javaschool.timber.logiweb.test.integration;
 
 import com.tsystems.javaschool.timber.logiweb.dao.DriverDao;
 import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 /**
  * Created by tims on 2/15/2016.
  */
-public class DriverServiceDaoIntegrationTest {
+public class DriverServiceDaoTest {
     @Test
     public void CanCreateDriverInDB() {
         Driver driver = new Driver();

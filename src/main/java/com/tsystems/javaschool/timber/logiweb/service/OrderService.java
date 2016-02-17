@@ -1,10 +1,12 @@
 package com.tsystems.javaschool.timber.logiweb.service;
 
 import com.tsystems.javaschool.timber.logiweb.dao.GeneralDaoInterface;
-import com.tsystems.javaschool.timber.logiweb.entity.*;
+import com.tsystems.javaschool.timber.logiweb.entity.Order;
+import com.tsystems.javaschool.timber.logiweb.entity.RoutePoint;
 import com.tsystems.javaschool.timber.logiweb.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.exceptions.NotAllCargosUnloadedException;
 import com.tsystems.javaschool.timber.logiweb.exceptions.UnloadNotLoadedCargoException;
+import com.tsystems.javaschool.timber.logiweb.entity.Cargo;
 
 import java.util.HashSet;
 import java.util.List;
