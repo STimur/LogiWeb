@@ -74,7 +74,7 @@ public class Order {
         this.assignedDrivers = assignedDrivers;
     }
 
-    public int maxLoad() {
+    public int calcMaxLoad() {
         RoutePoint currentRoutePoint = route;
         int maxLoad = 0;
         int currentLoad = 0;

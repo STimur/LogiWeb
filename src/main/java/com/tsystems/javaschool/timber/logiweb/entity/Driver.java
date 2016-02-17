@@ -7,6 +7,15 @@ import java.util.Calendar;
  * Created by tims on 2/15/2016.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name="findSuitableDrivers",
+                query="SELECT d " +
+                        "FROM Driver d " +
+                        "WHERE d.order IS NULL AND " +
+                        "      d.currentCity = :assignedTruckCity AND" +
+                        //TODO reimplement this BL and unit test it thoroughly
+                        "      (176 - d.hoursWorkedThisMonth) > :deliveryTime")
+})
 @Table(name="Drivers", schema = "logiweb")
 public class Driver {
     private int id;

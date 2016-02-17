@@ -21,7 +21,7 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="LOGISTICS" value="86086f26-375c-4c7f-bcec-4e3ba899c7e5" />
-          <factory-entry name="Logiweb" value="86086f26-375c-4c7f-bcec-4e3ba899c7e5" />
+          <factory-entry name="Logiweb" value="337b1580-6199-41b7-8482-11c6eb33136e" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>

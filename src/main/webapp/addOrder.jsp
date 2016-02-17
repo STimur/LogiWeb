@@ -4,7 +4,9 @@
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.CityService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.dao.CityDao" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.*" %><%--
+<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.*" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.DriverService" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.DriverDao" %><%--
   Created by IntelliJ IDEA.
   User: tims
   Date: 2/17/2016
@@ -21,8 +23,29 @@
 <div id="addOrderContainer" class="container">
     <%!
         static CityService cityService = new CityService(new CityDao());
+        static TruckService truckService = new TruckService(new TruckDao());
+        static DriverService driverService = new DriverService(new DriverDao());
         static List<RoutePoint> route = new ArrayList<RoutePoint>();
         static List<City> cities = cityService.findAll();
+        List<Truck> trucks;
+        List<Driver> drivers;
+        Order order;
+
+        String getTrucksVisibility() {
+            // TODO implement check of all BL here
+            // absolutely must have even number of points
+            int numOfPoints = route.size();
+            if (numOfPoints > 0 && numOfPoints % 2 == 0)
+                return "";
+            return "invisible";
+        }
+
+        boolean isTruckAssigned() {
+            if (order != null)
+                if (order.getAssignedTruck() != null)
+                    return true;
+            return false;
+        }
     %>
     <h2>Add Order Page</h2>
     <form class="form-inline" method="post" action="/addOrder.jsp">
@@ -42,7 +65,8 @@
         </div>
         <div class="form-group">
             <label class="sr-only" for="cargoWeight">Enter cargo weight</label>
-            <input type="text" class="form-control" id="cargoWeight" name="cargoWeight" placeholder="Enter cargo weight">
+            <input type="text" class="form-control" id="cargoWeight" name="cargoWeight"
+                   placeholder="Enter cargo weight">
         </div>
         <div class="form-group">
             <label class="sr-only" for="pointType">Point type</label>
@@ -54,6 +78,8 @@
         <button type="submit" class="btn btn-primary" name="action" value="addPoint">Add</button>
     </form>
     <%
+        // only one action can be GET/POST at a time
+        // so better to handle them in one place
         String action = request.getParameter("action");
         if (action != null) {
             if (action.equals("addPoint")) {
@@ -65,8 +91,28 @@
                 City city = cityService.findById(cityId);
                 RoutePoint point = new RoutePoint(city, cargo, pointType);
                 if (route.size() > 0)
-                    route.get(route.size()-1).setNextRoutePoint(point);
+                    route.get(route.size() - 1).setNextRoutePoint(point);
                 route.add(point);
+            }
+            if (action.equals("getTrucks")) {
+                order = new Order();
+                order.setRoute(route.get(0));
+                trucks = truckService.getSuitableTrucksForOrder(order);
+            }
+            if (action.equals("assignTruck")) {
+                int truckId = Integer.valueOf(request.getParameter("truckForOrder"));
+                Truck truck = truckService.findById(truckId);
+                order.setAssignedTruck(truck);
+                drivers = driverService.getSuitableDriversForOrder(order);
+            }
+            if (action.equals("assignDriver")) {
+                String[] params = request.getParameter("driverForOrder").split(" ");
+                int driverId = Integer.valueOf(params[0]);
+                int driverIndex = Integer.valueOf(params[1]);
+                Driver driver = driverService.findById(driverId);
+                order.setAssignedDrivers(new ArrayList<Driver>());
+                order.getAssignedDrivers().add(driver);
+                drivers.remove(driverIndex);
             }
     %>
     <h1>OOOHHH YEAAA!!! We have <%= route.size()%> points alrdy!</h1>
@@ -75,6 +121,45 @@
     %>
     <h1>NOOOOOOO!!!!!</h1>
     <% } %>
+    <form class="form-inline <%=getTrucksVisibility()%>" method="post" action="/addOrder.jsp">
+        <button type="submit" class="btn btn-primary" name="action" value="getTrucks">Get Available Trucks</button>
+    </form>
+
+    <% if (trucks != null) { %>
+    <h2>Assign Truck:</h2>
+    <form class="form-inline" method="post" action="/addOrder.jsp">
+        <div class="form-group">
+            <label class="sr-only" for="truckForOrder">Choose city</label>
+            <select class="form-control" id="truckForOrder" name="truckForOrder">
+                <% for (Truck truck : trucks) { %>
+                <option value="<%= truck.getId()%>">
+                    <%= truck.getRegNumber() %>
+                </option>
+                <% } %>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary" name="action" value="assignTruck">Assign</button>
+    </form>
+    <% } %>
+    <% if (isTruckAssigned()) { %>
+    <h2>Assign <%=order.getAssignedTruck().getShiftSize()%> Drivers:</h2>
+    <form class="form-inline" method="post" action="/addOrder.jsp">
+        <div class="form-group">
+            <label class="sr-only" for="driverForOrder">Choose city</label>
+            <select class="form-control" id="driverForOrder" name="driverForOrder">
+                <%
+                    int size = drivers.size();
+                    for (int i = 0; i < size; i++) { %>
+                <option value="<%=drivers.get(i).getId() + " " + i%>">
+                    <%= drivers.get(i).toString() %>
+                </option>
+                <% } %>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary" name="action" value="assignDriver">Assign</button>
+    </form>
+    <% } %>
+
 </div>
 
 </body>

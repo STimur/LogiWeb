@@ -84,7 +84,12 @@ public class TruckDao implements TruckDaoInterface {
 
     @Override
     public List<Truck> getSuitableTrucksForOrder(Order order) {
-        //TODO write appropriate query to DB
-        return null;
+        openEntityManager();
+        List<Truck> trucks = (List<Truck>) getEntityManager()
+                .createNamedQuery("findSuitableTrucks")
+                .setParameter("maxLoad", order.calcMaxLoad())
+                .getResultList();
+        closeEntityManager();
+        return trucks;
     }
 }

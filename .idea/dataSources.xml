@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3395317242">
-    <data-source source="LOCAL" name="MySQL - logiweb@localhost" uuid="86086f26-375c-4c7f-bcec-4e3ba899c7e5">
+  <component name="DataSourceManagerImpl" format="xml" hash="771403079">
+    <data-source source="LOCAL" name="MySQL - logiweb@localhost" uuid="337b1580-6199-41b7-8482-11c6eb33136e">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>

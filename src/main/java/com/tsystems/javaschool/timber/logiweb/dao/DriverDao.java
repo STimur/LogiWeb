@@ -85,7 +85,13 @@ public class DriverDao implements DriverDaoInterface {
 
     @Override
     public List<Driver> getSuitableDriversForOrder(Order order) {
-        //TODO write appropriate query to DB
-        return null;
+        openEntityManager();
+        List<Driver> drivers = (List<Driver>) getEntityManager()
+                .createNamedQuery("findSuitableDrivers")
+                .setParameter("assignedTruckCity", order.getAssignedTruck().getCity())
+                .setParameter("deliveryTime",order.getTimeEstimate())
+                .getResultList();
+        closeEntityManager();
+        return drivers;
     }
 }

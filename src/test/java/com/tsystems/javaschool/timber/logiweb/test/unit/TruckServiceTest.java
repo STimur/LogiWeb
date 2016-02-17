@@ -119,12 +119,12 @@ public class TruckServiceTest {
             oneOf(mockTruckDao).getSuitableTrucksForOrder(order1);
             // use WHERE in DB Query to get 'OK' trucks
             // and with null orderId field
-            // and with capacity > order.maxLoad
+            // and with capacity > order.calcMaxLoad
             will(returnValue(okTrucksWithoutOrdersAndEnoughCapacity));
         }});
 
         List<Truck> trucks = truckService.getSuitableTrucksForOrder(order1);
-        assertEquals(20, order1.maxLoad());
+        assertEquals(20, order1.calcMaxLoad());
         assertEquals(5, trucks.get(0).getId());
 
         context.assertIsSatisfied();

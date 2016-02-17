@@ -6,6 +6,14 @@ import javax.persistence.*;
  * Created by tims on 2/10/2016.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name="findSuitableTrucks",
+                query="SELECT t " +
+                        "FROM Truck t " +
+                        "WHERE t.order IS NULL AND " +
+                        "      t.state LIKE 'OK' AND" +
+                        "      t.capacity > :maxLoad")
+})
 @Table(name = "Trucks", schema = "logiweb")
 public class Truck {
     private int id;
@@ -87,5 +95,15 @@ public class Truck {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "orderId")
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
