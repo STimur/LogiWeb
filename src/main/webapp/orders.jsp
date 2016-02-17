@@ -25,6 +25,9 @@
 
     <h2>Orders Table</h2>
     <p>Current orders:</p>
+    <div class="text-right">
+        <a href="/addOrder.jsp" class="btn btn-primary">New Order</a>
+    </div>
     <table class="table table-bordered table-striped table-hover">
         <thead>
         <tr>
