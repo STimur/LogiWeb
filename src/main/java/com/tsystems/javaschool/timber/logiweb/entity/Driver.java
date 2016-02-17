@@ -103,6 +103,7 @@ public class Driver {
         this.currentTruck = truck;
     }
 
+    @Transient
     public Order getOrder() {
         return order;
     }
