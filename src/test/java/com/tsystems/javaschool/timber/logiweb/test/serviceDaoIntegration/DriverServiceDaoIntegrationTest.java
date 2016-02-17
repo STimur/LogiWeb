@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.test.serviceDaoIntegration;
 
+import com.tsystems.javaschool.timber.logiweb.dao.DriverDao;
 import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
 import com.tsystems.javaschool.timber.logiweb.entity.City;
 import com.tsystems.javaschool.timber.logiweb.entity.Driver;
@@ -30,7 +31,7 @@ public class DriverServiceDaoIntegrationTest {
         Truck truck = new TruckService(new TruckDao()).findById(1);
         driver.setCurrentTruck(truck);
 
-        DriverService driverService = new DriverService();
+        DriverService driverService = new DriverService(new DriverDao());
         int numOfDriversBefore = driverService.findAll().size();
         driverService.create(driver);
         int numOfDriversAfter = driverService.findAll().size();
@@ -40,7 +41,7 @@ public class DriverServiceDaoIntegrationTest {
 
     @Test
     public void CanReadDriversTableFromDB() {
-        DriverService driverService = new DriverService();
+        DriverService driverService = new DriverService(new DriverDao());
         List<Driver> drivers = driverService.findAll();
         assertNotNull(drivers);
         assertTrue(drivers.size() > 0);
@@ -49,7 +50,7 @@ public class DriverServiceDaoIntegrationTest {
     @Test
     public void CanUpdateDriverInDB() {
         createDriver();
-        DriverService driverService = new DriverService();
+        DriverService driverService = new DriverService(new DriverDao());
         Driver driverBeforeUpdate = driverService.findById(getLastDriverId());
         Driver driverAfterUpdate = driverService.findById(getLastDriverId());
         driverAfterUpdate.setHoursWorkedThisMonth(driverAfterUpdate.getHoursWorkedThisMonth()+1);
@@ -61,7 +62,7 @@ public class DriverServiceDaoIntegrationTest {
     @Test
     public void CanDeleteDriverInDB() {
         createDriver();
-        DriverService driverService = new DriverService();
+        DriverService driverService = new DriverService(new DriverDao());
         List<Driver> drivers = driverService.findAll();
         int lenBefore = drivers.size();
         driverService.delete(drivers.get(lenBefore-1).getId());
@@ -80,12 +81,12 @@ public class DriverServiceDaoIntegrationTest {
         Truck truck = new TruckService(new TruckDao()).findById(1);
         driver.setCurrentTruck(truck);
 
-        DriverService driverService = new DriverService();
+        DriverService driverService = new DriverService(new DriverDao());
         driverService.create(driver);
     }
 
     private int getLastDriverId() {
-        DriverService driverService = new DriverService();
+        DriverService driverService = new DriverService(new DriverDao());
         List<Driver> drivers = driverService.findAll();
         int len = drivers.size();
         return drivers.get(len-1).getId();

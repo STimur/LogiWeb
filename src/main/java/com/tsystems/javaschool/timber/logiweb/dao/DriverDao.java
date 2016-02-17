@@ -1,6 +1,8 @@
 package com.tsystems.javaschool.timber.logiweb.dao;
 
 import com.tsystems.javaschool.timber.logiweb.entity.Driver;
+import com.tsystems.javaschool.timber.logiweb.entity.Order;
+import com.tsystems.javaschool.timber.logiweb.entity.Truck;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -10,7 +12,7 @@ import java.util.List;
 /**
  * Created by tims on 2/15/2016.
  */
-public class DriverDao implements GeneralDaoInterface<Driver, Integer> {
+public class DriverDao implements DriverDaoInterface {
     private EntityManager eManager;
 
     public static EntityManagerFactory getEntityManagerFactory() {
@@ -81,5 +83,11 @@ public class DriverDao implements GeneralDaoInterface<Driver, Integer> {
             getEntityManager().remove(driver);
         }
         closeEntityManagerWithTransaction();
+    }
+
+    @Override
+    public List<Driver> getSuitableDriversForOrder(Order order) {
+        //TODO write appropriate query to DB
+        return null;
     }
 }

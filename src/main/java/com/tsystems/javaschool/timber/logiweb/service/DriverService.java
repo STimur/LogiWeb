@@ -1,8 +1,8 @@
 package com.tsystems.javaschool.timber.logiweb.service;
 
-import com.tsystems.javaschool.timber.logiweb.dao.DriverDao;
-import com.tsystems.javaschool.timber.logiweb.dao.GeneralDaoInterface;
+import com.tsystems.javaschool.timber.logiweb.dao.DriverDaoInterface;
 import com.tsystems.javaschool.timber.logiweb.entity.Driver;
+import com.tsystems.javaschool.timber.logiweb.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
 
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.List;
  * Created by tims on 2/15/2016.
  */
 public class DriverService {
-    private static GeneralDaoInterface driverDao;
+    private static DriverDaoInterface driverDao;
 
-    public DriverService() {
-        driverDao = new DriverDao();
+    public DriverService(DriverDaoInterface driverDao) {
+        this.driverDao = driverDao;
     }
 
     public void create(Driver driver) {
@@ -39,5 +39,9 @@ public class DriverService {
 
     public void deleteAll() {
         driverDao.deleteAll();
+    }
+
+    public List<Driver> getSuitableDriversForOrder(Order order) {
+        return driverDao.getSuitableDriversForOrder(order);
     }
 }

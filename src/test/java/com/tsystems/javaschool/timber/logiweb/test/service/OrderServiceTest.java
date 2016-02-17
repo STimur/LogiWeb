@@ -28,7 +28,7 @@ public class OrderServiceTest {
         City cityMoscow = new City(2,"Moscow",null);
         Truck truck = new Truck(1,"AA12345",2,10,"OK",citySPb,null);
         citySPb.getTrucks().add(truck);
-        Driver driver = new Driver(1, "John", "Petty", 10, DriverState.DRIVE, citySPb, truck);
+        Driver driver = new Driver(1, "John", "Petty", 10, DriverState.DRIVE, citySPb, truck, null);
         List<Driver> drivers = new ArrayList<Driver>();
         drivers.add(driver);
 

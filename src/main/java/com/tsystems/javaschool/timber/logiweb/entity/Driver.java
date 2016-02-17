@@ -15,11 +15,13 @@ public class Driver {
     private DriverState state;
     private City currentCity;
     private Truck currentTruck;
+    private Order order;
 
     public Driver() {
     }
 
-    public Driver(int id, String name, String surname, int hoursWorkedThisMonth, DriverState state, City currentCity, Truck currentTruck) {
+    public Driver(int id, String name, String surname, int hoursWorkedThisMonth,
+                  DriverState state, City currentCity, Truck currentTruck, Order order) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -27,6 +29,7 @@ public class Driver {
         this.state = state;
         this.currentCity = currentCity;
         this.currentTruck = currentTruck;
+        this.order = order;
     }
 
     @Id
@@ -98,6 +101,14 @@ public class Driver {
 
     public void setCurrentTruck(Truck truck) {
         this.currentTruck = truck;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override
