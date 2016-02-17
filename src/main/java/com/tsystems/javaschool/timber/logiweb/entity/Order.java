@@ -52,6 +52,14 @@ public class Order {
         this.assignedTruck = assignedTruck;
     }
 
+    public Truck getAssignedTruck() {
+        return assignedTruck;
+    }
+
+    public void setAssignedTruck(Truck assignedTruck) {
+        this.assignedTruck = assignedTruck;
+    }
+
     public List<Driver> getAssignedDrivers() {
         return assignedDrivers;
     }

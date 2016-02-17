@@ -1,8 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.test.service;
 
-import com.tsystems.javaschool.timber.logiweb.dao.DriverDao;
 import com.tsystems.javaschool.timber.logiweb.dao.DriverDaoInterface;
-import com.tsystems.javaschool.timber.logiweb.dao.GeneralDaoInterface;
 import com.tsystems.javaschool.timber.logiweb.entity.*;
 import com.tsystems.javaschool.timber.logiweb.service.DriverService;
 import org.jmock.Expectations;
@@ -21,14 +19,19 @@ import static org.junit.Assert.*;
 public class DriverServiceTest {
     private DriverService driverService;
     private Order order;
+    private Truck truck;
+    private City city;
     private List<Driver> drivers;
 
     @Before
     public void setUp() throws Exception {
         this.order = new Order(1,false,null,null,null);
-        Driver driver1 = new Driver(1, "John", "Ivanov", 10, DriverState.REST, null, null, order);
-        Driver driver2 = new Driver(2, "Max", "Petrov", 160, DriverState.DRIVE, null, null, order);
-        Driver driver3 = new Driver(3, "Tom", "Sidorov", 70, DriverState.SHIFT, null, null, null);
+        this.city = new City(1, "SPb", null);
+        this.truck = new Truck(1,"XX",4,20,"OK",this.city,null);
+        order.setAssignedTruck(this.truck);
+        Driver driver1 = new Driver(1, "John", "Ivanov", 10, DriverState.REST, this.city, null, order);
+        Driver driver2 = new Driver(2, "Max", "Petrov", 160, DriverState.DRIVE, this.city, null, order);
+        Driver driver3 = new Driver(3, "Tom", "Sidorov", 70, DriverState.SHIFT, this.city, null, null);
         this.drivers = new ArrayList<Driver>();
         this.drivers.add(driver1);
         this.drivers.add(driver2);
@@ -64,14 +67,15 @@ public class DriverServiceTest {
 
         context.checking(new Expectations() {{
             oneOf(mockDriverDao).getSuitableDriversForOrder(order);
-            will(returnValue(getDriversInSameCityAsOrder(drivers, order)));
+            will(returnValue(getDriversInSameCityAsAssignedTruck(drivers, order)));
         }});
 
-        List<Driver> driversInSameCityAsOrder = driverService.getSuitableDriversForOrder(order);
+        List<Driver> driversInSameCityAsAssignedTruck = driverService.getSuitableDriversForOrder(order);
 
-        assertTrue(driversInSameCityAsOrder.size()==2);
-        assertEquals(1, driversInSameCityAsOrder.get(0).getId());
-        assertEquals(2, driversInSameCityAsOrder.get(1).getId());
+        assertTrue(driversInSameCityAsAssignedTruck.size()==3);
+        assertEquals(1, driversInSameCityAsAssignedTruck.get(0).getId());
+        assertEquals(2, driversInSameCityAsAssignedTruck.get(1).getId());
+        assertEquals(3, driversInSameCityAsAssignedTruck.get(2).getId());
 
         context.assertIsSatisfied();
     }
@@ -97,6 +101,27 @@ public class DriverServiceTest {
         context.assertIsSatisfied();
     }
 
+    @Test
+    public void GetSuitableDrivers() {
+        Mockery context = new Mockery();
+        final DriverDaoInterface mockDriverDao = context.mock(DriverDaoInterface.class);
+
+        driverService = new DriverService(mockDriverDao);
+
+        context.checking(new Expectations() {{
+            oneOf(mockDriverDao).getSuitableDriversForOrder(order);
+            will(returnValue(getSuitableDrivers(drivers, order)));
+        }});
+
+        List<Driver> driversWhichHaveEnoughTimeForOrder = driverService.getSuitableDriversForOrder(order);
+
+        assertTrue(driversWhichHaveEnoughTimeForOrder.size()==1);
+        assertEquals(3, driversWhichHaveEnoughTimeForOrder.get(0).getId());
+
+        context.assertIsSatisfied();
+    }
+
+    // imitating DB query
     private List<Driver> getDriversWhichHaveEnoughTimeForOrder(List<Driver> drivers, Order order) {
         List<Driver> driversWhichHaveEnoughTimeForOrder = new ArrayList<Driver>();
         for (Driver driver: drivers)
@@ -104,11 +129,11 @@ public class DriverServiceTest {
         return driversWhichHaveEnoughTimeForOrder;
     }
 
-
-    private List<Driver> getDriversInSameCityAsOrder(List<Driver> drivers, Order order) {
+    // imitating DB query
+    private List<Driver> getDriversInSameCityAsAssignedTruck(List<Driver> drivers, Order order) {
         List<Driver> driversInSameCityAsOrder = new ArrayList<Driver>();
         for (Driver driver: drivers)
-            if (driver.getOrder() == order) driversInSameCityAsOrder.add(driver);
+            if (driver.getCurrentCity() == order.getAssignedTruck().getCity()) driversInSameCityAsOrder.add(driver);
         return driversInSameCityAsOrder;
     }
 
@@ -118,6 +143,15 @@ public class DriverServiceTest {
         for (Driver driver: drivers)
             if (driver.getOrder() == null) driversNotOnOrder.add(driver);
         return driversNotOnOrder;
+    }
+
+    // imitating DB query
+    private Object getSuitableDrivers(List<Driver> drivers, Order order) {
+        List<Driver> suitableDrivers = getDriversNotOnOrder(drivers);
+        suitableDrivers = getDriversInSameCityAsAssignedTruck(suitableDrivers, order);
+        suitableDrivers = getDriversWhichHaveEnoughTimeForOrder(suitableDrivers, order);
+
+        return suitableDrivers;
     }
 
 
