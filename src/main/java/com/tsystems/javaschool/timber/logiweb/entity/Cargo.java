@@ -16,11 +16,21 @@ public class Cargo {
     public Cargo() {
     }
 
-    public Cargo(int id, String name, int weight, CargoState state) {
-        this.id = id;
+    public Cargo(String name, int weight) {
+        this.name = name;
+        this.weight = weight;
+        this.state = CargoState.READY;
+    }
+
+    public Cargo(String name, int weight, CargoState state) {
         this.name = name;
         this.weight = weight;
         this.state = state;
+    }
+
+    public Cargo(int id, String name, int weight, CargoState state) {
+        this(name, weight, state);
+        this.id = id;
     }
 
     @Id

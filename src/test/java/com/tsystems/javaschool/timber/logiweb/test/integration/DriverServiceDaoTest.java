@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.test.integration;
 
+import com.tsystems.javaschool.timber.logiweb.dao.CityDao;
 import com.tsystems.javaschool.timber.logiweb.dao.DriverDao;
 import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
 import com.tsystems.javaschool.timber.logiweb.entity.City;
@@ -26,7 +27,7 @@ public class DriverServiceDaoTest {
         driver.setSurname("Popov");
         driver.setHoursWorkedThisMonth(10);
         driver.setState(DriverState.DRIVE);
-        City city = new CityService().findById(1);
+        City city = new CityService(new CityDao()).findById(1);
         driver.setCurrentCity(city);
         Truck truck = new TruckService(new TruckDao()).findById(1);
         driver.setCurrentTruck(truck);
@@ -76,7 +77,7 @@ public class DriverServiceDaoTest {
         driver.setSurname("Popov");
         driver.setHoursWorkedThisMonth(10);
         driver.setState(DriverState.DRIVE);
-        City city = new CityService().findById(1);
+        City city = new CityService(new CityDao()).findById(1);
         driver.setCurrentCity(city);
         Truck truck = new TruckService(new TruckDao()).findById(1);
         driver.setCurrentTruck(truck);

@@ -17,6 +17,12 @@ public class RoutePoint {
     public RoutePoint() {
     }
 
+    public RoutePoint(City city, Cargo cargo, RoutePointType type) {
+        this.city = city;
+        this.cargo = cargo;
+        this.type = type;
+    }
+
     public RoutePoint(int id, City city, Cargo cargo, RoutePointType type, RoutePoint nextRoutePoint) {
         this.id = id;
         this.city = city;

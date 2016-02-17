@@ -12,8 +12,8 @@ import java.util.List;
 public class CityService {
     private static GeneralDaoInterface cityDao;
 
-    public CityService() {
-        cityDao = new CityDao();
+    public CityService(GeneralDaoInterface cityDao) {
+        this.cityDao = cityDao;
     }
 
     public void create(City city) {
