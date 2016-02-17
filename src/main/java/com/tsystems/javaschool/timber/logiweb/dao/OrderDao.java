@@ -41,8 +41,10 @@ public class OrderDao implements GeneralDaoInterface<Order, Integer> {
     }
 
     @Override
-    public void persist(Order entity) {
-
+    public void persist(Order order) {
+        openEntityManagerWithTransaction();
+        getEntityManager().persist(order);
+        closeEntityManagerWithTransaction();
     }
 
     @Override

@@ -6,7 +6,11 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.*" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.DriverService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.DriverDao" %><%--
+<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.DriverDao" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.OrderService" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.OrderDao" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%--
   Created by IntelliJ IDEA.
   User: tims
   Date: 2/17/2016
@@ -25,6 +29,7 @@
         static CityService cityService = new CityService(new CityDao());
         static TruckService truckService = new TruckService(new TruckDao());
         static DriverService driverService = new DriverService(new DriverDao());
+        static OrderService orderService = new OrderService(new OrderDao());
         static List<RoutePoint> route = new ArrayList<RoutePoint>();
         static List<City> cities = cityService.findAll();
         List<Truck> trucks;
@@ -44,6 +49,14 @@
             if (order != null)
                 if (order.getAssignedTruck() != null)
                     return true;
+            return false;
+        }
+
+        boolean isShiftFormed() {
+            if (order != null && order.getAssignedTruck() != null)
+                if (order.getAssignedDrivers() != null)
+                    if (order.getAssignedDrivers().size() == order.getAssignedTruck().getShiftSize())
+                        return true;
             return false;
         }
     %>
@@ -110,11 +123,16 @@
                 int driverId = Integer.valueOf(params[0]);
                 int driverIndex = Integer.valueOf(params[1]);
                 Driver driver = driverService.findById(driverId);
-                order.setAssignedDrivers(new ArrayList<Driver>());
+                if (order.getAssignedDrivers() == null)
+                    order.setAssignedDrivers(new ArrayList<Driver>());
                 order.getAssignedDrivers().add(driver);
                 drivers.remove(driverIndex);
             }
-    %>
+            if (action.equals("createOrder")) {
+                //TODO debug creation of all involved entities into DB
+                orderService.create(order); %>
+                <c:redirect url="orders.jsp" />
+            <% } %>
     <h1>OOOHHH YEAAA!!! We have <%= route.size()%> points alrdy!</h1>
     <% } else {
         route.clear();
@@ -157,6 +175,11 @@
             </select>
         </div>
         <button type="submit" class="btn btn-primary" name="action" value="assignDriver">Assign</button>
+    </form>
+    <% } %>
+    <% if (isShiftFormed()) { %>
+    <form class="form-inline" method="post" action="/addOrder.jsp">
+        <button type="submit" class="btn btn-primary btn-success" name="action" value="createOrder">Create Order</button>
     </form>
     <% } %>
 
