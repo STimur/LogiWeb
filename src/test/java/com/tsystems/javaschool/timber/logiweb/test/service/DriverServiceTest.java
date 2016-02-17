@@ -62,5 +62,25 @@ public class DriverServiceTest {
         context.assertIsSatisfied();
     }
 
+    @Test
+    public void GetDriversInSameCityAsOrder() {
+        Mockery context = new Mockery();
+        final DriverDaoInterface mockDriverDao = context.mock(DriverDaoInterface.class);
+
+        driverService = new DriverService(mockDriverDao);
+
+        context.checking(new Expectations() {{
+            oneOf(mockDriverDao).getSuitableDriversForOrder(order);
+            will(returnValue(getDriversNotOnOrder(drivers)));
+        }});
+
+        List<Driver> driversNotOnOrder = driverService.getSuitableDriversForOrder(order);
+
+        assertTrue(driversNotOnOrder.size()==1);
+        assertEquals(3, driversNotOnOrder.get(0).getId());
+
+        context.assertIsSatisfied();
+    }
+
 
 }
