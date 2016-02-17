@@ -2,15 +2,11 @@ package com.tsystems.javaschool.timber.logiweb.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.reflect.TypeToken;
 import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.service.TruckService;
 import com.tsystems.javaschool.timber.logiweb.utility.TruckSerializer;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

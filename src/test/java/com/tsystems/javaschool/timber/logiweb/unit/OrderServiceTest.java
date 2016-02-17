@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.timber.logiweb.test.service;
+package com.tsystems.javaschool.timber.logiweb.unit;
 
 import com.tsystems.javaschool.timber.logiweb.dao.GeneralDaoInterface;
 import com.tsystems.javaschool.timber.logiweb.entity.*;
@@ -32,7 +32,7 @@ public class OrderServiceTest {
         List<Driver> drivers = new ArrayList<Driver>();
         drivers.add(driver);
 
-        Cargo cargoA = new Cargo(1,"A",10,CargoState.READY);
+        Cargo cargoA = new Cargo(1,"A",10, CargoState.READY);
         RoutePoint firstPoint = new RoutePoint(1,citySPb,cargoA,RoutePointType.LOAD,null);
         RoutePoint secondPoint = new RoutePoint(2,cityMoscow,cargoA,RoutePointType.UNLOAD,null);
         firstPoint.setNextRoutePoint(secondPoint);

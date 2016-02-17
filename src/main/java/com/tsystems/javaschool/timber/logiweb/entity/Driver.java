@@ -143,7 +143,7 @@ public class Driver {
     }
 
     public boolean IsEnoughTimeForOrder(Order order) {
-        //TODO unit test and reimplement/refactor it if needed
+        //TODO unit unittest and reimplement/refactor it if needed
         int maxHoursOfWorkInDay = 8;
         int maxHoursOfWorkMonthly = 176;
         Calendar c = Calendar.getInstance();

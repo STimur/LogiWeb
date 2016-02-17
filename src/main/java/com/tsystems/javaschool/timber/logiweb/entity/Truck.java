@@ -1,7 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.entity;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Created by tims on 2/10/2016.

@@ -1,10 +1,8 @@
 package com.tsystems.javaschool.timber.logiweb.service;
 
-import com.tsystems.javaschool.timber.logiweb.dao.GeneralDaoInterface;
-import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
-import com.tsystems.javaschool.timber.logiweb.dao.TruckDaoInterface;
 import com.tsystems.javaschool.timber.logiweb.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
+import com.tsystems.javaschool.timber.logiweb.dao.TruckDaoInterface;
 
 import java.util.List;
 

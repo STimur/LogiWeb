@@ -2,11 +2,9 @@ package com.tsystems.javaschool.timber.logiweb.dao;
 
 import com.tsystems.javaschool.timber.logiweb.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.entity.Order;
-import com.tsystems.javaschool.timber.logiweb.entity.Truck;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import java.io.Serializable;
 import java.util.List;
 
 /**

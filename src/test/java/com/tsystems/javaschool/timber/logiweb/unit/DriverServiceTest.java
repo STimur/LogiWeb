@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.timber.logiweb.test.service;
+package com.tsystems.javaschool.timber.logiweb.unit;
 
 import com.tsystems.javaschool.timber.logiweb.dao.DriverDaoInterface;
 import com.tsystems.javaschool.timber.logiweb.entity.*;
