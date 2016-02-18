@@ -25,6 +25,10 @@ public class OrderService {
         return orderDao.findAll();
     }
 
+    public void delete(int id) {
+        orderDao.delete(id);
+    }
+
     public void create(Order order) throws UnloadNotLoadedCargoException, NotAllCargosUnloadedException, DoubleLoadCargoException {
         validate(order);
         createRoutePointsInOrder(order);

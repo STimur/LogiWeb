@@ -61,8 +61,33 @@ public class OrderDao implements GeneralDaoInterface<Order, Integer> {
     }
 
     @Override
-    public void delete(Integer integer) {
+    public void delete(Integer id) {
+        openEntityManagerWithTransaction();
+        Order foundOrder = getEntityManager().find(Order.class, id);
 
+        //updating corresponding truck and drivers rows
+        Truck orderTruck = foundOrder.getAssignedTruck();
+        orderTruck.setOrder(null);
+        getEntityManager().merge(orderTruck);
+        List<Driver> drivers = foundOrder.getAssignedDrivers();
+        for (Driver driver: drivers) {
+            driver.setCurrentTruck(null);
+            driver.setOrder(null);
+            getEntityManager().merge(driver);
+        }
+
+        //deleting corresponding routepoints and cargos rows
+        RoutePoint currentPoint = foundOrder.getRoute();
+        RoutePoint pointToRemove;
+        while (currentPoint != null) {
+            pointToRemove = currentPoint;
+            currentPoint = currentPoint.getNextRoutePoint();
+            getEntityManager().remove(pointToRemove.getCargo());
+            getEntityManager().remove(pointToRemove);
+        }
+
+        getEntityManager().remove(foundOrder);
+        closeEntityManagerWithTransaction();
     }
 
     @Override

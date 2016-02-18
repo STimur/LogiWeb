@@ -32,8 +32,14 @@ public class OrderServiceDaoTest {
 
     @Before
     public void setUp() throws Exception {
-        //mimic addOrder.jsp order creation process
 
+    }
+
+    @Test
+    public void CreateOrder() throws Exception, DoubleLoadCargoException,
+            NotAllCargosUnloadedException, UnloadNotLoadedCargoException {
+
+        //mimic addOrder.jsp order creation process
         //1st create route for order
         Cargo cargo = new Cargo("milk", 10);
         int cityId = 1;
@@ -59,12 +65,48 @@ public class OrderServiceDaoTest {
             driver.setCurrentTruck(order.getAssignedTruck());
             order.getAssignedDrivers().add(driver);
         }
+
+        int numOfOrders = orderService.findAll().size();
+        orderService.create(order);
+        assertEquals(orderService.findAll().size(), numOfOrders+1);
+        orderService.delete(order.getId());
     }
 
     @Test
-    public void CreateOrder() throws Exception, DoubleLoadCargoException,
+    public void DeleteOrder() throws DoubleLoadCargoException,
             NotAllCargosUnloadedException, UnloadNotLoadedCargoException {
+
+        //mimic addOrder.jsp order creation process
+        //1st create route for order
+        Cargo cargo = new Cargo("milk", 10);
+        int cityId = 1;
+        City city = cityService.findById(cityId);
+        RoutePoint loadpoint = new RoutePoint(city, cargo, RoutePointType.LOAD);
+        RoutePoint unloadPoint = new RoutePoint(city, cargo, RoutePointType.UNLOAD);
+        loadpoint.setNextRoutePoint(unloadPoint);
+
+        //2nd create order and assign a truck
+        order = new Order();
+        order.setRoute(loadpoint);
+        List<Truck> trucks = truckService.getSuitableTrucksForOrder(order);
+        Truck chosenTruck = trucks.get(1);
+        order.setAssignedTruck(chosenTruck);
+
+        //3rd assign drivers to form the truck shift
+        List<Driver> drivers = driverService.getSuitableDriversForOrder(order);
+        if (order.getAssignedDrivers() == null)
+            order.setAssignedDrivers(new ArrayList<Driver>());
+        for (int i=0; i<chosenTruck.getShiftSize();i++) {
+            Driver driver = drivers.get(i);
+            driver.setOrder(order);
+            driver.setCurrentTruck(order.getAssignedTruck());
+            order.getAssignedDrivers().add(driver);
+        }
+
+
         orderService.create(order);
-        int i = 0;
+        int numOfOrders = orderService.findAll().size();
+        orderService.delete(order.getId());
+        assertEquals(orderService.findAll().size(), numOfOrders-1);
     }
 }
