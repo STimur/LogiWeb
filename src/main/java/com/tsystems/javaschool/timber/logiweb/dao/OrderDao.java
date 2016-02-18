@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.timber.logiweb.dao;
 
 import com.tsystems.javaschool.timber.logiweb.entity.Order;
+import com.tsystems.javaschool.timber.logiweb.entity.RoutePoint;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
 
 import javax.persistence.EntityManager;
