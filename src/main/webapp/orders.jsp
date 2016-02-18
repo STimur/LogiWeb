@@ -20,6 +20,14 @@
 <div id="ordersTable" class="container">
     <%
         OrderService orderService = new OrderService(new OrderDao());
+
+        String action = request.getParameter("action");
+        if (action != null) {
+            if (action.equals("deleteOrder")) {
+                int id = Integer.valueOf(request.getParameter("id"));
+                orderService.delete(id);
+            }
+        }
         List<Order> orders = orderService.findAll();
     %>
 
@@ -36,6 +44,7 @@
             <th>Route</th>
             <th>Truck</th>
             <th>Drivers</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -55,13 +64,19 @@
                 </ol>
             </td>
             <td><%= order.getAssignedTruck().getRegNumber() %></td>
-            <th>
+            <td>
                 <ol>
                     <% for (Driver driver : order.getAssignedDrivers()) { %>
                     <li><%= driver %></li>
                     <% } %>
                 </ol>
-            </th>
+            </td>
+            <td>
+                <form class="form-inline" method="post" action="/orders.jsp">
+                    <button type="submit" class="btn btn-primary btn-danger" name="action" value="deleteOrder">Remove</button>
+                    <input type="hidden" name="id" value="<%=order.getId()%>" />
+                </form>
+            </td>
         </tr>
         <% } %>
         </tbody>
