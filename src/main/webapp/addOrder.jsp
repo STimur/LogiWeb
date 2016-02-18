@@ -106,6 +106,12 @@
                 if (route.size() > 0)
                     route.get(route.size() - 1).setNextRoutePoint(point);
                 route.add(point);
+                //a stub to to test persist to DB
+                RoutePoint unloadPoint = new RoutePoint(city, cargo, RoutePointType.UNLOAD);
+                if (route.size() > 0)
+                    route.get(route.size() - 1).setNextRoutePoint(unloadPoint);
+                route.add(unloadPoint);
+                //end of stub
             }
             if (action.equals("getTrucks")) {
                 order = new Order();

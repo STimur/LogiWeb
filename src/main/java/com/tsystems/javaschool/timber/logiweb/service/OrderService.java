@@ -1,13 +1,12 @@
 package com.tsystems.javaschool.timber.logiweb.service;
 
-import com.tsystems.javaschool.timber.logiweb.dao.GeneralDaoInterface;
-import com.tsystems.javaschool.timber.logiweb.entity.Order;
-import com.tsystems.javaschool.timber.logiweb.entity.RoutePoint;
+import com.tsystems.javaschool.timber.logiweb.dao.*;
+import com.tsystems.javaschool.timber.logiweb.entity.*;
 import com.tsystems.javaschool.timber.logiweb.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.exceptions.NotAllCargosUnloadedException;
 import com.tsystems.javaschool.timber.logiweb.exceptions.UnloadNotLoadedCargoException;
-import com.tsystems.javaschool.timber.logiweb.entity.Cargo;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,7 +27,33 @@ public class OrderService {
 
     public void create(Order order) throws UnloadNotLoadedCargoException, NotAllCargosUnloadedException, DoubleLoadCargoException {
         validate(order);
+        createRoutePointsInOrder(order);
         orderDao.persist(order);
+        //now we can update corresponding truck row
+        TruckService truckService = new TruckService(new TruckDao());
+        truckService.update(order.getAssignedTruck());
+        //now we can update corresponding drivers rows
+        DriverService driverService = new DriverService(new DriverDao());
+        List<Driver> drivers = order.getAssignedDrivers();
+        for (Driver driver : drivers)
+            driverService.update(driver);
+    }
+
+    private void createRoutePointsInOrder(Order order) {
+        RoutePoint currentPoint = order.getRoute();
+        //need to add points in reversed order cause the first ones have
+        //the links to the next
+        List<RoutePoint> revertedRoute = new ArrayList<RoutePoint>();
+        CargoService cargoService = new CargoService(new CargoDao());
+        while (currentPoint != null) {
+            cargoService.create(currentPoint.getCargo());
+            revertedRoute.add(0, currentPoint);
+            currentPoint = currentPoint.getNextRoutePoint();
+        }
+        RoutePointService routePointService = new RoutePointService(new RoutePointDao());
+        for (RoutePoint point: revertedRoute)
+            routePointService.create(point);
+
     }
 
     private void validate(Order order) throws DoubleLoadCargoException, UnloadNotLoadedCargoException, NotAllCargosUnloadedException {

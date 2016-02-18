@@ -1,20 +1,16 @@
 package com.tsystems.javaschool.timber.logiweb.dao;
 
-import com.tsystems.javaschool.timber.logiweb.entity.Driver;
-import com.tsystems.javaschool.timber.logiweb.entity.Order;
-import com.tsystems.javaschool.timber.logiweb.entity.RoutePoint;
+import com.tsystems.javaschool.timber.logiweb.entity.Cargo;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tims on 2/15/2016.
+ * Created by tims on 2/18/2016.
  */
-public class OrderDao implements GeneralDaoInterface<Order, Integer> {
-
+public class CargoDao implements GeneralDaoInterface<Cargo, Integer> {
     private EntityManager eManager;
 
     public static EntityManagerFactory getEntityManagerFactory() {
@@ -44,20 +40,26 @@ public class OrderDao implements GeneralDaoInterface<Order, Integer> {
     }
 
     @Override
-    public void persist(Order order) {
+    public void persist(Cargo cargo) {
         openEntityManagerWithTransaction();
-        getEntityManager().persist(order);
+        if (getEntityManager().find(Cargo.class, cargo.getId()) != null)
+            getEntityManager().merge(cargo);
+        else
+            getEntityManager().persist(cargo);
         closeEntityManagerWithTransaction();
     }
 
     @Override
-    public void update(Order entity) {
+    public void update(Cargo entity) {
 
     }
 
     @Override
-    public Order find(Integer integer) {
-        return null;
+    public Cargo find(Integer id) {
+        openEntityManager();
+        Cargo cargo = getEntityManager().find(Cargo.class, id);
+        closeEntityManager();
+        return cargo;
     }
 
     @Override
@@ -66,11 +68,8 @@ public class OrderDao implements GeneralDaoInterface<Order, Integer> {
     }
 
     @Override
-    public List<Order> findAll() {
-        openEntityManager();
-        List<Order> trucks = (List<Order>) getEntityManager().createQuery("from Order").getResultList();
-        closeEntityManager();
-        return trucks;
+    public List<Cargo> findAll() {
+        return null;
     }
 
     @Override

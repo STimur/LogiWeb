@@ -41,14 +41,14 @@ public class Order {
         return isFinished;
     }
 
-    public void setFinished(boolean finished) {
-        isFinished = finished;
-    }
-
     @OneToOne
     @JoinColumn(name="routeId")
     public RoutePoint getRoute() {
         return route;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
     }
 
     public void setRoute(RoutePoint route) {
@@ -63,6 +63,7 @@ public class Order {
 
     public void setAssignedTruck(Truck assignedTruck) {
         this.assignedTruck = assignedTruck;
+        assignedTruck.setOrder(this);
     }
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
