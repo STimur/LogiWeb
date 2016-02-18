@@ -1,7 +1,10 @@
 package com.tsystems.javaschool.timber.logiweb.controller;
 
+import com.tsystems.javaschool.timber.logiweb.dao.CityDao;
 import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
+import com.tsystems.javaschool.timber.logiweb.entity.City;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
+import com.tsystems.javaschool.timber.logiweb.service.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.TruckService;
 
 import java.io.IOException;
@@ -32,6 +35,21 @@ public class TruckController extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+
+        if (action != null && action.equals("list")) {
+            TruckService truckService = new TruckService(new TruckDao());
+            List<Truck> trucks = truckService.findAll();
+            request.setAttribute("trucks", trucks);
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/trucks.jsp");
+            rd.forward(request, response);
+        }
+    }
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
         String id_param = request.getParameter("id");
         int id = -1;
         if (id_param != null)
@@ -42,12 +60,10 @@ public class TruckController extends HttpServlet {
         if (action != null) {
             switch (action) {
                 case "create":
-                    Truck newTruck = new Truck();
-                    newTruck.setRegNumber("XXXXXXX");
-                    newTruck.setShiftSize(1);
-                    newTruck.setCapacity(10);
-                    newTruck.setState("OK");
-                    truckService.create(newTruck);
+                    Truck truck = parseTruck(request);
+                    truckService.create(truck);
+                    break;
+                case "list":
                     break;
                 case "delete":
                     truckService.delete(id);
@@ -67,12 +83,16 @@ public class TruckController extends HttpServlet {
         rd.forward(request, response);
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        doGet(request, response);
+    private Truck parseTruck(HttpServletRequest request) {
+        String regNumber = request.getParameter("regNumber");
+        int shiftSize = Integer.valueOf(request.getParameter("shiftSize"));
+        int capacity = Integer.valueOf(request.getParameter("capacity"));
+        String state = request.getParameter("state");
+        int cityId = Integer.valueOf(request.getParameter("cityId"));
+        CityService cityService = new CityService(new CityDao());
+        City city = cityService.findById(cityId);
+        Truck truck = new Truck(regNumber, shiftSize, capacity, state, city);
+        return truck;
     }
 
 }

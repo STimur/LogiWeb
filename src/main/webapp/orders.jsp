@@ -50,8 +50,10 @@
         <tbody>
         <% for (Order order : orders) { %>
         <tr>
-            <td><%= order.getId() %></td>
-            <td><%= order.isFinished() %></td>
+            <td><%= order.getId() %>
+            </td>
+            <td><%= order.isFinished() %>
+            </td>
             <td>
                 <ol>
                     <%
@@ -60,21 +62,25 @@
                     %>
                     <li><%= currentPoint %>
                     </li>
-                    <% currentPoint = currentPoint.getNextRoutePoint(); } %>
+                    <% currentPoint = currentPoint.getNextRoutePoint();
+                    } %>
                 </ol>
             </td>
-            <td><%= order.getAssignedTruck().getRegNumber() %></td>
+            <td><%= order.getAssignedTruck().getRegNumber() %>
+            </td>
             <td>
                 <ol>
                     <% for (Driver driver : order.getAssignedDrivers()) { %>
-                    <li><%= driver %></li>
+                    <li><%= driver %>
+                    </li>
                     <% } %>
                 </ol>
             </td>
             <td>
                 <form class="form-inline" method="post" action="/orders.jsp">
-                    <button type="submit" class="btn btn-primary btn-danger" name="action" value="deleteOrder">Remove</button>
-                    <input type="hidden" name="id" value="<%=order.getId()%>" />
+                    <button type="submit" class="btn btn-primary btn-danger" name="action" value="deleteOrder">Remove
+                    </button>
+                    <input type="hidden" name="id" value="<%=order.getId()%>"/>
                 </form>
             </td>
         </tr>

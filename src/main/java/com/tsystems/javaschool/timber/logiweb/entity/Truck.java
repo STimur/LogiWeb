@@ -26,6 +26,14 @@ public class Truck {
 
     public Truck() {}
 
+    public Truck(String regNumber, int shiftSize, int capacity, String state, City city) {
+        this.regNumber = regNumber;
+        this.shiftSize = shiftSize;
+        this.capacity = capacity;
+        this.state = state;
+        this.city = city;
+    }
+
     public Truck(int id, String regNumber, int shiftSize, int capacity, String state, City city, Order order) {
         this.id = id;
         this.regNumber = regNumber;
