@@ -132,6 +132,8 @@
                 if (order.getAssignedDrivers() == null)
                     order.setAssignedDrivers(new ArrayList<Driver>());
                 order.getAssignedDrivers().add(driver);
+                driver.setOrder(order);
+                driver.setCurrentTruck(order.getAssignedTruck());
                 drivers.remove(driverIndex);
             }
             if (action.equals("createOrder")) {
