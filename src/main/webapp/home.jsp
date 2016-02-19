@@ -7,6 +7,12 @@
 <jsp:include page="/navbar.jspf"/>
 <div class="container">
     <h2>Home Page</h2>
+    <%
+        String username = (String) session.getAttribute("username");
+        String password = (String) session.getAttribute("password");
+    %>
+    <p>Hello, <b><%=username%></b>! I know your password.</p>
+    <p>It is: <b><%=password%></b></p>
 </div>
 </body>
 </html>

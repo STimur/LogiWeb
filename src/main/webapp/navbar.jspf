@@ -1,10 +1,10 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/index.jsp">LogiWeb</a>
+            <a class="navbar-brand" href="/login.jsp">LogiWeb</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/index.jsp">Home</a></li>
+            <li class="active"><a href="/login.jsp">Home</a></li>
             <li><a href="/Truck?action=list">Trucks</a></li>
             <li><a href="#">Drivers</a></li>
             <li><a href="#">Orders</a></li>
