@@ -57,7 +57,7 @@
             </td>
             <td>
                 <form class="form-inline" method="post" action="/Truck">
-                    <button type="submit" class="btn btn-primary btn-primary" name="action" value="update">Update
+                    <button type="submit" class="btn btn-primary btn-primary" name="action" value="edit">Edit
                     </button>
                     <input type="hidden" name="id" value="<%=truck.getId()%>"/>
                 </form>

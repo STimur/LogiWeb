@@ -49,13 +49,10 @@ public class TruckController extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
-        String id_param = request.getParameter("id");
-        int id = -1;
-        if (id_param != null)
-            id = Integer.valueOf(request.getParameter("id"));
 
+        String action = request.getParameter("action");
         TruckService truckService = new TruckService(new TruckDao());
+        int id;
 
         if (action != null) {
             switch (action) {
@@ -66,14 +63,20 @@ public class TruckController extends HttpServlet {
                 case "list":
                     break;
                 case "delete":
+                    id = parseTruckId(request);
                     truckService.delete(id);
                     break;
                 case "edit":
+                    id = parseTruckId(request);
                     Truck truckToEdit = truckService.findById(id);
-                    String state = truckToEdit.getState();
-                    if (state.compareTo("OK")==0) truckToEdit.setState("BROKEN");
-                    else truckToEdit.setState("OK");
-                    truckService.update(truckToEdit);
+                    request.setAttribute("truckToEdit", truckToEdit);
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/editTruck.jsp");
+                    rd.forward(request, response);
+                    break;
+                case "update":
+                    Truck truckToUpdate = parseTruck(request);
+                    truckService.update(truckToUpdate);
+                    break;
             }
         }
 
@@ -81,6 +84,11 @@ public class TruckController extends HttpServlet {
         request.setAttribute("trucks", trucks);
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/trucks.jsp");
         rd.forward(request, response);
+    }
+
+    private int parseTruckId(HttpServletRequest request) {
+        int id = Integer.valueOf(request.getParameter("id"));
+        return id;
     }
 
     private Truck parseTruck(HttpServletRequest request) {
