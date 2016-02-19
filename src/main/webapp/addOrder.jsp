@@ -1,14 +1,15 @@
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.TruckService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.CityService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.*" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.DriverService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.DriverDaoJpa" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.OrderService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.OrderDaoJpa" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.*" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.CityService" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.DriverService" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.OrderService" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.TruckService" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%--
   Created by IntelliJ IDEA.
@@ -26,10 +27,10 @@
 <body>
 <div id="addOrderContainer" class="container">
     <%!
-        static CityService cityService = new CityService(new CityDaoJpa(City.class));
-        static TruckService truckService = new TruckService(new TruckDaoJpa(Truck.class));
-        static DriverService driverService = new DriverService(new DriverDaoJpa(Driver.class));
-        static OrderService orderService = new OrderService(new OrderDaoJpa(Order.class));
+        static CityService cityService = new CityServiceImpl(new CityDaoJpa(City.class));
+        static TruckService truckService = new TruckServiceImpl(new TruckDaoJpa(Truck.class));
+        static DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
+        static OrderService orderService = new OrderServiceImpl(new OrderDaoJpa(Order.class));
         static List<RoutePoint> route = new ArrayList<RoutePoint>();
         static List<City> cities = cityService.findAll();
         List<Truck> trucks;

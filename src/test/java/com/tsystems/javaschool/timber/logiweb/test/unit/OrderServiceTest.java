@@ -6,6 +6,7 @@ import com.tsystems.javaschool.timber.logiweb.exceptions.DoubleLoadCargoExceptio
 import com.tsystems.javaschool.timber.logiweb.exceptions.NotAllCargosUnloadedException;
 import com.tsystems.javaschool.timber.logiweb.exceptions.UnloadNotLoadedCargoException;
 import com.tsystems.javaschool.timber.logiweb.service.OrderService;
+import com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Before;
@@ -45,7 +46,7 @@ public class OrderServiceTest {
     public void GetOrdersList() {
         Mockery context = new Mockery();
         final GenericDao<Order> mockOrderDao = context.mock(GenericDao.class);
-        OrderService orderService = new OrderService(mockOrderDao);
+        OrderService orderService = new OrderServiceImpl(mockOrderDao);
 
         context.checking(new Expectations() {{
             oneOf(mockOrderDao).findAll();
@@ -64,7 +65,7 @@ public class OrderServiceTest {
             throws DoubleLoadCargoException, NotAllCargosUnloadedException, UnloadNotLoadedCargoException {
         Mockery context = new Mockery();
         final GenericDao<Order> mockOrderDao = context.mock(GenericDao.class);
-        OrderService orderService = new OrderService(mockOrderDao);
+        OrderService orderService = new OrderServiceImpl(mockOrderDao);
 
         Order order = ordersData.get(0);
 
@@ -82,7 +83,7 @@ public class OrderServiceTest {
         Mockery context = new Mockery();
         final GenericDao<Order> mockOrderDao = context.mock(GenericDao.class);
 
-        OrderService orderService = new OrderService(mockOrderDao);
+        OrderService orderService = new OrderServiceImpl(mockOrderDao);
 
         Order order = ordersData.get(0);
         order.getRoute().getNextRoutePoint().setType(RoutePointType.LOAD);
@@ -101,7 +102,7 @@ public class OrderServiceTest {
             throws DoubleLoadCargoException, NotAllCargosUnloadedException, UnloadNotLoadedCargoException {
         Mockery context = new Mockery();
         final GenericDao<Order> mockOrderDao = context.mock(GenericDao.class);
-        OrderService orderService = new OrderService(mockOrderDao);
+        OrderService orderService = new OrderServiceImpl(mockOrderDao);
 
         Order order = ordersData.get(0);
         order.getRoute().setNextRoutePoint(null);
@@ -121,7 +122,7 @@ public class OrderServiceTest {
         Mockery context = new Mockery();
         final GenericDao<Order> mockOrderDao = context.mock(GenericDao.class);
 
-        OrderService orderService = new OrderService(mockOrderDao);
+        OrderService orderService = new OrderServiceImpl(mockOrderDao);
 
         Order order = ordersData.get(0);
         order.getRoute().setType(RoutePointType.UNLOAD);

@@ -3,7 +3,8 @@
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Order" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.RoutePoint" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Driver" %><%--
+<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Driver" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl" %><%--
   Created by IntelliJ IDEA.
   User: tims
   Date: 2/17/2016
@@ -19,7 +20,7 @@
 <body>
 <div id="ordersTable" class="container">
     <%
-        OrderService orderService = new OrderService(new OrderDaoJpa(Order.class));
+        OrderService orderService = new OrderServiceImpl(new OrderDaoJpa(Order.class));
 
         String action = request.getParameter("action");
         if (action != null) {

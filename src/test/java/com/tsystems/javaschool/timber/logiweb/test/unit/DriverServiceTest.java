@@ -3,6 +3,7 @@ package com.tsystems.javaschool.timber.logiweb.test.unit;
 import com.tsystems.javaschool.timber.logiweb.dao.DriverDao;
 import com.tsystems.javaschool.timber.logiweb.entity.*;
 import com.tsystems.javaschool.timber.logiweb.service.DriverService;
+import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Before;
@@ -43,7 +44,7 @@ public class DriverServiceTest {
         Mockery context = new Mockery();
         final DriverDao mockDriverDao = context.mock(DriverDao.class);
 
-        driverService = new DriverService(mockDriverDao);
+        driverService = new DriverServiceImpl(mockDriverDao);
 
         context.checking(new Expectations() {{
             oneOf(mockDriverDao).getSuitableDriversForOrder(order);
@@ -63,7 +64,7 @@ public class DriverServiceTest {
         Mockery context = new Mockery();
         final DriverDao mockDriverDao = context.mock(DriverDao.class);
 
-        driverService = new DriverService(mockDriverDao);
+        driverService = new DriverServiceImpl(mockDriverDao);
 
         context.checking(new Expectations() {{
             oneOf(mockDriverDao).getSuitableDriversForOrder(order);
@@ -85,7 +86,7 @@ public class DriverServiceTest {
         Mockery context = new Mockery();
         final DriverDao mockDriverDao = context.mock(DriverDao.class);
 
-        driverService = new DriverService(mockDriverDao);
+        driverService = new DriverServiceImpl(mockDriverDao);
 
         context.checking(new Expectations() {{
             oneOf(mockDriverDao).getSuitableDriversForOrder(order);
@@ -106,7 +107,7 @@ public class DriverServiceTest {
         Mockery context = new Mockery();
         final DriverDao mockDriverDao = context.mock(DriverDao.class);
 
-        driverService = new DriverService(mockDriverDao);
+        driverService = new DriverServiceImpl(mockDriverDao);
 
         context.checking(new Expectations() {{
             oneOf(mockDriverDao).getSuitableDriversForOrder(order);

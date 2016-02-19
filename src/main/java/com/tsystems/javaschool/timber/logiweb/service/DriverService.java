@@ -1,42 +1,23 @@
 package com.tsystems.javaschool.timber.logiweb.service;
 
-import com.tsystems.javaschool.timber.logiweb.dao.DriverDao;
 import com.tsystems.javaschool.timber.logiweb.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.entity.Order;
 
 import java.util.List;
 
 /**
- * Created by tims on 2/15/2016.
+ * Created by timur_000 on 19.02.2016.
  */
-public class DriverService {
-    private static DriverDao driverDao;
+public interface DriverService {
+    void create(Driver driver);
 
-    public DriverService(DriverDao driverDao) {
-        this.driverDao = driverDao;
-    }
+    void update(Driver driver);
 
-    public void create(Driver driver) {
-        driverDao.persist(driver);
-    }
+    Driver findById(int id);
 
-    public void update(Driver driver) {
-        driverDao.update(driver);
-    }
+    void delete(int id);
 
-    public Driver findById(int id) {
-        return (Driver) driverDao.find(id);
-    }
+    List<Driver> findAll();
 
-    public void delete(int id) {
-        driverDao.delete(id);
-    }
-
-    public List<Driver> findAll() {
-        return driverDao.findAll();
-    }
-
-    public List<Driver> getSuitableDriversForOrder(Order order) {
-        return driverDao.getSuitableDriversForOrder(order);
-    }
+    List<Driver> getSuitableDriversForOrder(Order order);
 }

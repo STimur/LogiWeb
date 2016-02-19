@@ -2,37 +2,22 @@ package com.tsystems.javaschool.timber.logiweb.service;
 
 import com.tsystems.javaschool.timber.logiweb.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
-import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
 
 import java.util.List;
 
-public class TruckService {
+/**
+ * Created by timur_000 on 19.02.2016.
+ */
+public interface TruckService {
+    void create(Truck truck);
 
-    private static TruckDao truckDao;
+    void update(Truck truck);
 
-    public TruckService(TruckDao truckDao) {
-        this.truckDao = truckDao;
-    }
+    Truck findById(int id);
 
-    public void create(Truck truck) {
-        truckDao.persist(truck);
-    }
+    void delete(int id);
 
-    public void update(Truck truck) {
-        truckDao.update(truck);
-    }
+    List<Truck> findAll();
 
-    public Truck findById(int id) {
-        return (Truck) truckDao.find(id);
-    }
-
-    public void delete(int id) {
-        truckDao.delete(id);
-    }
-
-    public List<Truck> findAll() {
-        return truckDao.findAll();
-    }
-
-    public List<Truck> getSuitableTrucksForOrder(Order order) { return truckDao.getSuitableTrucksForOrder(order); }
+    List<Truck> getSuitableTrucksForOrder(Order order);
 }

@@ -1,37 +1,21 @@
 package com.tsystems.javaschool.timber.logiweb.service;
 
-import com.tsystems.javaschool.timber.logiweb.dao.GenericDao;
 import com.tsystems.javaschool.timber.logiweb.entity.City;
+import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 
 import java.util.List;
 
 /**
- * Created by tims on 2/11/2016.
+ * Created by timur_000 on 19.02.2016.
  */
-public class CityService {
-    private static GenericDao cityDao;
+public interface CityService {
+    void create(City city);
 
-    public CityService(GenericDao cityDao) {
-        this.cityDao = cityDao;
-    }
+    void update(City city);
 
-    public void create(City city) {
-        cityDao.persist(city);
-    }
+    City findById(int id);
 
-    public void update(City city) {
-        cityDao.update(city);
-    }
+    void delete(int id);
 
-    public City findById(int id) {
-        return (City) cityDao.find(id);
-    }
-
-    public void delete(int id) {
-        cityDao.delete(id);
-    }
-
-    public List<City> findAll() {
-        return cityDao.findAll();
-    }
+    List<City> findAll();
 }
