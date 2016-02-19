@@ -78,6 +78,7 @@
             </select>
         </fieldset>
         <button type="submit" class="btn btn-success" name="action" value="update">Save Changes</button>
+        <input type="hidden" name="id" value="<%=truck.getId()%>">
     </form>
 </div>
 </body>

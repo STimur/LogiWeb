@@ -34,15 +34,11 @@ public class TruckController extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
-
-        if (action != null && action.equals("list")) {
-            TruckService truckService = new TruckService(new TruckDao());
-            List<Truck> trucks = truckService.findAll();
-            request.setAttribute("trucks", trucks);
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/trucks.jsp");
-            rd.forward(request, response);
-        }
+        TruckService truckService = new TruckService(new TruckDao());
+        List<Truck> trucks = truckService.findAll();
+        request.setAttribute("trucks", trucks);
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/trucks.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -75,6 +71,8 @@ public class TruckController extends HttpServlet {
                     break;
                 case "update":
                     Truck truckToUpdate = parseTruck(request);
+                    id = parseTruckId(request);
+                    truckToUpdate.setId(id);
                     truckService.update(truckToUpdate);
                     break;
             }
