@@ -2,7 +2,7 @@ package com.tsystems.javaschool.timber.logiweb.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.service.TruckService;
 import com.tsystems.javaschool.timber.logiweb.utility.TruckSerializer;
@@ -26,7 +26,7 @@ public class TruckJSController extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public TruckJSController() {
-        truckService = new TruckService(new TruckDao());
+        truckService = new TruckService(new TruckDaoJpa(Truck.class));
     }
 
     /**

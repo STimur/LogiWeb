@@ -1,6 +1,10 @@
 package com.tsystems.javaschool.timber.logiweb.service;
 
 import com.tsystems.javaschool.timber.logiweb.dao.*;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.CargoDaoJpa;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.DriverDaoJpa;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.RoutePointDaoJpa;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.*;
 import com.tsystems.javaschool.timber.logiweb.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.exceptions.NotAllCargosUnloadedException;
@@ -15,9 +19,9 @@ import java.util.Set;
  * Created by tims on 2/15/2016.
  */
 public class OrderService {
-    private static GeneralDaoInterface orderDao;
+    private static GenericDao orderDao;
 
-    public OrderService(GeneralDaoInterface truckDao) {
+    public OrderService(GenericDao truckDao) {
         this.orderDao = truckDao;
     }
 
@@ -34,10 +38,10 @@ public class OrderService {
         createRoutePointsInOrder(order);
         orderDao.persist(order);
         //now we can update corresponding truck row
-        TruckService truckService = new TruckService(new TruckDao());
+        TruckService truckService = new TruckService(new TruckDaoJpa(Truck.class));
         truckService.update(order.getAssignedTruck());
         //now we can update corresponding drivers rows
-        DriverService driverService = new DriverService(new DriverDao());
+        DriverService driverService = new DriverService(new DriverDaoJpa(Driver.class));
         List<Driver> drivers = order.getAssignedDrivers();
         for (Driver driver : drivers)
             driverService.update(driver);
@@ -48,13 +52,13 @@ public class OrderService {
         //need to add points in reversed order cause the first ones have
         //the links to the next
         List<RoutePoint> revertedRoute = new ArrayList<RoutePoint>();
-        CargoService cargoService = new CargoService(new CargoDao());
+        CargoService cargoService = new CargoService(new CargoDaoJpa(Cargo.class));
         while (currentPoint != null) {
             cargoService.create(currentPoint.getCargo());
             revertedRoute.add(0, currentPoint);
             currentPoint = currentPoint.getNextRoutePoint();
         }
-        RoutePointService routePointService = new RoutePointService(new RoutePointDao());
+        RoutePointService routePointService = new RoutePointService(new RoutePointDaoJpa(RoutePoint.class));
         for (RoutePoint point: revertedRoute)
             routePointService.create(point);
 

@@ -1,10 +1,10 @@
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.CityDao" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.CityService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.City" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Truck" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.TruckService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.TruckDao" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa" %>
 <%--
   Created by IntelliJ IDEA.
   User: tims
@@ -21,7 +21,7 @@
 </head>
 <body>
 <%!
-    static CityService cityService = new CityService(new CityDao());
+    static CityService cityService = new CityService(new CityDaoJpa(City.class));
     static List<City> cities = cityService.findAll();
 %>
 <jsp:include page="/navbar.jspf"/>

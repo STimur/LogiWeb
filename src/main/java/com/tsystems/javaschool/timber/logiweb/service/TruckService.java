@@ -2,15 +2,15 @@ package com.tsystems.javaschool.timber.logiweb.service;
 
 import com.tsystems.javaschool.timber.logiweb.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
-import com.tsystems.javaschool.timber.logiweb.dao.TruckDaoInterface;
+import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
 
 import java.util.List;
 
 public class TruckService {
 
-    private static TruckDaoInterface truckDao;
+    private static TruckDao truckDao;
 
-    public TruckService(TruckDaoInterface truckDao) {
+    public TruckService(TruckDao truckDao) {
         this.truckDao = truckDao;
     }
 
@@ -32,10 +32,6 @@ public class TruckService {
 
     public List<Truck> findAll() {
         return truckDao.findAll();
-    }
-
-    public void deleteAll() {
-        truckDao.deleteAll();
     }
 
     public List<Truck> getSuitableTrucksForOrder(Order order) { return truckDao.getSuitableTrucksForOrder(order); }

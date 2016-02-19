@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.test.unit;
 
-import com.tsystems.javaschool.timber.logiweb.dao.GeneralDaoInterface;
+import com.tsystems.javaschool.timber.logiweb.dao.GenericDao;
 import com.tsystems.javaschool.timber.logiweb.entity.*;
 import com.tsystems.javaschool.timber.logiweb.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.exceptions.NotAllCargosUnloadedException;
@@ -44,7 +44,7 @@ public class OrderServiceTest {
     @Test
     public void GetOrdersList() {
         Mockery context = new Mockery();
-        final GeneralDaoInterface<Order, Integer> mockOrderDao = context.mock(GeneralDaoInterface.class);
+        final GenericDao<Order> mockOrderDao = context.mock(GenericDao.class);
         OrderService orderService = new OrderService(mockOrderDao);
 
         context.checking(new Expectations() {{
@@ -63,7 +63,7 @@ public class OrderServiceTest {
     public void CreateOrder()
             throws DoubleLoadCargoException, NotAllCargosUnloadedException, UnloadNotLoadedCargoException {
         Mockery context = new Mockery();
-        final GeneralDaoInterface<Order, Integer> mockOrderDao = context.mock(GeneralDaoInterface.class);
+        final GenericDao<Order> mockOrderDao = context.mock(GenericDao.class);
         OrderService orderService = new OrderService(mockOrderDao);
 
         Order order = ordersData.get(0);
@@ -80,7 +80,7 @@ public class OrderServiceTest {
     public void CreateOrderWithDoubleLoadedCargo()
             throws DoubleLoadCargoException, NotAllCargosUnloadedException, UnloadNotLoadedCargoException {
         Mockery context = new Mockery();
-        final GeneralDaoInterface<Order, Integer> mockOrderDao = context.mock(GeneralDaoInterface.class);
+        final GenericDao<Order> mockOrderDao = context.mock(GenericDao.class);
 
         OrderService orderService = new OrderService(mockOrderDao);
 
@@ -100,7 +100,7 @@ public class OrderServiceTest {
     public void CreateOrderWithNotAllCargosUnloaded()
             throws DoubleLoadCargoException, NotAllCargosUnloadedException, UnloadNotLoadedCargoException {
         Mockery context = new Mockery();
-        final GeneralDaoInterface<Order, Integer> mockOrderDao = context.mock(GeneralDaoInterface.class);
+        final GenericDao<Order> mockOrderDao = context.mock(GenericDao.class);
         OrderService orderService = new OrderService(mockOrderDao);
 
         Order order = ordersData.get(0);
@@ -119,7 +119,7 @@ public class OrderServiceTest {
     public void CreateOrderWithNotAllCargosLoaded()
             throws DoubleLoadCargoException, NotAllCargosUnloadedException, UnloadNotLoadedCargoException {
         Mockery context = new Mockery();
-        final GeneralDaoInterface<Order, Integer> mockOrderDao = context.mock(GeneralDaoInterface.class);
+        final GenericDao<Order> mockOrderDao = context.mock(GenericDao.class);
 
         OrderService orderService = new OrderService(mockOrderDao);
 

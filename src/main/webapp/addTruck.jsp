@@ -1,4 +1,4 @@
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.CityDao" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.CityService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.City" %>
 <%@ page import="java.util.List" %><%--
@@ -17,7 +17,7 @@
 </head>
 <body>
 <%!
-    static CityService cityService = new CityService(new CityDao());
+    static CityService cityService = new CityService(new CityDaoJpa(City.class));
     static List<City> cities = cityService.findAll();
 %>
 <jsp:include page="/navbar.jspf"/>

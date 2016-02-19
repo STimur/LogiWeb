@@ -1,7 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.service;
 
-import com.tsystems.javaschool.timber.logiweb.dao.CityDao;
-import com.tsystems.javaschool.timber.logiweb.dao.GeneralDaoInterface;
+import com.tsystems.javaschool.timber.logiweb.dao.GenericDao;
 import com.tsystems.javaschool.timber.logiweb.entity.City;
 
 import java.util.List;
@@ -10,9 +9,9 @@ import java.util.List;
  * Created by tims on 2/11/2016.
  */
 public class CityService {
-    private static GeneralDaoInterface cityDao;
+    private static GenericDao cityDao;
 
-    public CityService(GeneralDaoInterface cityDao) {
+    public CityService(GenericDao cityDao) {
         this.cityDao = cityDao;
     }
 
@@ -34,9 +33,5 @@ public class CityService {
 
     public List<City> findAll() {
         return cityDao.findAll();
-    }
-
-    public void deleteAll() {
-        cityDao.deleteAll();
     }
 }

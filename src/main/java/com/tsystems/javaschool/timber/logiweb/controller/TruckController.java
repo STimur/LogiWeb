@@ -1,7 +1,7 @@
 package com.tsystems.javaschool.timber.logiweb.controller;
 
-import com.tsystems.javaschool.timber.logiweb.dao.CityDao;
-import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.City;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.service.CityService;
@@ -34,7 +34,7 @@ public class TruckController extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        TruckService truckService = new TruckService(new TruckDao());
+        TruckService truckService = new TruckService(new TruckDaoJpa(Truck.class));
         List<Truck> trucks = truckService.findAll();
         request.setAttribute("trucks", trucks);
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/trucks.jsp");
@@ -47,7 +47,7 @@ public class TruckController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String action = request.getParameter("action");
-        TruckService truckService = new TruckService(new TruckDao());
+        TruckService truckService = new TruckService(new TruckDaoJpa(Truck.class));
         int id;
 
         if (action != null) {
@@ -95,7 +95,7 @@ public class TruckController extends HttpServlet {
         int capacity = Integer.valueOf(request.getParameter("capacity"));
         String state = request.getParameter("state");
         int cityId = Integer.valueOf(request.getParameter("cityId"));
-        CityService cityService = new CityService(new CityDao());
+        CityService cityService = new CityService(new CityDaoJpa(City.class));
         City city = cityService.findById(cityId);
         Truck truck = new Truck(regNumber, shiftSize, capacity, state, city);
         return truck;

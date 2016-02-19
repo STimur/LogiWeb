@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.test.unit;
 
-import com.tsystems.javaschool.timber.logiweb.dao.DriverDaoInterface;
+import com.tsystems.javaschool.timber.logiweb.dao.DriverDao;
 import com.tsystems.javaschool.timber.logiweb.entity.*;
 import com.tsystems.javaschool.timber.logiweb.service.DriverService;
 import org.jmock.Expectations;
@@ -41,7 +41,7 @@ public class DriverServiceTest {
     @Test
     public void GetFreeDriversForOrder() {
         Mockery context = new Mockery();
-        final DriverDaoInterface mockDriverDao = context.mock(DriverDaoInterface.class);
+        final DriverDao mockDriverDao = context.mock(DriverDao.class);
 
         driverService = new DriverService(mockDriverDao);
 
@@ -61,7 +61,7 @@ public class DriverServiceTest {
     @Test
     public void GetDriversInSameCityAsOrder() {
         Mockery context = new Mockery();
-        final DriverDaoInterface mockDriverDao = context.mock(DriverDaoInterface.class);
+        final DriverDao mockDriverDao = context.mock(DriverDao.class);
 
         driverService = new DriverService(mockDriverDao);
 
@@ -83,7 +83,7 @@ public class DriverServiceTest {
     @Test
     public void GetDriversWhichHaveEnoughTimeForOrder() {
         Mockery context = new Mockery();
-        final DriverDaoInterface mockDriverDao = context.mock(DriverDaoInterface.class);
+        final DriverDao mockDriverDao = context.mock(DriverDao.class);
 
         driverService = new DriverService(mockDriverDao);
 
@@ -104,7 +104,7 @@ public class DriverServiceTest {
     @Test
     public void GetSuitableDrivers() {
         Mockery context = new Mockery();
-        final DriverDaoInterface mockDriverDao = context.mock(DriverDaoInterface.class);
+        final DriverDao mockDriverDao = context.mock(DriverDao.class);
 
         driverService = new DriverService(mockDriverDao);
 

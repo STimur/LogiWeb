@@ -5,19 +5,14 @@ import javax.persistence.Persistence;
 import java.io.Serializable;
 import java.util.List;
 
-public interface GeneralDaoInterface<T, Id extends Serializable> {
-    EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("Logiweb");
-
+public interface GenericDao<T> {
     void persist(T entity);
 
     void update(T entity);
 
-    T find(Id id);
+    T find(int id);
 
-    void delete(Id id);
+    void delete(int id);
 
     List<T> findAll();
-
-    void deleteAll();
-
 }

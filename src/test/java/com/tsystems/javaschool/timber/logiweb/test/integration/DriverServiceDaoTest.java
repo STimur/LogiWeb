@@ -1,8 +1,8 @@
 package com.tsystems.javaschool.timber.logiweb.test.integration;
 
-import com.tsystems.javaschool.timber.logiweb.dao.CityDao;
-import com.tsystems.javaschool.timber.logiweb.dao.DriverDao;
-import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.DriverDaoJpa;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.City;
 import com.tsystems.javaschool.timber.logiweb.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.entity.DriverState;
@@ -27,12 +27,12 @@ public class DriverServiceDaoTest {
         driver.setSurname("Popov");
         driver.setHoursWorkedThisMonth(10);
         driver.setState(DriverState.DRIVE);
-        City city = new CityService(new CityDao()).findById(1);
+        City city = new CityService(new CityDaoJpa(City.class)).findById(1);
         driver.setCurrentCity(city);
-        Truck truck = new TruckService(new TruckDao()).findById(1);
+        Truck truck = new TruckService(new TruckDaoJpa(Truck.class)).findById(1);
         driver.setCurrentTruck(truck);
 
-        DriverService driverService = new DriverService(new DriverDao());
+        DriverService driverService = new DriverService(new DriverDaoJpa(Driver.class));
         int numOfDriversBefore = driverService.findAll().size();
         driverService.create(driver);
         int numOfDriversAfter = driverService.findAll().size();
@@ -42,7 +42,7 @@ public class DriverServiceDaoTest {
 
     @Test
     public void CanReadDriversTableFromDB() {
-        DriverService driverService = new DriverService(new DriverDao());
+        DriverService driverService = new DriverService(new DriverDaoJpa(Driver.class));
         List<Driver> drivers = driverService.findAll();
         assertNotNull(drivers);
         assertTrue(drivers.size() > 0);
@@ -51,7 +51,7 @@ public class DriverServiceDaoTest {
     @Test
     public void CanUpdateDriverInDB() {
         createDriver();
-        DriverService driverService = new DriverService(new DriverDao());
+        DriverService driverService = new DriverService(new DriverDaoJpa(Driver.class));
         Driver driverBeforeUpdate = driverService.findById(getLastDriverId());
         Driver driverAfterUpdate = driverService.findById(getLastDriverId());
         driverAfterUpdate.setHoursWorkedThisMonth(driverAfterUpdate.getHoursWorkedThisMonth()+1);
@@ -63,7 +63,7 @@ public class DriverServiceDaoTest {
     @Test
     public void CanDeleteDriverInDB() {
         createDriver();
-        DriverService driverService = new DriverService(new DriverDao());
+        DriverService driverService = new DriverService(new DriverDaoJpa(Driver.class));
         List<Driver> drivers = driverService.findAll();
         int lenBefore = drivers.size();
         driverService.delete(drivers.get(lenBefore-1).getId());
@@ -77,17 +77,17 @@ public class DriverServiceDaoTest {
         driver.setSurname("Popov");
         driver.setHoursWorkedThisMonth(10);
         driver.setState(DriverState.DRIVE);
-        City city = new CityService(new CityDao()).findById(1);
+        City city = new CityService(new CityDaoJpa(City.class)).findById(1);
         driver.setCurrentCity(city);
-        Truck truck = new TruckService(new TruckDao()).findById(1);
+        Truck truck = new TruckService(new TruckDaoJpa(Truck.class)).findById(1);
         driver.setCurrentTruck(truck);
 
-        DriverService driverService = new DriverService(new DriverDao());
+        DriverService driverService = new DriverService(new DriverDaoJpa(Driver.class));
         driverService.create(driver);
     }
 
     private int getLastDriverId() {
-        DriverService driverService = new DriverService(new DriverDao());
+        DriverService driverService = new DriverService(new DriverDaoJpa(Driver.class));
         List<Driver> drivers = driverService.findAll();
         int len = drivers.size();
         return drivers.get(len-1).getId();

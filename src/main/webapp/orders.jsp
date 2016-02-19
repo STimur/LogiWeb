@@ -1,5 +1,5 @@
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.OrderService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.OrderDao" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.OrderDaoJpa" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Order" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.RoutePoint" %>
@@ -19,7 +19,7 @@
 <body>
 <div id="ordersTable" class="container">
     <%
-        OrderService orderService = new OrderService(new OrderDao());
+        OrderService orderService = new OrderService(new OrderDaoJpa(Order.class));
 
         String action = request.getParameter("action");
         if (action != null) {

@@ -1,14 +1,14 @@
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.TruckService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.TruckDao" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.CityService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.CityDao" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.*" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.DriverService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.DriverDao" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.DriverDaoJpa" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.OrderService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.OrderDao" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.OrderDaoJpa" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%--
   Created by IntelliJ IDEA.
@@ -26,10 +26,10 @@
 <body>
 <div id="addOrderContainer" class="container">
     <%!
-        static CityService cityService = new CityService(new CityDao());
-        static TruckService truckService = new TruckService(new TruckDao());
-        static DriverService driverService = new DriverService(new DriverDao());
-        static OrderService orderService = new OrderService(new OrderDao());
+        static CityService cityService = new CityService(new CityDaoJpa(City.class));
+        static TruckService truckService = new TruckService(new TruckDaoJpa(Truck.class));
+        static DriverService driverService = new DriverService(new DriverDaoJpa(Driver.class));
+        static OrderService orderService = new OrderService(new OrderDaoJpa(Order.class));
         static List<RoutePoint> route = new ArrayList<RoutePoint>();
         static List<City> cities = cityService.findAll();
         List<Truck> trucks;

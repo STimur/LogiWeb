@@ -1,9 +1,9 @@
 package com.tsystems.javaschool.timber.logiweb.test.integration;
 
-import com.tsystems.javaschool.timber.logiweb.dao.CityDao;
-import com.tsystems.javaschool.timber.logiweb.dao.DriverDao;
-import com.tsystems.javaschool.timber.logiweb.dao.OrderDao;
-import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.DriverDaoJpa;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.OrderDaoJpa;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.*;
 import com.tsystems.javaschool.timber.logiweb.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.exceptions.NotAllCargosUnloadedException;
@@ -24,10 +24,10 @@ import static org.junit.Assert.*;
  * Created by tims on 2/18/2016.
  */
 public class OrderServiceDaoTest {
-    static CityService cityService = new CityService(new CityDao());
-    static TruckService truckService = new TruckService(new TruckDao());
-    static DriverService driverService = new DriverService(new DriverDao());
-    static OrderService orderService = new OrderService(new OrderDao());
+    static CityService cityService = new CityService(new CityDaoJpa(City.class));
+    static TruckService truckService = new TruckService(new TruckDaoJpa(Truck.class));
+    static DriverService driverService = new DriverService(new DriverDaoJpa(Driver.class));
+    static OrderService orderService = new OrderService(new OrderDaoJpa(Order.class));
     Order order;
 
     @Before

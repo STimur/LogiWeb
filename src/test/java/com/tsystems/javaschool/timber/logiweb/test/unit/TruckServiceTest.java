@@ -1,7 +1,7 @@
 package com.tsystems.javaschool.timber.logiweb.test.unit;
 
 import com.tsystems.javaschool.timber.logiweb.entity.*;
-import com.tsystems.javaschool.timber.logiweb.dao.TruckDaoInterface;
+import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
 import com.tsystems.javaschool.timber.logiweb.service.TruckService;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -72,7 +72,7 @@ public class TruckServiceTest {
     @Test
     public void FindOkTrucksForOrder() {
         Mockery context = new Mockery();
-        final TruckDaoInterface mockTruckDao = context.mock(TruckDaoInterface.class);
+        final TruckDao mockTruckDao = context.mock(TruckDao.class);
         TruckService truckService = new TruckService(mockTruckDao);
 
         context.checking(new Expectations() {{
@@ -92,7 +92,7 @@ public class TruckServiceTest {
     @Test
     public void FindOkTrucksWithNoOrderForOrder() {
         Mockery context = new Mockery();
-        final TruckDaoInterface mockTruckDao = context.mock(TruckDaoInterface.class);
+        final TruckDao mockTruckDao = context.mock(TruckDao.class);
         TruckService truckService = new TruckService(mockTruckDao);
 
         context.checking(new Expectations() {{
@@ -112,7 +112,7 @@ public class TruckServiceTest {
     @Test
     public void FindOkTrucksWithNoOrderAndEnoughCapacityForOrder() {
         Mockery context = new Mockery();
-        final TruckDaoInterface mockTruckDao = context.mock(TruckDaoInterface.class);
+        final TruckDao mockTruckDao = context.mock(TruckDao.class);
         TruckService truckService = new TruckService(mockTruckDao);
 
         context.checking(new Expectations() {{
