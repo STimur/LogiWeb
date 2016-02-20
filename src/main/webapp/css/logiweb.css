@@ -1,1 +1,14 @@
 body { padding-top: 70px; }
+
+/* Sticky footer styles
+-------------------------------------------------- */
+.footer {
+    position: absolute;
+    padding: 10px;
+    bottom: 0;
+    border: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    color: #ffffff;
+}
