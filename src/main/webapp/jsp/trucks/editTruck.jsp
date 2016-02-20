@@ -39,7 +39,6 @@
             selectOkState = "";
             selectBrokenState = "selected";
         }
-
     %>
     <form method="post" action="/Truck">
         <fieldset class="form-group">
