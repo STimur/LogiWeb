@@ -9,6 +9,7 @@
             <li><a href="/Driver?action=list">Drivers</a></li>
             <li><a href="/Order?action=list">Orders</a></li>
             <li><a href="/Order?action=stateList">Orders state</a></li>
+            <li><a href="/Cargo?action=stateList">Cargos</a></li>
         </ul>
     </div>
 </nav>
