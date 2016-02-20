@@ -102,6 +102,12 @@ public class OrderController extends HttpServlet {
                     break;
                 }
                 case "add": {
+                    // for easy debug as this vars stay in memory
+                    // because we have one servlet for all clients
+                    route.clear();
+                    orderToCreate = new Order();
+                    truckToAssign = new Truck();
+                    suitableDrivers.clear();
                     request.setAttribute("cities", cities);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
                     rd.forward(request, response);

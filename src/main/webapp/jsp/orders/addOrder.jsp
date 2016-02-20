@@ -92,10 +92,15 @@
     <h2>Assign Truck:</h2>
     <form class="form-inline" method="post" action="/Order">
         <div class="form-group">
-            <label class="sr-only" for="truckToAssign">Choose city</label>
+            <label class="sr-only" for="truckToAssign">Choose truck</label>
             <select class="form-control" id="truckToAssign" name="truckToAssign">
-                <% for (Truck truck : trucks) { %>
-                <option value="<%= truck.getId()%>">
+                <%
+                    String selected = "";
+                    for (Truck truck : trucks) {
+                        if (isTruckAssigned) {
+                            selected = (order.getAssignedTruck().getId() == truck.getId()) ? "selected" : "";
+                        } %>
+                <option value="<%= truck.getId()%>" <%=truck.getId()%> <%=selected%>>
                     <%= truck.getRegNumber() %>
                 </option>
                 <% } %>
