@@ -55,29 +55,42 @@ public class DriverController extends HttpServlet {
 
         if (action != null) {
             switch (action) {
-                case "create":
+                case "create": {
                     Driver driver = parseDriver(request);
                     driverService.create(driver);
                     break;
-                case "list":
+                }
+                case "list": {
                     break;
-                case "delete":
+                }
+                case "delete": {
                     id = parseDriverId(request);
                     driverService.delete(id);
                     break;
-                case "edit":
+                }
+                case "edit": {
                     id = parseDriverId(request);
                     Driver driverToEdit = driverService.findById(id);
                     request.setAttribute("driverToEdit", driverToEdit);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/drivers/editDriver.jsp");
                     rd.forward(request, response);
                     break;
-                case "update":
+                }
+                case "update": {
                     Driver driverToUpdate = parseDriver(request);
                     id = parseDriverId(request);
                     driverToUpdate.setId(id);
                     driverService.update(driverToUpdate);
                     break;
+                }
+                case "getJobInfo": {
+                    id = parseDriverId(request);
+                    Driver driver = driverService.findById(id);
+                    request.setAttribute("driver", driver);
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/drivers/driverJobInfo.jsp");
+                    rd.forward(request, response);
+                    break;
+                }
             }
         }
 

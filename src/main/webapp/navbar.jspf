@@ -10,6 +10,7 @@
             <li><a href="/Order?action=list">Orders</a></li>
             <li><a href="/Order?action=stateList">Orders state</a></li>
             <li><a href="/Cargo?action=stateList">Cargos</a></li>
+            <li><a href="/jsp/drivers/driverGetJobInfo.jsp">Get Job Info</a></li>
         </ul>
     </div>
 </nav>
