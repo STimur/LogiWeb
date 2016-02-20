@@ -7,7 +7,8 @@
             <li class="active"><a href="/login.jsp">Home</a></li>
             <li><a href="/Truck?action=list">Trucks</a></li>
             <li><a href="/Driver?action=list">Drivers</a></li>
-            <li><a href="#">Orders</a></li>
+            <li><a href="/Order?action=list">Orders</a></li>
+            <li><a href="/Order?action=stateList">Orders state</a></li>
         </ul>
     </div>
 </nav>

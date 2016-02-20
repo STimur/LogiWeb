@@ -6,9 +6,21 @@
     <display-name>T-Logist Web</display-name>
 
     <servlet>
+        <servlet-name>FrontController</servlet-name>
+        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.FrontController</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>TruckController</servlet-name>
         <display-name>Truck</display-name>
         <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.TruckController</servlet-class>
+    </servlet>
+
+    <!-- servlet to try it out a sample of using js on client -->
+    <servlet>
+        <servlet-name>TruckJSController</servlet-name>
+        <display-name>TruckJS</display-name>
+        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.TruckJSController</servlet-class>
     </servlet>
 
     <servlet>
@@ -18,14 +30,9 @@
     </servlet>
 
     <servlet>
-        <servlet-name>TruckJSController</servlet-name>
-        <display-name>TruckJS</display-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.TruckJSController</servlet-class>
-    </servlet>
-    
-    <servlet>
-        <servlet-name>FrontController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.FrontController</servlet-class>
+        <servlet-name>OrderController</servlet-name>
+        <display-name>Order</display-name>
+        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.OrderController</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -39,13 +46,18 @@
     </servlet-mapping>
 
     <servlet-mapping>
+        <servlet-name>TruckJSController</servlet-name>
+        <url-pattern>/TruckJSController</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
         <servlet-name>DriverController</servlet-name>
         <url-pattern>/Driver</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>TruckJSController</servlet-name>
-        <url-pattern>/TruckJSController</url-pattern>
+        <servlet-name>OrderController</servlet-name>
+        <url-pattern>/Order</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
