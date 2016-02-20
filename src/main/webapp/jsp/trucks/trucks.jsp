@@ -3,7 +3,7 @@
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<title>Orders Page</title>
+<title>Trucks Page</title>
 <link rel="stylesheet" href="/css/bootstrap/flatly.css">
 <link rel="stylesheet" href="/css/logiweb.css">
 <body>
@@ -71,5 +71,6 @@
         <% }} %>
     </table>
 </div>
+<jsp:include page="/footer.jspf"/>
 </body>
 </html>

@@ -85,5 +85,6 @@
         <input type="hidden" name="id" value="<%=driver.getId()%>">
     </form>
 </div>
+<jsp:include page="/footer.jspf"/>
 </body>
 </html>

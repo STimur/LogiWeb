@@ -61,5 +61,6 @@
         <button type="submit" class="btn btn-success" name="action" value="create">Add Driver</button>
     </form>
 </div>
+<jsp:include page="/footer.jspf"/>
 </body>
 </html>

@@ -15,9 +15,11 @@
 <html>
 <head>
     <title>Orders Page</title>
-    <link rel="stylesheet" href="../../css/bootstrap/flatly.css">
+    <link rel="stylesheet" href="/css/bootstrap/flatly.css">
+    <link rel="stylesheet" href="/css/logiweb.css">
 </head>
 <body>
+<jsp:include page="/navbar.jspf"/>
 <div id="ordersTable" class="container">
     <%
         OrderService orderService = new OrderServiceImpl(new OrderDaoJpa(Order.class));
@@ -89,5 +91,6 @@
         </tbody>
     </table>
 </div>
+<jsp:include page="/footer.jspf"/>
 </body>
 </html>

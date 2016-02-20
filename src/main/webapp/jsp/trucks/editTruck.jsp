@@ -81,5 +81,6 @@
         <input type="hidden" name="id" value="<%=truck.getId()%>">
     </form>
 </div>
+<jsp:include page="/footer.jspf"/>
 </body>
 </html>

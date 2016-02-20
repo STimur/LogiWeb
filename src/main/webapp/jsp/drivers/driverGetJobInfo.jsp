@@ -32,5 +32,6 @@
         <button type="submit" class="btn btn-success" name="action" value="getJobInfo">Get Job Info</button>
     </form>
 </div>
+<jsp:include page="/footer.jspf"/>
 </body>
 </html>

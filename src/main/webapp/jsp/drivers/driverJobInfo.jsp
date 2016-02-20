@@ -61,5 +61,6 @@
     </ol>
     <% } %>
 </div>
+<jsp:include page="/footer.jspf"/>
 </body>
 </html>

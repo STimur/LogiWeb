@@ -14,5 +14,6 @@
     <p>Hello, <b><%=username%></b>! I know your password.</p>
     <p>It is: <b><%=password%></b></p>
 </div>
+<jsp:include page="/footer.jspf"/>
 </body>
 </html>
