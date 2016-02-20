@@ -15,7 +15,7 @@
 <html>
 <head>
     <title>Orders Page</title>
-    <link rel="stylesheet" href="css/bootstrap/flatly.css">
+    <link rel="stylesheet" href="../../css/bootstrap/flatly.css">
 </head>
 <body>
 <div id="ordersTable" class="container">
@@ -35,7 +35,7 @@
     <h2>Orders Table</h2>
     <p>Current orders:</p>
     <div class="text-right">
-        <a href="/addOrder.jsp" class="btn btn-primary">New Order</a>
+        <a href="/jsp/orders/addOrder.jsp" class="btn btn-primary">New Order</a>
     </div>
     <table class="table table-bordered table-striped table-hover">
         <thead>
@@ -78,7 +78,7 @@
                 </ol>
             </td>
             <td>
-                <form class="form-inline" method="post" action="/orders.jsp">
+                <form class="form-inline" method="post" action="/jsp/orders/orders.jsp">
                     <button type="submit" class="btn btn-primary btn-danger" name="action" value="deleteOrder">Remove
                     </button>
                     <input type="hidden" name="id" value="<%=order.getId()%>"/>

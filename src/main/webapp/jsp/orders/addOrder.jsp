@@ -22,7 +22,7 @@
 <html>
 <head>
     <title>Add Order Page</title>
-    <link rel="stylesheet" href="css/bootstrap/flatly.css">
+    <link rel="stylesheet" href="/css/bootstrap/flatly.css">
 </head>
 <body>
 <div id="addOrderContainer" class="container">
@@ -62,7 +62,7 @@
         }
     %>
     <h2>Add Order Page</h2>
-    <form class="form-inline" method="post" action="/addOrder.jsp">
+    <form class="form-inline" method="post" action="/jsp/orders/addOrder.jsp">
         <div class="form-group">
             <label class="sr-only" for="pointCity">Choose city</label>
             <select class="form-control" id="pointCity" name="pointCity">
@@ -148,13 +148,13 @@
     %>
     <h1>NOOOOOOO!!!!!</h1>
     <% } %>
-    <form class="form-inline <%=getTrucksVisibility()%>" method="post" action="/addOrder.jsp">
+    <form class="form-inline <%=getTrucksVisibility()%>" method="post" action="/jsp/orders/addOrder.jsp">
         <button type="submit" class="btn btn-primary" name="action" value="getTrucks">Get Available Trucks</button>
     </form>
 
     <% if (trucks != null) { %>
     <h2>Assign Truck:</h2>
-    <form class="form-inline" method="post" action="/addOrder.jsp">
+    <form class="form-inline" method="post" action="/jsp/orders/addOrder.jsp">
         <div class="form-group">
             <label class="sr-only" for="truckForOrder">Choose city</label>
             <select class="form-control" id="truckForOrder" name="truckForOrder">
@@ -170,7 +170,7 @@
     <% } %>
     <% if (isTruckAssigned()) { %>
     <h2>Assign <%=order.getAssignedTruck().getShiftSize()%> Drivers:</h2>
-    <form class="form-inline" method="post" action="/addOrder.jsp">
+    <form class="form-inline" method="post" action="/jsp/orders/addOrder.jsp">
         <div class="form-group">
             <label class="sr-only" for="driverForOrder">Choose city</label>
             <select class="form-control" id="driverForOrder" name="driverForOrder">
@@ -187,7 +187,7 @@
     </form>
     <% } %>
     <% if (isShiftFormed()) { %>
-    <form class="form-inline" method="post" action="/addOrder.jsp">
+    <form class="form-inline" method="post" action="/jsp/orders/addOrder.jsp">
         <button type="submit" class="btn btn-primary btn-success" name="action" value="createOrder">Create Order</button>
     </form>
     <% } %>

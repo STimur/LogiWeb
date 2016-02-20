@@ -39,7 +39,7 @@ public class TruckController extends HttpServlet {
         TruckService truckService = new TruckServiceImpl(new TruckDaoJpa(Truck.class));
         List<Truck> trucks = truckService.findAll();
         request.setAttribute("trucks", trucks);
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/trucks.jsp");
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/trucks/trucks.jsp");
         rd.forward(request, response);
     }
 
@@ -68,7 +68,7 @@ public class TruckController extends HttpServlet {
                     id = parseTruckId(request);
                     Truck truckToEdit = truckService.findById(id);
                     request.setAttribute("truckToEdit", truckToEdit);
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/editTruck.jsp");
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/trucks/editTruck.jsp");
                     rd.forward(request, response);
                     break;
                 case "update":
@@ -82,7 +82,7 @@ public class TruckController extends HttpServlet {
 
         List<Truck> trucks = truckService.findAll();
         request.setAttribute("trucks", trucks);
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/trucks.jsp");
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/trucks/trucks.jsp");
         rd.forward(request, response);
     }
 

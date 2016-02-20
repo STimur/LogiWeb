@@ -12,6 +12,12 @@
     </servlet>
 
     <servlet>
+        <servlet-name>DriverController</servlet-name>
+        <display-name>Driver</display-name>
+        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.DriverController</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>TruckJSController</servlet-name>
         <display-name>TruckJS</display-name>
         <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.TruckJSController</servlet-class>
@@ -30,6 +36,11 @@
     <servlet-mapping>
         <servlet-name>TruckController</servlet-name>
         <url-pattern>/Truck</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>DriverController</servlet-name>
+        <url-pattern>/Driver</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

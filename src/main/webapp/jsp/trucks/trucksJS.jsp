@@ -11,22 +11,22 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Setup and Load Data to jTable using Servlets and JSP</title>
     <!-- Include one of jTable styles. -->
-    <link href="css/metro/crimson/jtable.css" rel="stylesheet" type="text/css" />
-    <link href="css/metro/crimson/myAdditions.css" rel="stylesheet" type="text/css" />
-    <link href="css/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css" />
+    <link href="/css/metro/crimson/jtable.css" rel="stylesheet" type="text/css" />
+    <link href="/css/metro/crimson/myAdditions.css" rel="stylesheet" type="text/css" />
+    <link href="/css/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css" />
     <!-- Include jTable script file. -->
-    <script src="js/jquery-1.8.2.js" type="text/javascript"></script>
-    <script src="js/jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
-    <script src="js/jquery.jtable.js" type="text/javascript"></script>
+    <script src="/js/jquery-1.8.2.js" type="text/javascript"></script>
+    <script src="/js/jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+    <script src="/js/jquery.jtable.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#TrucksTableContainer').jtable({
                 title: 'Table of trucks',
                 actions: {
-                    listAction: 'TruckJSController?action=list',
-                    createAction:'TruckJSController?action=create',
-                    updateAction: 'TruckJSController?action=update',
-                    deleteAction: 'TruckJSController?action=delete'
+                    listAction: '/TruckJSController?action=list',
+                    createAction:'/TruckJSController?action=create',
+                    updateAction: '/TruckJSController?action=update',
+                    deleteAction: '/TruckJSController?action=delete'
                 },
                 fields: {
                     id: {

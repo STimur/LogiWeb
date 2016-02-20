@@ -30,6 +30,15 @@ public class Driver {
     public Driver() {
     }
 
+    public Driver(String name, String surname, int hoursWorkedThisMonth,
+                  DriverState state, City currentCity) {
+        this.name = name;
+        this.surname = surname;
+        this.hoursWorkedThisMonth = hoursWorkedThisMonth;
+        this.state = state;
+        this.currentCity = currentCity;
+    }
+
     public Driver(int id, String name, String surname, int hoursWorkedThisMonth,
                   DriverState state, City currentCity, Truck currentTruck, Order order) {
         this.id = id;
