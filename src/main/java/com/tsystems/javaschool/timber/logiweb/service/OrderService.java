@@ -16,4 +16,6 @@ public interface OrderService {
     void delete(int id);
 
     void create(Order order) throws UnloadNotLoadedCargoException, NotAllCargosUnloadedException, DoubleLoadCargoException;
+
+    boolean validate(Order order) throws DoubleLoadCargoException, UnloadNotLoadedCargoException, NotAllCargosUnloadedException;
 }

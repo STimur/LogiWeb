@@ -68,7 +68,8 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    private void validate(Order order) throws DoubleLoadCargoException, UnloadNotLoadedCargoException, NotAllCargosUnloadedException {
+    @Override
+    public boolean validate(Order order) throws DoubleLoadCargoException, UnloadNotLoadedCargoException, NotAllCargosUnloadedException {
         Set<Cargo> cargoValidationSet = new HashSet<Cargo>();
         RoutePoint currentRoutePoint = order.getRoute();
         boolean result;
@@ -88,5 +89,6 @@ public class OrderServiceImpl implements OrderService {
         }
         if (!cargoValidationSet.isEmpty())
             throw new NotAllCargosUnloadedException();
+        return true;
     }
 }

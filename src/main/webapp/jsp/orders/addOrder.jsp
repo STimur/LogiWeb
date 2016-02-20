@@ -23,46 +23,34 @@
 <head>
     <title>Add Order Page</title>
     <link rel="stylesheet" href="/css/bootstrap/flatly.css">
+    <link rel="stylesheet" href="/css/logiweb.css">
 </head>
 <body>
-<div id="addOrderContainer" class="container">
-    <%!
-        static CityService cityService = new CityServiceImpl(new CityDaoJpa(City.class));
-        static TruckService truckService = new TruckServiceImpl(new TruckDaoJpa(Truck.class));
-        static DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
-        static OrderService orderService = new OrderServiceImpl(new OrderDaoJpa(Order.class));
-        static List<RoutePoint> route = new ArrayList<RoutePoint>();
-        static List<City> cities = cityService.findAll();
-        List<Truck> trucks;
-        List<Driver> drivers;
-        Order order;
+<jsp:include page="/navbar.jspf"/>
+<div class="container">
+    <%
+        List<City> cities = (List<City>) request.getAttribute("cities");
+        List<RoutePoint> route = (List<RoutePoint>) request.getAttribute("route");
+        List<Truck> trucks = (List<Truck>) request.getAttribute("trucks");
+        List<Driver> drivers = (List<Driver>) request.getAttribute("drivers");
+        Order order = (Order) request.getAttribute("order");
 
-        String getTrucksVisibility() {
-            // TODO implement check of all BL here
-            // absolutely must have even number of points
-            int numOfPoints = route.size();
-            if (numOfPoints > 0 && numOfPoints % 2 == 0)
-                return "";
-            return "invisible";
-        }
+        boolean isTruckAssigned = false;
+        boolean isValidRoute = Boolean.valueOf((String)request.getAttribute("isValidRoute"));
+        String getTrucksButtonVisisbility = isValidRoute ? "" : "invisible";
+        boolean isShiftFormed = false;
 
-        boolean isTruckAssigned() {
-            if (order != null)
-                if (order.getAssignedTruck() != null)
-                    return true;
-            return false;
-        }
-
-        boolean isShiftFormed() {
-            if (order != null && order.getAssignedTruck() != null)
+        if (order != null) {
+            if (order.getAssignedTruck() != null)
+                isTruckAssigned = true;
+            if (isTruckAssigned)
                 if (order.getAssignedDrivers() != null)
                     if (order.getAssignedDrivers().size() == order.getAssignedTruck().getShiftSize())
-                        return true;
-            return false;
+                        isShiftFormed = true;
         }
     %>
     <h2>Add Order Page</h2>
-    <form class="form-inline" method="post" action="/jsp/orders/addOrder.jsp">
+    <form class="form-inline" method="post" action="/Order">
         <div class="form-group">
             <label class="sr-only" for="pointCity">Choose city</label>
             <select class="form-control" id="pointCity" name="pointCity">
@@ -91,73 +79,21 @@
         </div>
         <button type="submit" class="btn btn-primary" name="action" value="addPoint">Add</button>
     </form>
-    <%
-        // only one action can be GET/POST at a time
-        // so better to handle them in one place
-        String action = request.getParameter("action");
-        if (action != null) {
-            if (action.equals("addPoint")) {
-                String name = request.getParameter("cargoName");
-                int weight = Integer.valueOf(request.getParameter("cargoWeight"));
-                Cargo cargo = new Cargo(name, weight);
-                int cityId = Integer.valueOf(request.getParameter("pointCity"));
-                RoutePointType pointType = RoutePointType.valueOf(request.getParameter("pointType"));
-                City city = cityService.findById(cityId);
-                RoutePoint point = new RoutePoint(city, cargo, pointType);
-                if (route.size() > 0)
-                    route.get(route.size() - 1).setNextRoutePoint(point);
-                route.add(point);
-                //a stub to to test persist to DB
-                RoutePoint unloadPoint = new RoutePoint(city, cargo, RoutePointType.UNLOAD);
-                if (route.size() > 0)
-                    route.get(route.size() - 1).setNextRoutePoint(unloadPoint);
-                route.add(unloadPoint);
-                //end of stub
-            }
-            if (action.equals("getTrucks")) {
-                order = new Order();
-                order.setRoute(route.get(0));
-                trucks = truckService.getSuitableTrucksForOrder(order);
-            }
-            if (action.equals("assignTruck")) {
-                int truckId = Integer.valueOf(request.getParameter("truckForOrder"));
-                Truck truck = truckService.findById(truckId);
-                order.setAssignedTruck(truck);
-                drivers = driverService.getSuitableDriversForOrder(order);
-            }
-            if (action.equals("assignDriver")) {
-                String[] params = request.getParameter("driverForOrder").split(" ");
-                int driverId = Integer.valueOf(params[0]);
-                int driverIndex = Integer.valueOf(params[1]);
-                Driver driver = driverService.findById(driverId);
-                if (order.getAssignedDrivers() == null)
-                    order.setAssignedDrivers(new ArrayList<Driver>());
-                order.getAssignedDrivers().add(driver);
-                driver.setOrder(order);
-                driver.setCurrentTruck(order.getAssignedTruck());
-                drivers.remove(driverIndex);
-            }
-            if (action.equals("createOrder")) {
-                //TODO debug creation of all involved entities into DB
-                orderService.create(order); %>
-                <c:redirect url="orders.jsp" />
-            <% } %>
+    <% if (route != null) { %>
     <h1>OOOHHH YEAAA!!! We have <%= route.size()%> points alrdy!</h1>
-    <% } else {
-        route.clear();
-    %>
-    <h1>NOOOOOOO!!!!!</h1>
+    <% } else { %>
+    <h1>NO route!!!!!</h1>
     <% } %>
-    <form class="form-inline <%=getTrucksVisibility()%>" method="post" action="/jsp/orders/addOrder.jsp">
+    <form class="form-inline <%=getTrucksButtonVisisbility%>" method="post" action="/Order">
         <button type="submit" class="btn btn-primary" name="action" value="getTrucks">Get Available Trucks</button>
     </form>
 
     <% if (trucks != null) { %>
     <h2>Assign Truck:</h2>
-    <form class="form-inline" method="post" action="/jsp/orders/addOrder.jsp">
+    <form class="form-inline" method="post" action="/Order">
         <div class="form-group">
-            <label class="sr-only" for="truckForOrder">Choose city</label>
-            <select class="form-control" id="truckForOrder" name="truckForOrder">
+            <label class="sr-only" for="truckToAssign">Choose city</label>
+            <select class="form-control" id="truckToAssign" name="truckToAssign">
                 <% for (Truck truck : trucks) { %>
                 <option value="<%= truck.getId()%>">
                     <%= truck.getRegNumber() %>
@@ -168,12 +104,12 @@
         <button type="submit" class="btn btn-primary" name="action" value="assignTruck">Assign</button>
     </form>
     <% } %>
-    <% if (isTruckAssigned()) { %>
+    <% if (isTruckAssigned) { %>
     <h2>Assign <%=order.getAssignedTruck().getShiftSize()%> Drivers:</h2>
-    <form class="form-inline" method="post" action="/jsp/orders/addOrder.jsp">
+    <form class="form-inline" method="post" action="/Order">
         <div class="form-group">
-            <label class="sr-only" for="driverForOrder">Choose city</label>
-            <select class="form-control" id="driverForOrder" name="driverForOrder">
+            <label class="sr-only" for="driverToAssign">Choose city</label>
+            <select class="form-control" id="driverToAssign" name="driverToAssign">
                 <%
                     int size = drivers.size();
                     for (int i = 0; i < size; i++) { %>
@@ -186,9 +122,10 @@
         <button type="submit" class="btn btn-primary" name="action" value="assignDriver">Assign</button>
     </form>
     <% } %>
-    <% if (isShiftFormed()) { %>
-    <form class="form-inline" method="post" action="/jsp/orders/addOrder.jsp">
-        <button type="submit" class="btn btn-primary btn-success" name="action" value="createOrder">Create Order</button>
+    <% if (isShiftFormed) { %>
+    <form class="form-inline" method="post" action="/Order">
+        <button type="submit" class="btn btn-primary btn-success" name="action" value="create">Create Order
+        </button>
     </form>
     <% } %>
 

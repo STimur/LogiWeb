@@ -37,7 +37,9 @@
     <h2>Orders Table</h2>
     <p>Current orders:</p>
     <div class="text-right">
-        <a href="/jsp/orders/addOrder.jsp" class="btn btn-primary">New Order</a>
+        <form method="post" action="/Order">
+            <button type="submit" class="btn btn-primary" name="action" value="add">New Order</button>
+        </form>
     </div>
     <table class="table table-bordered table-striped table-hover">
         <thead>

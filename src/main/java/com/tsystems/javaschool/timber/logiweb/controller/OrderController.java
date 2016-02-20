@@ -3,19 +3,19 @@ package com.tsystems.javaschool.timber.logiweb.controller;
 import com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.dao.jpa.DriverDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.dao.jpa.OrderDaoJpa;
-import com.tsystems.javaschool.timber.logiweb.entity.City;
-import com.tsystems.javaschool.timber.logiweb.entity.Driver;
-import com.tsystems.javaschool.timber.logiweb.entity.DriverState;
-import com.tsystems.javaschool.timber.logiweb.entity.Order;
+import com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa;
+import com.tsystems.javaschool.timber.logiweb.entity.*;
 import com.tsystems.javaschool.timber.logiweb.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.exceptions.NotAllCargosUnloadedException;
 import com.tsystems.javaschool.timber.logiweb.exceptions.UnloadNotLoadedCargoException;
 import com.tsystems.javaschool.timber.logiweb.service.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.DriverService;
 import com.tsystems.javaschool.timber.logiweb.service.OrderService;
+import com.tsystems.javaschool.timber.logiweb.service.TruckService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl;
+import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,17 @@ import java.util.List;
  */
 public class OrderController extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
+    private CityService cityService = new CityServiceImpl(new CityDaoJpa(City.class));
+    private TruckService truckService = new TruckServiceImpl(new TruckDaoJpa(Truck.class));
+    private DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
+
+    private List<RoutePoint> route = new ArrayList<RoutePoint>();
+    private Order orderToCreate = new Order();
+    private List<Truck> suitableTrucks = new ArrayList<Truck>();
+    private List<Driver> suitableDrivers = new ArrayList<Driver>();
+    private List<City> cities = cityService.findAll();
+    private Truck truckToAssign;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -75,10 +87,93 @@ public class OrderController extends HttpServlet {
 
         if (action != null) {
             switch (action) {
-                case "create":
-                    Order order = parseOrder(request);
+                case "list":
+                    break;
+                case "stateList": {
+                    List<Order> orders = orderService.findAll();
+                    request.setAttribute("orders", orders);
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/ordersState.jsp");
+                    rd.forward(request, response);
+                    break;
+                }
+                case "delete": {
+                    id = parseOrderId(request);
+                    orderService.delete(id);
+                    break;
+                }
+                case "add": {
+                    request.setAttribute("cities", cities);
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
+                    rd.forward(request, response);
+                    break;
+                }
+                case "addPoint": {
+                    RoutePoint routePoint = parseRoutePoint(request);
+                    Boolean isValidRoute = isValidRoute();
+                    request.setAttribute("route", route);
+                    request.setAttribute("cities", cities);
+                    request.setAttribute("isValidRoute", isValidRoute.toString());
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
+                    rd.forward(request, response);
+                    break;
+                }
+                case "getTrucks": {
+                    orderToCreate.setRoute(route.get(0));
+                    suitableTrucks = truckService.getSuitableTrucksForOrder(orderToCreate);
+                    request.setAttribute("route", route);
+                    request.setAttribute("cities", cities);
+                    Boolean isValidRoute = isValidRoute();
+                    request.setAttribute("isValidRoute", isValidRoute.toString());
+                    request.setAttribute("order", orderToCreate);
+                    request.setAttribute("trucks", suitableTrucks);
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
+                    rd.forward(request, response);
+                    break;
+                }
+                case "assignTruck": {
+                    int truckId = Integer.valueOf(request.getParameter("truckToAssign"));
+                    Truck truckToAssign = truckService.findById(truckId);
+                    orderToCreate.setAssignedTruck(truckToAssign);
+                    suitableDrivers = driverService.getSuitableDriversForOrder(orderToCreate);
+                    request.setAttribute("route", route);
+                    request.setAttribute("cities", cities);
+                    Boolean isValidRoute = isValidRoute();
+                    request.setAttribute("isValidRoute", isValidRoute.toString());
+                    request.setAttribute("order", orderToCreate);
+                    request.setAttribute("trucks", suitableTrucks);
+                    request.setAttribute("drivers", suitableDrivers);
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
+                    rd.forward(request, response);
+                    break;
+                }
+                case "assignDriver": {
+                    String[] params = request.getParameter("driverToAssign").split(" ");
+                    int driverId = Integer.valueOf(params[0]);
+                    int driverIndex = Integer.valueOf(params[1]);
+                    Driver driver = driverService.findById(driverId);
+                    if (orderToCreate.getAssignedDrivers() == null)
+                        orderToCreate.setAssignedDrivers(new ArrayList<Driver>());
+                    orderToCreate.getAssignedDrivers().add(driver);
+                    driver.setOrder(orderToCreate);
+                    driver.setCurrentTruck(orderToCreate.getAssignedTruck());
+                    // it' s better to reget from db cause another client
+                    // could have assigned these drivers
+                    suitableDrivers.remove(driverIndex);
+
+                    request.setAttribute("route", route);
+                    request.setAttribute("cities", cities);
+                    Boolean isValidRoute = isValidRoute();
+                    request.setAttribute("isValidRoute", isValidRoute.toString());
+                    request.setAttribute("order", orderToCreate);
+                    request.setAttribute("trucks", suitableTrucks);
+                    request.setAttribute("drivers", suitableDrivers);
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
+                    rd.forward(request, response);
+                    break;
+                }
+                case "create": {
                     try {
-                        orderService.create(order);
+                        orderService.create(orderToCreate);
                     } catch (UnloadNotLoadedCargoException e) {
                         e.printStackTrace();
                     } catch (NotAllCargosUnloadedException e) {
@@ -86,19 +181,13 @@ public class OrderController extends HttpServlet {
                     } catch (DoubleLoadCargoException e) {
                         e.printStackTrace();
                     }
-                    break;
-                case "list":
-                    break;
-                case "stateList":
-                    List<Order> orders = orderService.findAll();
-                    request.setAttribute("orders", orders);
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/ordersState.jsp");
-                    rd.forward(request, response);
-                    break;
-                case "delete":
-                    id = parseOrderId(request);
-                    orderService.delete(id);
-                    break;
+                    route.clear();
+                    orderToCreate = new Order();
+                    truckToAssign = new Truck();
+                    suitableDrivers.clear();
+                    response.sendRedirect("/Order?action=list");
+                    return;
+                }
             }
         }
 
@@ -106,6 +195,25 @@ public class OrderController extends HttpServlet {
         request.setAttribute("orders", orders);
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/orders.jsp");
         rd.forward(request, response);
+    }
+
+    private RoutePoint parseRoutePoint(HttpServletRequest request) {
+        String name = request.getParameter("cargoName");
+        int weight = Integer.valueOf(request.getParameter("cargoWeight"));
+        Cargo cargo = new Cargo(name, weight);
+        int cityId = Integer.valueOf(request.getParameter("pointCity"));
+        RoutePointType pointType = RoutePointType.valueOf(request.getParameter("pointType"));
+        City city = cityService.findById(cityId);
+        RoutePoint routePoint = new RoutePoint(city, cargo, pointType);
+        if (route.size() > 0)
+            route.get(route.size() - 1).setNextRoutePoint(routePoint);
+        route.add(routePoint);
+        //a stub to to test persist to DB
+        RoutePoint unloadPoint = new RoutePoint(city, cargo, RoutePointType.UNLOAD);
+        if (route.size() > 0)
+            route.get(route.size() - 1).setNextRoutePoint(unloadPoint);
+        route.add(unloadPoint);
+        return routePoint;
     }
 
     private int parseOrderId(HttpServletRequest request) {
@@ -126,4 +234,12 @@ public class OrderController extends HttpServlet {
         return order;
     }
 
+    boolean isValidRoute() {
+        // TODO implement check of all BL here
+        // absolutely must have even number of points
+        int numOfPoints = route.size();
+        if (numOfPoints > 0 && numOfPoints % 2 == 0)
+            return true;
+        return false;
+    }
 }

@@ -22,10 +22,10 @@
 <body>
 <jsp:include page="/navbar.jspf"/>
 <div class="container col-md-2 col-md-offset-5">
-    <h2>Add Truck</h2>
+    <h2>Enter driver personal number</h2>
     <form method="post" action="/Driver">
         <fieldset class="form-group">
-            <label for="id">Truck registration number</label>
+            <label for="id">Personal number</label>
             <input type="text" class="form-control" id="id" name="id"
                    placeholder="Enter driver personal number">
         </fieldset>
