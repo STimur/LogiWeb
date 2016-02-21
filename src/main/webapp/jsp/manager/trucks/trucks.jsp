@@ -15,7 +15,7 @@
     <% } else { %>
     <h2>Trucks</h2>
     <div class="text-right">
-        <a href="/jsp/trucks/addTruck.jsp" class="btn btn-primary btn-success">Add Truck</a>
+        <a href="/jsp/manager/trucks/addTruck.jsp" class="btn btn-primary btn-success">Add Truck</a>
     </div>
     <table class="table table-bordered table-striped table-hover">
         <tr>

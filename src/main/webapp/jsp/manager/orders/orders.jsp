@@ -82,7 +82,7 @@
                 </ol>
             </td>
             <td>
-                <form class="form-inline" method="post" action="/jsp/orders/orders.jsp">
+                <form class="form-inline" method="post" action="/Order">
                     <button type="submit" class="btn btn-primary btn-danger" name="action" value="deleteOrder">Remove
                     </button>
                     <input type="hidden" name="id" value="<%=order.getId()%>"/>

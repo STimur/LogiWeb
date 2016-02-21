@@ -16,7 +16,7 @@
     <% } else { %>
     <h2>Drivers</h2>
     <div class="text-right">
-        <a href="/jsp/drivers/addDriver.jsp" class="btn btn-primary btn-success">Add Driver</a>
+        <a href="/jsp/manager/drivers/addDriver.jsp" class="btn btn-primary btn-success">Add Driver</a>
     </div>
     <table class="table table-bordered table-striped table-hover">
         <tr>

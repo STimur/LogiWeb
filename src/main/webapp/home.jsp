@@ -8,11 +8,14 @@
 <div class="container">
     <h2>Home Page</h2>
     <%
-        String username = (String) session.getAttribute("username");
-        String password = (String) session.getAttribute("password");
+        String username = (String) request.getUserPrincipal().getName();
+        String userrole = "";
+        if (request.isUserInRole("manager"))
+            userrole = "manager";
+        else
+            userrole = "driver";
     %>
-    <p>Hello, <b><%=username%></b>! I know your password.</p>
-    <p>It is: <b><%=password%></b></p>
+    <p>Hello, <span class="text-info"><%=userrole%></span> <b><%=username%></b>!
 </div>
 <jsp:include page="/footer.jspf"/>
 </body>

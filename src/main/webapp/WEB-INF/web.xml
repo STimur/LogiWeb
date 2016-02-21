@@ -84,7 +84,7 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>home.jsp</welcome-file>
     </welcome-file-list>
 
     <error-page>
@@ -119,18 +119,10 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>DriverJobInfoPage</web-resource-name>
-            <url-pattern>/Driver</url-pattern>
-            <http-method>POST</http-method>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>driver</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
             <web-resource-name>Logout</web-resource-name>
             <url-pattern>/Logout</url-pattern>
+            <url-pattern>/home.jsp</url-pattern>
+            <url-pattern>/Driver</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>driver</role-name>
@@ -145,8 +137,9 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         <web-resource-collection>
             <web-resource-name>Exclude from Security</web-resource-name>
             <url-pattern>/images/*</url-pattern><!-- No security for images -->
-            <url-pattern>/js/*</url-pattern><!-- No security for css -->
-            <url-pattern>/</url-pattern>
+            <url-pattern>/css/*</url-pattern><!-- No security for css -->
+            <url-pattern>/js/*</url-pattern><!-- No security for js -->
+            <url-pattern>/</url-pattern><!-- No security for root folder -->
         </web-resource-collection>
     </security-constraint>
 
