@@ -108,14 +108,9 @@ public class OrderController extends HttpServlet {
                     //-----------
                     // for easy debug as this vars stay in memory
                     // because we have one servlet for all clients
-                    route.clear();
-                    orderToCreate = new Order();
-                    orderToCreate.setAssignedDrivers(new ArrayList<Driver>());
-                    truckToAssign = new Truck();
-                    suitableDrivers.clear();
-                    loadedCargos.clear();
+                    clearAttributes();
                     //-----------
-                    request.setAttribute("cities", cities);
+                    setAddOrderRequestAttributes(request);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
@@ -126,11 +121,7 @@ public class OrderController extends HttpServlet {
                         route.get(route.size() - 1).setNextRoutePoint(routePoint);
                     route.add(routePoint);
                     loadedCargos.add(routePoint.getCargo());
-                    Boolean isValidRoute = isValidRoute();
-                    request.setAttribute("route", route);
-                    request.setAttribute("cities", cities);
-                    request.setAttribute("isValidRoute", isValidRoute.toString());
-                    request.setAttribute("loadedCargos", loadedCargos);
+                    setAddOrderRequestAttributes(request);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
@@ -141,11 +132,7 @@ public class OrderController extends HttpServlet {
                         route.get(route.size() - 1).setNextRoutePoint(routePoint);
                     route.add(routePoint);
                     loadedCargos.remove(routePoint.getCargo());
-                    Boolean isValidRoute = isValidRoute();
-                    request.setAttribute("route", route);
-                    request.setAttribute("cities", cities);
-                    request.setAttribute("isValidRoute", isValidRoute.toString());
-                    request.setAttribute("loadedCargos", loadedCargos);
+                    setAddOrderRequestAttributes(request);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
@@ -153,13 +140,7 @@ public class OrderController extends HttpServlet {
                 case "getTrucks": {
                     orderToCreate.setRoute(route.get(0));
                     suitableTrucks = truckService.getSuitableTrucksForOrder(orderToCreate);
-                    request.setAttribute("route", route);
-                    request.setAttribute("cities", cities);
-                    Boolean isValidRoute = isValidRoute();
-                    request.setAttribute("isValidRoute", isValidRoute.toString());
-                    request.setAttribute("order", orderToCreate);
-                    request.setAttribute("loadedCargos", loadedCargos);
-                    request.setAttribute("trucks", suitableTrucks);
+                    setAddOrderRequestAttributes(request);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
@@ -169,14 +150,7 @@ public class OrderController extends HttpServlet {
                     Truck truckToAssign = truckService.findById(truckId);
                     orderToCreate.setAssignedTruck(truckToAssign);
                     suitableDrivers = driverService.getSuitableDriversForOrder(orderToCreate);
-                    request.setAttribute("route", route);
-                    request.setAttribute("cities", cities);
-                    Boolean isValidRoute = isValidRoute();
-                    request.setAttribute("isValidRoute", isValidRoute.toString());
-                    request.setAttribute("order", orderToCreate);
-                    request.setAttribute("loadedCargos", loadedCargos);
-                    request.setAttribute("trucks", suitableTrucks);
-                    request.setAttribute("drivers", suitableDrivers);
+                    setAddOrderRequestAttributes(request);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
@@ -194,15 +168,7 @@ public class OrderController extends HttpServlet {
                     // it' s better to reget from db cause another client
                     // could have assigned these drivers
                     suitableDrivers.remove(driverIndex);
-
-                    request.setAttribute("route", route);
-                    request.setAttribute("cities", cities);
-                    Boolean isValidRoute = isValidRoute();
-                    request.setAttribute("isValidRoute", isValidRoute.toString());
-                    request.setAttribute("order", orderToCreate);
-                    request.setAttribute("loadedCargos", loadedCargos);
-                    request.setAttribute("trucks", suitableTrucks);
-                    request.setAttribute("drivers", suitableDrivers);
+                    setAddOrderRequestAttributes(request);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
@@ -217,10 +183,7 @@ public class OrderController extends HttpServlet {
                     } catch (DoubleLoadCargoException e) {
                         e.printStackTrace();
                     }
-                    route.clear();
-                    orderToCreate = new Order();
-                    truckToAssign = new Truck();
-                    suitableDrivers.clear();
+                    clearAttributes();
                     response.sendRedirect("/Order?action=list");
                     return;
                 }
@@ -231,6 +194,27 @@ public class OrderController extends HttpServlet {
         request.setAttribute("orders", orders);
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/orders.jsp");
         rd.forward(request, response);
+    }
+
+    private void clearAttributes() {
+        route.clear();
+        orderToCreate = new Order();
+        orderToCreate.setAssignedDrivers(new ArrayList<Driver>());
+        truckToAssign = new Truck();
+        suitableDrivers.clear();
+        suitableTrucks.clear();
+        loadedCargos.clear();
+    }
+
+    private void setAddOrderRequestAttributes(HttpServletRequest request) {
+        request.setAttribute("route", route);
+        request.setAttribute("cities", cities);
+        Boolean isValidRoute = isValidRoute();
+        request.setAttribute("isValidRoute", isValidRoute.toString());
+        request.setAttribute("order", orderToCreate);
+        request.setAttribute("loadedCargos", loadedCargos);
+        request.setAttribute("trucks", suitableTrucks);
+        request.setAttribute("drivers", suitableDrivers);
     }
 
     private RoutePoint parseRoutePoint(HttpServletRequest request) {
@@ -276,9 +260,17 @@ public class OrderController extends HttpServlet {
     boolean isValidRoute() {
         // TODO implement check of all BL here
         // absolutely must have even number of points
-        int numOfPoints = route.size();
-        if (numOfPoints > 0 && numOfPoints % 2 == 0)
-            return true;
+        int numOfRoutePoints = route.size();
+        if (numOfRoutePoints > 0 && numOfRoutePoints % 2 == 0) {
+            int numOfLoadPoints = 0;
+            for (RoutePoint routePoint: route) {
+                if (routePoint.getType()==RoutePointType.LOAD)
+                    numOfLoadPoints++;
+            }
+            int numOfUnloadPoints =  numOfRoutePoints - numOfLoadPoints;
+            if (numOfLoadPoints == numOfUnloadPoints)
+                return true;
+        }
         return false;
     }
 }

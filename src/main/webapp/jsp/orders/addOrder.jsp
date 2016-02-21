@@ -132,7 +132,7 @@
         <button type="submit" class="btn btn-primary" name="action" value="getTrucks">Get Available Trucks</button>
     </form>
 
-    <% if (trucks != null) { %>
+    <% if (trucks != null && trucks.size() > 0) { %>
     <h2>Assign Truck:</h2>
     <form class="form-inline" method="post" action="/Order">
         <div class="form-group">
