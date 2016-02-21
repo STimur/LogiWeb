@@ -28,7 +28,7 @@ CREATE TABLE `Cargos` (
   `weight` int(11) DEFAULT NULL,
   `state` enum('READY','SHIPPED','DELIVERED') DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `Cargos` (
 
 LOCK TABLES `Cargos` WRITE;
 /*!40000 ALTER TABLE `Cargos` DISABLE KEYS */;
-INSERT INTO `Cargos` VALUES (1,'potato',10,'READY'),(2,'cheese',5,'READY'),(3,'stone',8,'READY'),(4,'milk',15,'READY'),(5,'toyota',4,'READY'),(6,'cats',1,'READY');
+INSERT INTO `Cargos` VALUES (1,'A',10,'READY'),(2,'cheese',5,'READY'),(3,'stone',8,'READY'),(4,'milk',15,'READY'),(5,'toyota',4,'READY'),(6,'cats',1,'READY');
 /*!40000 ALTER TABLE `Cargos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -52,7 +52,7 @@ CREATE TABLE `Cities` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,8 +61,36 @@ CREATE TABLE `Cities` (
 
 LOCK TABLES `Cities` WRITE;
 /*!40000 ALTER TABLE `Cities` DISABLE KEYS */;
-INSERT INTO `Cities` VALUES (1,'Moscow'),(2,'SPb'),(3,'Sochi'),(4,'Rostov'),(5,'Volgograd'),(6,'Tallinn'),(13,'Riga'),(14,'Minsk'),(15,'Warszawa'),(16,'Praha'),(17,'Berlin'),(18,'Frankfurt');
+INSERT INTO `Cities` VALUES (1,'Saint Petersburg'),(2,'Frankfurt'),(3,'London'),(4,'Milan'),(5,'Volgograd');
 /*!40000 ALTER TABLE `Cities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Distances`
+--
+
+DROP TABLE IF EXISTS `Distances`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Distances` (
+  `fromCityId` int(11) NOT NULL,
+  `toCityId` int(11) NOT NULL,
+  `distance` int(11) NOT NULL,
+  PRIMARY KEY (`fromCityId`,`toCityId`),
+  KEY `FK_mapToCity_cities_idx` (`toCityId`),
+  CONSTRAINT `FK_distFromCity_cities` FOREIGN KEY (`fromCityId`) REFERENCES `cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_distToCity_cities` FOREIGN KEY (`toCityId`) REFERENCES `cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Distances`
+--
+
+LOCK TABLES `Distances` WRITE;
+/*!40000 ALTER TABLE `Distances` DISABLE KEYS */;
+INSERT INTO `Distances` VALUES (1,2,2179),(1,3,2727),(1,4,2736),(1,5,1681),(2,1,2179),(2,3,764),(2,4,662),(2,5,3096),(3,1,2727),(3,2,764),(3,4,1251),(3,5,3647),(4,1,2736),(4,2,662),(4,3,1251),(4,5,3262),(5,1,1681),(5,2,3096),(5,3,3647),(5,4,3262);
+/*!40000 ALTER TABLE `Distances` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -86,7 +114,7 @@ CREATE TABLE `Drivers` (
   KEY `FK_Drivers_Trucks_idx` (`currentTruckId`),
   CONSTRAINT `FK_Drivers_Cities` FOREIGN KEY (`currentCityId`) REFERENCES `Cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_Drivers_Trucks` FOREIGN KEY (`currentTruckId`) REFERENCES `Trucks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +123,7 @@ CREATE TABLE `Drivers` (
 
 LOCK TABLES `Drivers` WRITE;
 /*!40000 ALTER TABLE `Drivers` DISABLE KEYS */;
-INSERT INTO `Drivers` VALUES (5,'Will','Smith',11,'DRIVE',2,1,1),(7,'Angelina','Jolie',11,'DRIVE',2,1,1),(9,'Kirsten','Danst',11,'DRIVE',2,1,1),(11,'Mila','Kunis',11,'DRIVE',2,2,2),(13,'Halle','Berry',10,'DRIVE',2,2,2),(17,'Mike','Tomson',40,'DRIVE',1,NULL,NULL),(18,'Jim','Morisson',60,'DRIVE',1,NULL,NULL),(19,'Tom','Clancy',30,'DRIVE',1,NULL,NULL);
+INSERT INTO `Drivers` VALUES (5,'Will','Smith',11,'REST',3,NULL,NULL),(7,'Angelina','Jolie',11,'DRIVE',2,1,1),(9,'Kirsten','Danst',11,'DRIVE',2,1,1),(11,'Mila','Kunis',11,'DRIVE',2,2,2),(13,'Halle','Berry',10,'DRIVE',2,2,2),(17,'Mike','Tomson',40,'DRIVE',1,NULL,NULL),(18,'Jim','Morisson',60,'DRIVE',1,NULL,NULL),(19,'Tom','Clancy',30,'DRIVE',1,NULL,NULL),(27,'Misha','Popov',10,'DRIVE',1,NULL,NULL),(29,'Misha','Popov',70,'REST',3,NULL,NULL),(48,'Max','Ivanov',40,'REST',3,NULL,NULL),(49,'Dima','Petrov',60,'SHIFT',4,NULL,NULL),(50,'Max','Ivanov',100,'SHIFT',5,NULL,NULL);
 /*!40000 ALTER TABLE `Drivers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,7 +142,7 @@ CREATE TABLE `Orders` (
   PRIMARY KEY (`id`),
   KEY `FK_orders_trucks_idx` (`truckId`),
   CONSTRAINT `FK_orders_trucks` FOREIGN KEY (`truckId`) REFERENCES `Trucks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +169,7 @@ CREATE TABLE `RoutePoints` (
   `type` enum('LOAD','UNLOAD') DEFAULT NULL,
   `nextPointId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +178,7 @@ CREATE TABLE `RoutePoints` (
 
 LOCK TABLES `RoutePoints` WRITE;
 /*!40000 ALTER TABLE `RoutePoints` DISABLE KEYS */;
-INSERT INTO `RoutePoints` VALUES (1,2,1,'LOAD',2),(2,6,2,'LOAD',3),(3,13,3,'LOAD',4),(4,14,4,'LOAD',5),(5,15,1,'UNLOAD',6),(6,16,2,'UNLOAD',7),(7,17,3,'UNLOAD',8),(8,18,4,'UNLOAD',NULL),(9,2,6,'LOAD',10),(10,1,6,'UNLOAD',11),(11,1,5,'LOAD',12),(12,2,5,'UNLOAD',NULL);
+INSERT INTO `RoutePoints` VALUES (1,1,1,'LOAD',2),(2,2,2,'LOAD',3),(3,3,3,'LOAD',4),(4,4,4,'LOAD',5),(5,5,1,'UNLOAD',6),(6,2,2,'UNLOAD',7),(7,3,3,'UNLOAD',8),(8,4,4,'UNLOAD',NULL),(9,2,6,'LOAD',10),(10,1,6,'UNLOAD',11),(11,1,5,'LOAD',12),(12,2,5,'UNLOAD',NULL);
 /*!40000 ALTER TABLE `RoutePoints` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,7 +202,7 @@ CREATE TABLE `Trucks` (
   KEY `FK_trucks_orders_idx` (`orderId`),
   CONSTRAINT `FK_trucks_cities` FOREIGN KEY (`currentCityId`) REFERENCES `Cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_trucks_orders` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -183,8 +211,82 @@ CREATE TABLE `Trucks` (
 
 LOCK TABLES `Trucks` WRITE;
 /*!40000 ALTER TABLE `Trucks` DISABLE KEYS */;
-INSERT INTO `Trucks` VALUES (1,'AA10223',4,20,'OK',2,1),(2,'BB10223',4,20,'OK',2,1),(3,'CC10223',4,20,'BROKEN',1,NULL),(4,'DD10223',4,20,'OK',4,NULL),(5,'EE10223',4,20,'BROKEN',5,NULL),(6,'GG10000',3,100,'OK',1,NULL),(44,'HG22000',2,20,'BROKEN',3,NULL),(55,'YU50023',2,40,'OK',18,NULL),(57,'YO25552',10,100,'OK',3,NULL),(58,'YO25552',10,100,'OK',17,NULL);
+INSERT INTO `Trucks` VALUES (1,'AA10223',4,20,'OK',2,1),(2,'BB10223',4,20,'OK',2,2),(3,'CC10223',4,20,'BROKEN',1,NULL),(4,'DD10223',4,20,'OK',4,NULL),(5,'EE10223',4,20,'BROKEN',5,NULL),(6,'GG10000',3,100,'OK',1,NULL),(44,'HG22000',2,20,'BROKEN',3,NULL),(55,'YU50023',2,40,'OK',3,NULL),(58,'TW25552',5,80,'BROKEN',3,NULL),(61,'CH35678',10,100,'OK',3,NULL);
 /*!40000 ALTER TABLE `Trucks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles` (
+  `rolename` varchar(20) NOT NULL,
+  PRIMARY KEY (`rolename`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles`
+--
+
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` VALUES ('driver'),('manager');
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `username` varchar(20) NOT NULL,
+  `password` varchar(20) NOT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES ('driver','driver'),('manager','manager');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users_roles`
+--
+
+DROP TABLE IF EXISTS `users_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users_roles` (
+  `username` varchar(20) NOT NULL,
+  `rolename` varchar(20) NOT NULL,
+  PRIMARY KEY (`username`,`rolename`),
+  KEY `users_roles_fk2` (`rolename`),
+  CONSTRAINT `users_roles_fk1` FOREIGN KEY (`username`) REFERENCES `users` (`username`),
+  CONSTRAINT `users_roles_fk2` FOREIGN KEY (`rolename`) REFERENCES `roles` (`rolename`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users_roles`
+--
+
+LOCK TABLES `users_roles` WRITE;
+/*!40000 ALTER TABLE `users_roles` DISABLE KEYS */;
+INSERT INTO `users_roles` VALUES ('driver','driver'),('manager','manager');
+/*!40000 ALTER TABLE `users_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -196,4 +298,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-02-19  4:14:11
+-- Dump completed on 2016-02-22  2:56:42

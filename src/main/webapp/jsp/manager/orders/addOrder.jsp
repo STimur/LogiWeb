@@ -77,7 +77,6 @@
             <label class="sr-only" for="pointType">Point type</label>
             <select class="form-control" id="pointType" name="pointType">
                 <option value="LOAD">Load</option>
-                <option value="UNLOAD">Unload</option>
             </select>
         </div>
         <button type="submit" class="btn btn-primary" name="action" value="addLoadPoint">Add</button>
@@ -85,7 +84,10 @@
     <% if (loadedCargos != null) { %>
     <form class="form-inline" method="post" action="/Order">
         <div class="form-group">
-            <label>Unload Cargo</label>
+            <select class="form-control">
+                <option>Unload</option>
+            </select>
+            <label>Cargo</label>
         </div>
         <div class="form-group">
             <select class="form-control" id="cargo" name="cargoToUnload">
