@@ -24,7 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Servlet implementation class Test
@@ -41,6 +43,7 @@ public class OrderController extends HttpServlet {
     private List<Truck> suitableTrucks = new ArrayList<Truck>();
     private List<Driver> suitableDrivers = new ArrayList<Driver>();
     private List<City> cities = cityService.findAll();
+    private List<Cargo> loadedCargos = new ArrayList<Cargo>();
     private Truck truckToAssign;
 
     /**
@@ -102,23 +105,47 @@ public class OrderController extends HttpServlet {
                     break;
                 }
                 case "add": {
+                    //-----------
                     // for easy debug as this vars stay in memory
                     // because we have one servlet for all clients
                     route.clear();
                     orderToCreate = new Order();
+                    orderToCreate.setAssignedDrivers(new ArrayList<Driver>());
                     truckToAssign = new Truck();
                     suitableDrivers.clear();
+                    loadedCargos.clear();
+                    //-----------
                     request.setAttribute("cities", cities);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
                 }
-                case "addPoint": {
+                case "addLoadPoint": {
                     RoutePoint routePoint = parseRoutePoint(request);
+                    if (route.size() > 0)
+                        route.get(route.size() - 1).setNextRoutePoint(routePoint);
+                    route.add(routePoint);
+                    loadedCargos.add(routePoint.getCargo());
                     Boolean isValidRoute = isValidRoute();
                     request.setAttribute("route", route);
                     request.setAttribute("cities", cities);
                     request.setAttribute("isValidRoute", isValidRoute.toString());
+                    request.setAttribute("loadedCargos", loadedCargos);
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
+                    rd.forward(request, response);
+                    break;
+                }
+                case "addUnloadPoint": {
+                    RoutePoint routePoint = parseUnloadRoutePoint(request);
+                    if (route.size() > 0)
+                        route.get(route.size() - 1).setNextRoutePoint(routePoint);
+                    route.add(routePoint);
+                    loadedCargos.remove(routePoint.getCargo());
+                    Boolean isValidRoute = isValidRoute();
+                    request.setAttribute("route", route);
+                    request.setAttribute("cities", cities);
+                    request.setAttribute("isValidRoute", isValidRoute.toString());
+                    request.setAttribute("loadedCargos", loadedCargos);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
@@ -131,6 +158,7 @@ public class OrderController extends HttpServlet {
                     Boolean isValidRoute = isValidRoute();
                     request.setAttribute("isValidRoute", isValidRoute.toString());
                     request.setAttribute("order", orderToCreate);
+                    request.setAttribute("loadedCargos", loadedCargos);
                     request.setAttribute("trucks", suitableTrucks);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
                     rd.forward(request, response);
@@ -146,6 +174,7 @@ public class OrderController extends HttpServlet {
                     Boolean isValidRoute = isValidRoute();
                     request.setAttribute("isValidRoute", isValidRoute.toString());
                     request.setAttribute("order", orderToCreate);
+                    request.setAttribute("loadedCargos", loadedCargos);
                     request.setAttribute("trucks", suitableTrucks);
                     request.setAttribute("drivers", suitableDrivers);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
@@ -171,6 +200,7 @@ public class OrderController extends HttpServlet {
                     Boolean isValidRoute = isValidRoute();
                     request.setAttribute("isValidRoute", isValidRoute.toString());
                     request.setAttribute("order", orderToCreate);
+                    request.setAttribute("loadedCargos", loadedCargos);
                     request.setAttribute("trucks", suitableTrucks);
                     request.setAttribute("drivers", suitableDrivers);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
@@ -211,14 +241,17 @@ public class OrderController extends HttpServlet {
         RoutePointType pointType = RoutePointType.valueOf(request.getParameter("pointType"));
         City city = cityService.findById(cityId);
         RoutePoint routePoint = new RoutePoint(city, cargo, pointType);
-        if (route.size() > 0)
-            route.get(route.size() - 1).setNextRoutePoint(routePoint);
-        route.add(routePoint);
-        //a stub to to test persist to DB
-        RoutePoint unloadPoint = new RoutePoint(city, cargo, RoutePointType.UNLOAD);
-        if (route.size() > 0)
-            route.get(route.size() - 1).setNextRoutePoint(unloadPoint);
-        route.add(unloadPoint);
+        return routePoint;
+    }
+
+    private RoutePoint parseUnloadRoutePoint(HttpServletRequest request) {
+        String[] params = request.getParameter("cargoToUnload").split(" ");
+        int cargoId = Integer.valueOf(params[0]);
+        int cargoIndex = Integer.valueOf(params[1]);
+        Cargo cargoToUnload = loadedCargos.get(cargoIndex);
+        int cityId = Integer.valueOf(request.getParameter("unloadPointCityId"));
+        City city = cityService.findById(cityId);
+        RoutePoint routePoint = new RoutePoint(city, cargoToUnload, RoutePointType.UNLOAD);
         return routePoint;
     }
 

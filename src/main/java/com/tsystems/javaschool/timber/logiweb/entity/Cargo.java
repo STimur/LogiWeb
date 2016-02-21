@@ -16,6 +16,10 @@ public class Cargo {
     public Cargo() {
     }
 
+    public Cargo(int id) {
+        this.id = id;
+    }
+
     public Cargo(String name, int weight) {
         this.name = name;
         this.weight = weight;
@@ -70,5 +74,10 @@ public class Cargo {
 
     public void setState(CargoState state) {
         this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return name + " with weight " + weight + " tonn(s)";
     }
 }

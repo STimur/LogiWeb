@@ -86,4 +86,12 @@ public class RoutePoint {
     public String toString() {
         return city + " " + type + " " + cargo.getName();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RoutePoint that = (RoutePoint) o;
+        return id == that.id;
+    }
 }

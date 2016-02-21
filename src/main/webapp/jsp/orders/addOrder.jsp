@@ -10,6 +10,8 @@
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.DriverService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.OrderService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.TruckService" %>
+<%@ page import="java.util.HashSet" %>
+<%@ page import="java.util.Set" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%--
   Created by IntelliJ IDEA.
@@ -33,10 +35,11 @@
         List<RoutePoint> route = (List<RoutePoint>) request.getAttribute("route");
         List<Truck> trucks = (List<Truck>) request.getAttribute("trucks");
         List<Driver> drivers = (List<Driver>) request.getAttribute("drivers");
+        List<Cargo> loadedCargos = (List<Cargo>) request.getAttribute("loadedCargos");
         Order order = (Order) request.getAttribute("order");
 
         boolean isTruckAssigned = false;
-        boolean isValidRoute = Boolean.valueOf((String)request.getAttribute("isValidRoute"));
+        boolean isValidRoute = Boolean.valueOf((String) request.getAttribute("isValidRoute"));
         String getTrucksButtonVisisbility = isValidRoute ? "" : "invisible";
         boolean isShiftFormed = false;
 
@@ -77,12 +80,53 @@
                 <option value="UNLOAD">Unload</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary" name="action" value="addPoint">Add</button>
+        <button type="submit" class="btn btn-primary" name="action" value="addLoadPoint">Add</button>
     </form>
-    <% if (route != null) { %>
-    <h1>OOOHHH YEAAA!!! We have <%= route.size()%> points alrdy!</h1>
+    <% if (loadedCargos != null) { %>
+    <form class="form-inline" method="post" action="/Order">
+        <div class="form-group">
+            <label>Unload Cargo</label>
+        </div>
+        <div class="form-group">
+            <select class="form-control" id="cargo" name="cargoToUnload">
+                <%
+                    int size = loadedCargos.size();
+                    Cargo loadedCargo;
+                    for (int i = 0; i < size; i++) {
+                        loadedCargo = loadedCargos.get(i);
+                %>
+                <option value="<%= loadedCargo.getId()%> <%=i%>">
+                    <%= loadedCargo.toString() %>
+                </option>
+                <% } %>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>in</label>
+        </div>
+        <div class="form-group">
+            <label class="sr-only" for="unloadPointCity">Choose city</label>
+            <select class="form-control" id="unloadPointCity" name="unloadPointCityId">
+                <% for (City city : cities) { %>
+                <option value="<%= city.getId()%>">
+                    <%= city.getName() %>
+                </option>
+                <% } %>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary" name="action" value="addUnloadPoint">Add</button>
+    </form>
+    <% }
+        if (route != null) { %>
+    <h1>Order route consists of <%= route.size()%> points:</h1>
+    <ul>
+        <% for (RoutePoint routePoint : route) { %>
+        <li><%=routePoint.toString()%>
+        </li>
+        <% } %>
+    </ul>
     <% } else { %>
-    <h1>NO route!!!!!</h1>
+    <h1 class="text-warning">No route points yet!</h1>
     <% } %>
     <form class="form-inline <%=getTrucksButtonVisisbility%>" method="post" action="/Order">
         <button type="submit" class="btn btn-primary" name="action" value="getTrucks">Get Available Trucks</button>
@@ -113,7 +157,7 @@
     <h2>Assign <%=order.getAssignedTruck().getShiftSize()%> Drivers:</h2>
     <form class="form-inline" method="post" action="/Order">
         <div class="form-group">
-            <label class="sr-only" for="driverToAssign">Choose city</label>
+            <label class="sr-only" for="driverToAssign">Choose driver(s)</label>
             <select class="form-control" id="driverToAssign" name="driverToAssign">
                 <%
                     int size = drivers.size();
@@ -126,7 +170,14 @@
         </div>
         <button type="submit" class="btn btn-primary" name="action" value="assignDriver">Assign</button>
     </form>
-    <% } %>
+    <% if (order.getAssignedDrivers().size() > 0) { %>
+    <h2>List of assigned drivers:</h2>
+    <ol>
+        <% for (Driver driver : order.getAssignedDrivers()) { %>
+        <li><%=driver.toString()%></li>
+        <% } %>
+    </ol>
+    <% }} %>
     <% if (isShiftFormed) { %>
     <form class="form-inline" method="post" action="/Order">
         <button type="submit" class="btn btn-primary btn-success" name="action" value="create">Create Order
