@@ -47,12 +47,12 @@ public class CargoController extends HttpServlet {
             switch (action) {
                 case "list":
                     request.setAttribute("cargos", cargos);
-                    requestDispatcher = getServletContext().getRequestDispatcher("/jsp/cargos/cargos.jsp");
+                    requestDispatcher = getServletContext().getRequestDispatcher("/jsp/manager/cargos/cargos.jsp");
                     requestDispatcher.forward(request, response);
                     break;
                 case "stateList":
                     request.setAttribute("cargos", cargos);
-                    requestDispatcher = getServletContext().getRequestDispatcher("/jsp/cargos/cargosState.jsp");
+                    requestDispatcher = getServletContext().getRequestDispatcher("/jsp/manager/cargos/cargosState.jsp");
                     requestDispatcher.forward(request, response);
                     break;
             }

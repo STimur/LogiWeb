@@ -37,11 +37,16 @@ public class DriverController extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
-        List<Driver> drivers = driverService.findAll();
-        request.setAttribute("drivers", drivers);
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/drivers/drivers.jsp");
-        rd.forward(request, response);
+        if (request.isUserInRole("manager")) {
+            DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
+            List<Driver> drivers = driverService.findAll();
+            request.setAttribute("drivers", drivers);
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/drivers.jsp");
+            rd.forward(request, response);
+        }
+        else {
+            response.sendRedirect("/accessDenied.jsp");
+        }
     }
 
     /**
@@ -72,7 +77,7 @@ public class DriverController extends HttpServlet {
                     id = parseDriverId(request);
                     Driver driverToEdit = driverService.findById(id);
                     request.setAttribute("driverToEdit", driverToEdit);
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/drivers/editDriver.jsp");
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
                     rd.forward(request, response);
                     break;
                 }
@@ -87,7 +92,7 @@ public class DriverController extends HttpServlet {
                     id = parseDriverId(request);
                     Driver driver = driverService.findById(id);
                     request.setAttribute("driver", driver);
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/drivers/driverJobInfo.jsp");
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/driver/driverJobInfo.jsp");
                     rd.forward(request, response);
                     break;
                 }
@@ -96,7 +101,7 @@ public class DriverController extends HttpServlet {
 
         List<Driver> drivers = driverService.findAll();
         request.setAttribute("drivers", drivers);
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/drivers/drivers.jsp");
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/drivers.jsp");
         rd.forward(request, response);
     }
 

@@ -67,12 +67,12 @@ public class OrderController extends HttpServlet {
             switch (action) {
                 case "list":
                     request.setAttribute("orders", orders);
-                    requestDispatcher = getServletContext().getRequestDispatcher("/jsp/orders/orders.jsp");
+                    requestDispatcher = getServletContext().getRequestDispatcher("/jsp/manager/orders/orders.jsp");
                     requestDispatcher.forward(request, response);
                     break;
                 case "stateList":
                     request.setAttribute("orders", orders);
-                    requestDispatcher = getServletContext().getRequestDispatcher("/jsp/orders/ordersState.jsp");
+                    requestDispatcher = getServletContext().getRequestDispatcher("/jsp/manager/orders/ordersState.jsp");
                     requestDispatcher.forward(request, response);
                     break;
             }
@@ -95,7 +95,7 @@ public class OrderController extends HttpServlet {
                 case "stateList": {
                     List<Order> orders = orderService.findAll();
                     request.setAttribute("orders", orders);
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/ordersState.jsp");
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/ordersState.jsp");
                     rd.forward(request, response);
                     break;
                 }
@@ -111,7 +111,7 @@ public class OrderController extends HttpServlet {
                     clearAttributes();
                     //-----------
                     setAddOrderRequestAttributes(request);
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
                 }
@@ -122,7 +122,7 @@ public class OrderController extends HttpServlet {
                     route.add(routePoint);
                     loadedCargos.add(routePoint.getCargo());
                     setAddOrderRequestAttributes(request);
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
                 }
@@ -133,7 +133,7 @@ public class OrderController extends HttpServlet {
                     route.add(routePoint);
                     loadedCargos.remove(routePoint.getCargo());
                     setAddOrderRequestAttributes(request);
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
                 }
@@ -141,7 +141,7 @@ public class OrderController extends HttpServlet {
                     orderToCreate.setRoute(route.get(0));
                     suitableTrucks = truckService.getSuitableTrucksForOrder(orderToCreate);
                     setAddOrderRequestAttributes(request);
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
                 }
@@ -151,7 +151,7 @@ public class OrderController extends HttpServlet {
                     orderToCreate.setAssignedTruck(truckToAssign);
                     suitableDrivers = driverService.getSuitableDriversForOrder(orderToCreate);
                     setAddOrderRequestAttributes(request);
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
                 }
@@ -169,7 +169,7 @@ public class OrderController extends HttpServlet {
                     // could have assigned these drivers
                     suitableDrivers.remove(driverIndex);
                     setAddOrderRequestAttributes(request);
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/addOrder.jsp");
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
                 }
@@ -192,7 +192,7 @@ public class OrderController extends HttpServlet {
 
         List<Order> orders = orderService.findAll();
         request.setAttribute("orders", orders);
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/orders/orders.jsp");
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/orders.jsp");
         rd.forward(request, response);
     }
 

@@ -1,8 +1,9 @@
-<!DOCTYPE web-app PUBLIC
-        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
-        "http://java.sun.com/dtd/web-app_2_3.dtd" >
-
-<web-app>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         id="WebApp_ID" version="3.0">
     <display-name>T-Logist Web</display-name>
 
     <servlet>
@@ -41,6 +42,12 @@
         <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.CargoController</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>LogoutController</servlet-name>
+        <display-name>Logout</display-name>
+        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.LogoutController</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>FrontController</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -71,8 +78,84 @@
         <url-pattern>/Cargo</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>LogoutController</servlet-name>
+        <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
+
+    <error-page>
+        <!-- Forbidden directory listing -->
+        <error-code>403</error-code>
+        <location>/accessDenied.jsp</location>
+    </error-page>
+
+    <!-- SECURITY CONSTRAINT for manager role -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>ManagerWorkspace</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>manager</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-role>
+        <role-name>manager</role-name>
+    </security-role>
+
+    <!-- SECURITY CONSTRAINT for driver role -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>GetDriverJobInfoForm</web-resource-name>
+            <url-pattern>/jsp/driver/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>driver</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>DriverJobInfoPage</web-resource-name>
+            <url-pattern>/Driver</url-pattern>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>driver</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Logout</web-resource-name>
+            <url-pattern>/Logout</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>driver</role-name>
+            <role-name>manager</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-role>
+        <role-name>driver</role-name>
+    </security-role>
+
+    <security-constraint><!--Exclude css and images here -->
+        <web-resource-collection>
+            <web-resource-name>Exclude from Security</web-resource-name>
+            <url-pattern>/images/*</url-pattern><!-- No security for images -->
+            <url-pattern>/js/*</url-pattern><!-- No security for css -->
+            <url-pattern>/</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/login.jsp</form-login-page>
+            <form-error-page>/login_failure.jsp</form-error-page>
+        </form-login-config>
+    </login-config>
 
 </web-app>
