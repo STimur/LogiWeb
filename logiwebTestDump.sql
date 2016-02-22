@@ -28,7 +28,7 @@ CREATE TABLE `Cargos` (
   `weight` int(11) DEFAULT NULL,
   `state` enum('READY','SHIPPED','DELIVERED') DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,7 +89,7 @@ CREATE TABLE `Distances` (
 
 LOCK TABLES `Distances` WRITE;
 /*!40000 ALTER TABLE `Distances` DISABLE KEYS */;
-INSERT INTO `Distances` VALUES (1,2,2179),(1,3,2727),(1,4,2736),(1,5,1681),(2,1,2179),(2,3,764),(2,4,662),(2,5,3096),(3,1,2727),(3,2,764),(3,4,1251),(3,5,3647),(4,1,2736),(4,2,662),(4,3,1251),(4,5,3262),(5,1,1681),(5,2,3096),(5,3,3647),(5,4,3262);
+INSERT INTO `Distances` VALUES (1,1,0),(1,2,2179),(1,3,2727),(1,4,2736),(1,5,1681),(2,1,2179),(2,2,0),(2,3,764),(2,4,662),(2,5,3096),(3,1,2727),(3,2,764),(3,3,0),(3,4,1251),(3,5,3647),(4,1,2736),(4,2,662),(4,3,1251),(4,4,0),(4,5,3262),(5,1,1681),(5,2,3096),(5,3,3647),(5,4,3262),(5,5,0);
 /*!40000 ALTER TABLE `Distances` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,7 +114,7 @@ CREATE TABLE `Drivers` (
   KEY `FK_Drivers_Trucks_idx` (`currentTruckId`),
   CONSTRAINT `FK_Drivers_Cities` FOREIGN KEY (`currentCityId`) REFERENCES `Cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_Drivers_Trucks` FOREIGN KEY (`currentTruckId`) REFERENCES `Trucks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,7 +123,7 @@ CREATE TABLE `Drivers` (
 
 LOCK TABLES `Drivers` WRITE;
 /*!40000 ALTER TABLE `Drivers` DISABLE KEYS */;
-INSERT INTO `Drivers` VALUES (5,'Will','Smith',11,'REST',3,NULL,NULL),(7,'Angelina','Jolie',11,'DRIVE',2,1,1),(9,'Kirsten','Danst',11,'DRIVE',2,1,1),(11,'Mila','Kunis',11,'DRIVE',2,2,2),(13,'Halle','Berry',10,'DRIVE',2,2,2),(17,'Mike','Tomson',40,'DRIVE',1,NULL,NULL),(18,'Jim','Morisson',60,'DRIVE',1,NULL,NULL),(19,'Tom','Clancy',30,'DRIVE',1,NULL,NULL),(27,'Misha','Popov',10,'DRIVE',1,NULL,NULL),(29,'Misha','Popov',70,'REST',3,NULL,NULL),(48,'Max','Ivanov',40,'REST',3,NULL,NULL),(49,'Dima','Petrov',60,'SHIFT',4,NULL,NULL),(50,'Max','Ivanov',100,'SHIFT',5,NULL,NULL);
+INSERT INTO `Drivers` VALUES (5,'Will','Smith',11,'REST',3,NULL,NULL),(7,'Angelina','Jolie',11,'DRIVE',2,1,1),(9,'Kirsten','Danst',11,'DRIVE',2,1,1),(11,'Mila','Kunis',11,'DRIVE',2,2,2),(13,'Halle','Berry',10,'DRIVE',2,2,2),(17,'Mike','Tomson',40,'DRIVE',1,NULL,NULL),(18,'Jim','Morisson',60,'DRIVE',1,NULL,NULL),(19,'Tom','Clancy',30,'DRIVE',1,NULL,NULL),(27,'Misha','Popov',0,'DRIVE',3,NULL,NULL),(29,'Misha','Popov',0,'REST',3,NULL,NULL),(48,'Max','Ivanov',0,'REST',3,NULL,NULL),(49,'Dima','Petrov',0,'SHIFT',3,NULL,NULL),(50,'Max','Ivanov',0,'SHIFT',3,NULL,NULL);
 /*!40000 ALTER TABLE `Drivers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +142,7 @@ CREATE TABLE `Orders` (
   PRIMARY KEY (`id`),
   KEY `FK_orders_trucks_idx` (`truckId`),
   CONSTRAINT `FK_orders_trucks` FOREIGN KEY (`truckId`) REFERENCES `Trucks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -169,7 +169,7 @@ CREATE TABLE `RoutePoints` (
   `type` enum('LOAD','UNLOAD') DEFAULT NULL,
   `nextPointId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -211,7 +211,7 @@ CREATE TABLE `Trucks` (
 
 LOCK TABLES `Trucks` WRITE;
 /*!40000 ALTER TABLE `Trucks` DISABLE KEYS */;
-INSERT INTO `Trucks` VALUES (1,'AA10223',4,20,'OK',2,1),(2,'BB10223',4,20,'OK',2,2),(3,'CC10223',4,20,'BROKEN',1,NULL),(4,'DD10223',4,20,'OK',4,NULL),(5,'EE10223',4,20,'BROKEN',5,NULL),(6,'GG10000',3,100,'OK',1,NULL),(44,'HG22000',2,20,'BROKEN',3,NULL),(55,'YU50023',2,40,'OK',3,NULL),(58,'TW25552',5,80,'BROKEN',3,NULL),(61,'CH35678',10,100,'OK',3,NULL);
+INSERT INTO `Trucks` VALUES (1,'AA10223',2,20,'OK',2,1),(2,'BB10223',2,20,'OK',2,2),(3,'CC10223',4,20,'BROKEN',1,NULL),(4,'DD10223',4,20,'OK',4,NULL),(5,'EE10223',4,20,'BROKEN',5,NULL),(6,'GG10000',3,100,'OK',1,NULL),(44,'HG22000',2,20,'BROKEN',3,NULL),(55,'YU50023',2,40,'OK',3,NULL),(58,'TW25552',5,80,'BROKEN',3,NULL),(61,'CH35678',10,100,'OK',3,NULL);
 /*!40000 ALTER TABLE `Trucks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -298,4 +298,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-02-22  2:56:42
+-- Dump completed on 2016-02-22 21:03:54
