@@ -22,11 +22,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Servlet implementation class Test
@@ -38,13 +37,7 @@ public class OrderController extends HttpServlet {
     private TruckService truckService = new TruckServiceImpl(new TruckDaoJpa(Truck.class));
     private DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
 
-    private List<RoutePoint> route = new ArrayList<RoutePoint>();
-    private Order orderToCreate = new Order();
-    private List<Truck> suitableTrucks = new ArrayList<Truck>();
-    private List<Driver> suitableDrivers = new ArrayList<Driver>();
-    private List<City> cities = cityService.findAll();
-    private List<Cargo> loadedCargos = new ArrayList<Cargo>();
-    private Truck truckToAssign;
+
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -88,6 +81,13 @@ public class OrderController extends HttpServlet {
         OrderService orderService = new OrderServiceImpl(new OrderDaoJpa(Order.class));
         int id;
 
+        List<RoutePoint> route = new ArrayList<RoutePoint>();
+        Order orderToCreate = new Order();
+        List<Truck> suitableTrucks = new ArrayList<Truck>();
+        List<Driver> suitableDrivers = new ArrayList<Driver>();
+        List<City> cities = cityService.findAll();
+        List<Cargo> loadedCargos = new ArrayList<Cargo>();
+
         if (action != null) {
             switch (action) {
                 case "list":
@@ -108,56 +108,76 @@ public class OrderController extends HttpServlet {
                     //-----------
                     // for easy debug as this vars stay in memory
                     // because we have one servlet for all clients
-                    clearAttributes();
+                    //clearAttributes();
                     //-----------
-                    setAddOrderRequestAttributes(request);
+                    setAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
+                            suitableDrivers, cities, loadedCargos);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
                 }
                 case "addLoadPoint": {
+                    retrieveAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
+                            suitableDrivers, cities, loadedCargos);
+                    orderToCreate = (Order)request.getSession().getAttribute("order");
                     RoutePoint routePoint = parseRoutePoint(request);
                     if (route.size() > 0)
                         route.get(route.size() - 1).setNextRoutePoint(routePoint);
                     route.add(routePoint);
                     loadedCargos.add(routePoint.getCargo());
-                    setAddOrderRequestAttributes(request);
+                    setAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
+                            suitableDrivers, cities, loadedCargos);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
                 }
                 case "addUnloadPoint": {
-                    RoutePoint routePoint = parseUnloadRoutePoint(request);
+                    retrieveAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
+                            suitableDrivers, cities, loadedCargos);
+                    orderToCreate = (Order)request.getSession().getAttribute("order");
+                    RoutePoint routePoint = parseUnloadRoutePoint(request, loadedCargos);
                     if (route.size() > 0)
                         route.get(route.size() - 1).setNextRoutePoint(routePoint);
                     route.add(routePoint);
                     loadedCargos.remove(routePoint.getCargo());
-                    setAddOrderRequestAttributes(request);
+                    setAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
+                            suitableDrivers, cities, loadedCargos);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
                 }
                 case "getTrucks": {
+                    retrieveAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
+                            suitableDrivers, cities, loadedCargos);
+                    orderToCreate = (Order)request.getSession().getAttribute("order");
                     orderToCreate.setRoute(route.get(0));
                     suitableTrucks = truckService.getSuitableTrucksForOrder(orderToCreate);
-                    setAddOrderRequestAttributes(request);
+                    setAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
+                            suitableDrivers, cities, loadedCargos);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
                 }
                 case "assignTruck": {
+                    retrieveAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
+                            suitableDrivers, cities, loadedCargos);
+                    orderToCreate = (Order)request.getSession().getAttribute("order");
                     int truckId = Integer.valueOf(request.getParameter("truckToAssign"));
                     Truck truckToAssign = truckService.findById(truckId);
                     orderToCreate.setAssignedTruck(truckToAssign);
                     int deliveryTimeThisMonth = orderService.getDeliveryTimeThisMonth(orderToCreate);
                     int deliveryTimeNextMonth = orderService.getDeliveryTimeNextMonth(orderToCreate);
                     suitableDrivers = driverService.getSuitableDriversForOrder(orderToCreate, deliveryTimeThisMonth, deliveryTimeNextMonth);
-                    setAddOrderRequestAttributes(request);
+                    setAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
+                            suitableDrivers, cities, loadedCargos);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
                 }
                 case "assignDriver": {
+                    retrieveAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
+                            suitableDrivers, cities, loadedCargos);
+                    orderToCreate = (Order)request.getSession().getAttribute("order");
                     String[] params = request.getParameter("driverToAssign").split(" ");
                     int driverId = Integer.valueOf(params[0]);
                     int driverIndex = Integer.valueOf(params[1]);
@@ -170,12 +190,16 @@ public class OrderController extends HttpServlet {
                     // it' s better to reget from db cause another client
                     // could have assigned these drivers
                     suitableDrivers.remove(driverIndex);
-                    setAddOrderRequestAttributes(request);
+                    setAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
+                            suitableDrivers, cities, loadedCargos);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                     rd.forward(request, response);
                     break;
                 }
                 case "create": {
+                    retrieveAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
+                            suitableDrivers, cities, loadedCargos);
+                    orderToCreate = (Order)request.getSession().getAttribute("order");
                     try {
                         orderService.create(orderToCreate);
                     } catch (UnloadNotLoadedCargoException e) {
@@ -185,7 +209,8 @@ public class OrderController extends HttpServlet {
                     } catch (DoubleLoadCargoException e) {
                         e.printStackTrace();
                     }
-                    clearAttributes();
+                    clearAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
+                            suitableDrivers, cities, loadedCargos);
                     response.sendRedirect("/Order?action=list");
                     return;
                 }
@@ -198,25 +223,41 @@ public class OrderController extends HttpServlet {
         rd.forward(request, response);
     }
 
-    private void clearAttributes() {
+    private void clearAttributes(HttpSession session, List<RoutePoint> route, Order orderToCreate,
+                                 List<Truck> suitableTrucks, List<Driver> suitableDrivers,
+                                 List<City> cities, List<Cargo> loadedCargos) {
         route.clear();
+        session.setAttribute("route", route);
         orderToCreate = new Order();
-        orderToCreate.setAssignedDrivers(new ArrayList<Driver>());
-        truckToAssign = new Truck();
+        session.setAttribute("order", orderToCreate);
         suitableDrivers.clear();
+        session.setAttribute("drivers", suitableDrivers);
         suitableTrucks.clear();
+        session.setAttribute("trucks", suitableTrucks);
         loadedCargos.clear();
+        session.setAttribute("loadedCargos", loadedCargos);
     }
 
-    private void setAddOrderRequestAttributes(HttpServletRequest request) {
-        request.setAttribute("route", route);
-        request.setAttribute("cities", cities);
-        Boolean isValidRoute = isValidRoute();
-        request.setAttribute("isValidRoute", isValidRoute.toString());
-        request.setAttribute("order", orderToCreate);
-        request.setAttribute("loadedCargos", loadedCargos);
-        request.setAttribute("trucks", suitableTrucks);
-        request.setAttribute("drivers", suitableDrivers);
+    private void setAddOrderSessionAttributes(HttpSession session, List<RoutePoint> route,
+                                              Order orderToCreate, List<Truck> suitableTrucks,
+                                              List<Driver> suitableDrivers, List<City> cities, List<Cargo> loadedCargos) {
+        session.setAttribute("route", route);
+        session.setAttribute("cities", cities);
+        Boolean isValidRoute = isValidRoute(route);
+        session.setAttribute("isValidRoute", isValidRoute.toString());
+        session.setAttribute("order", orderToCreate);
+        session.setAttribute("loadedCargos", loadedCargos);
+        session.setAttribute("trucks", suitableTrucks);
+        session.setAttribute("drivers", suitableDrivers);
+    }
+
+    private void retrieveAddOrderSessionAttributes(HttpSession session, List<RoutePoint> route,
+                                                   Order orderToCreate, List<Truck> suitableTrucks,
+                                                   List<Driver> suitableDrivers, List<City> cities, List<Cargo> loadedCargos) {
+        route.addAll((List<RoutePoint>)session.getAttribute("route"));
+        loadedCargos.addAll((List<Cargo>)session.getAttribute("loadedCargos"));
+        suitableTrucks.addAll((List<Truck>)session.getAttribute("trucks"));
+        suitableDrivers.addAll((List<Driver>)session.getAttribute("drivers"));
     }
 
     private RoutePoint parseRoutePoint(HttpServletRequest request) {
@@ -230,7 +271,7 @@ public class OrderController extends HttpServlet {
         return routePoint;
     }
 
-    private RoutePoint parseUnloadRoutePoint(HttpServletRequest request) {
+    private RoutePoint parseUnloadRoutePoint(HttpServletRequest request, List<Cargo> loadedCargos) {
         String[] params = request.getParameter("cargoToUnload").split(" ");
         int cargoId = Integer.valueOf(params[0]);
         int cargoIndex = Integer.valueOf(params[1]);
@@ -259,7 +300,7 @@ public class OrderController extends HttpServlet {
         return order;
     }
 
-    boolean isValidRoute() {
+    boolean isValidRoute(List<RoutePoint> route) {
         // TODO implement check of all BL here
         // absolutely must have even number of points
         int numOfRoutePoints = route.size();

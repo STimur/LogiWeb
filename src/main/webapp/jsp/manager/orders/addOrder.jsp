@@ -31,15 +31,15 @@
 <jsp:include page="/navbar.jspf"/>
 <div class="container">
     <%
-        List<City> cities = (List<City>) request.getAttribute("cities");
-        List<RoutePoint> route = (List<RoutePoint>) request.getAttribute("route");
-        List<Truck> trucks = (List<Truck>) request.getAttribute("trucks");
-        List<Driver> drivers = (List<Driver>) request.getAttribute("drivers");
-        List<Cargo> loadedCargos = (List<Cargo>) request.getAttribute("loadedCargos");
-        Order order = (Order) request.getAttribute("order");
+        List<City> cities = (List<City>) session.getAttribute("cities");
+        List<RoutePoint> route = (List<RoutePoint>) session.getAttribute("route");
+        List<Truck> trucks = (List<Truck>) session.getAttribute("trucks");
+        List<Driver> drivers = (List<Driver>) session.getAttribute("drivers");
+        List<Cargo> loadedCargos = (List<Cargo>) session.getAttribute("loadedCargos");
+        Order order = (Order) session.getAttribute("order");
 
         boolean isTruckAssigned = false;
-        boolean isValidRoute = Boolean.valueOf((String) request.getAttribute("isValidRoute"));
+        boolean isValidRoute = Boolean.valueOf((String) session.getAttribute("isValidRoute"));
         String getTrucksButtonVisisbility = isValidRoute ? "" : "invisible";
         boolean isShiftFormed = false;
 
@@ -172,7 +172,7 @@
         </div>
         <button type="submit" class="btn btn-primary" name="action" value="assignDriver">Assign</button>
     </form>
-    <% if (order.getAssignedDrivers().size() > 0) { %>
+    <% if (order.getAssignedDrivers() != null && order.getAssignedDrivers().size() > 0) { %>
     <h2>List of assigned drivers:</h2>
     <ol>
         <% for (Driver driver : order.getAssignedDrivers()) { %>
