@@ -13,8 +13,8 @@ import java.util.Calendar;
                         "FROM Driver d " +
                         "WHERE d.order IS NULL AND " +
                         "      d.currentCity = :assignedTruckCity AND" +
-                        //TODO reimplement this BL and unit test it thoroughly
-                        "      (176 - d.hoursWorkedThisMonth) > :deliveryTime")
+                        "      (176 - d.hoursWorkedThisMonth) > :deliveryTimeThisMonth AND " +
+                        "       176 > :deliveryTimeNextMonth")
 })
 @Table(name="Drivers", schema = "logiweb")
 public class Driver {

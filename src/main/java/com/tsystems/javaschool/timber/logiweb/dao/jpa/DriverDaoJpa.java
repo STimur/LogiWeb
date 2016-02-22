@@ -1,12 +1,9 @@
 package com.tsystems.javaschool.timber.logiweb.dao.jpa;
 
 import com.tsystems.javaschool.timber.logiweb.dao.DriverDao;
-import com.tsystems.javaschool.timber.logiweb.dao.jpa.GenericDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.entity.Order;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 /**
@@ -19,12 +16,13 @@ public class DriverDaoJpa extends GenericDaoJpa<Driver> implements DriverDao {
     }
 
     @Override
-    public List<Driver> getSuitableDriversForOrder(Order order) {
+    public List<Driver> getSuitableDriversForOrder(Order order, int deliveryTimeThisMonth, int deliveryTimeNextMonth) {
         openEntityManager();
         List<Driver> drivers = (List<Driver>) getEntityManager()
                 .createNamedQuery("findSuitableDrivers")
                 .setParameter("assignedTruckCity", order.getAssignedTruck().getCity())
-                .setParameter("deliveryTime",order.getTimeEstimate())
+                .setParameter("deliveryTimeThisMonth", deliveryTimeThisMonth)
+                .setParameter("deliveryTimeNextMonth", deliveryTimeNextMonth)
                 .getResultList();
         closeEntityManager();
         return drivers;

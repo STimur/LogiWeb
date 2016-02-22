@@ -149,7 +149,9 @@ public class OrderController extends HttpServlet {
                     int truckId = Integer.valueOf(request.getParameter("truckToAssign"));
                     Truck truckToAssign = truckService.findById(truckId);
                     orderToCreate.setAssignedTruck(truckToAssign);
-                    suitableDrivers = driverService.getSuitableDriversForOrder(orderToCreate);
+                    int deliveryTimeThisMonth = orderService.getDeliveryTimeThisMonth(orderToCreate);
+                    int deliveryTimeNextMonth = orderService.getDeliveryTimeNextMonth(orderToCreate);
+                    suitableDrivers = driverService.getSuitableDriversForOrder(orderToCreate, deliveryTimeThisMonth, deliveryTimeNextMonth);
                     setAddOrderRequestAttributes(request);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                     rd.forward(request, response);

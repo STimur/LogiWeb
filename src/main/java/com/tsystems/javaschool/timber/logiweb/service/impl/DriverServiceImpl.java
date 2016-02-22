@@ -43,7 +43,7 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public List<Driver> getSuitableDriversForOrder(Order order) {
-        return driverDao.getSuitableDriversForOrder(order);
+    public List<Driver> getSuitableDriversForOrder(Order order, int deliveryTimeThisMonth, int deliveryTimeNextMonth) {
+        return driverDao.getSuitableDriversForOrder(order, deliveryTimeThisMonth, deliveryTimeNextMonth);
     }
 }

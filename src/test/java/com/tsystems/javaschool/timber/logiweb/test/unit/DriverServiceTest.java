@@ -47,11 +47,11 @@ public class DriverServiceTest {
         driverService = new DriverServiceImpl(mockDriverDao);
 
         context.checking(new Expectations() {{
-            oneOf(mockDriverDao).getSuitableDriversForOrder(order);
+            oneOf(mockDriverDao).getSuitableDriversForOrder(order, 0, 0);
             will(returnValue(getDriversNotOnOrder(drivers)));
         }});
 
-        List<Driver> driversNotOnOrder = driverService.getSuitableDriversForOrder(order);
+        List<Driver> driversNotOnOrder = driverService.getSuitableDriversForOrder(order, 0, 0);
 
         assertTrue(driversNotOnOrder.size()==1);
         assertEquals(3, driversNotOnOrder.get(0).getId());
@@ -67,11 +67,11 @@ public class DriverServiceTest {
         driverService = new DriverServiceImpl(mockDriverDao);
 
         context.checking(new Expectations() {{
-            oneOf(mockDriverDao).getSuitableDriversForOrder(order);
+            oneOf(mockDriverDao).getSuitableDriversForOrder(order, 0, 0);
             will(returnValue(getDriversInSameCityAsAssignedTruck(drivers, order)));
         }});
 
-        List<Driver> driversInSameCityAsAssignedTruck = driverService.getSuitableDriversForOrder(order);
+        List<Driver> driversInSameCityAsAssignedTruck = driverService.getSuitableDriversForOrder(order, 0, 0);
 
         assertTrue(driversInSameCityAsAssignedTruck.size()==3);
         assertEquals(1, driversInSameCityAsAssignedTruck.get(0).getId());
@@ -89,11 +89,11 @@ public class DriverServiceTest {
         driverService = new DriverServiceImpl(mockDriverDao);
 
         context.checking(new Expectations() {{
-            oneOf(mockDriverDao).getSuitableDriversForOrder(order);
+            oneOf(mockDriverDao).getSuitableDriversForOrder(order, 0, 0);
             will(returnValue(getDriversWhichHaveEnoughTimeForOrder(drivers, order)));
         }});
 
-        List<Driver> driversWhichHaveEnoughTimeForOrder = driverService.getSuitableDriversForOrder(order);
+        List<Driver> driversWhichHaveEnoughTimeForOrder = driverService.getSuitableDriversForOrder(order, 0, 0);
 
         assertTrue(driversWhichHaveEnoughTimeForOrder.size()==2);
         assertEquals(1, driversWhichHaveEnoughTimeForOrder.get(0).getId());
@@ -110,11 +110,11 @@ public class DriverServiceTest {
         driverService = new DriverServiceImpl(mockDriverDao);
 
         context.checking(new Expectations() {{
-            oneOf(mockDriverDao).getSuitableDriversForOrder(order);
+            oneOf(mockDriverDao).getSuitableDriversForOrder(order, 0, 0);
             will(returnValue(getSuitableDrivers(drivers, order)));
         }});
 
-        List<Driver> driversWhichHaveEnoughTimeForOrder = driverService.getSuitableDriversForOrder(order);
+        List<Driver> driversWhichHaveEnoughTimeForOrder = driverService.getSuitableDriversForOrder(order, 0, 0);
 
         assertTrue(driversWhichHaveEnoughTimeForOrder.size()==1);
         assertEquals(3, driversWhichHaveEnoughTimeForOrder.get(0).getId());

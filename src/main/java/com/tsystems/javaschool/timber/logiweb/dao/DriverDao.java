@@ -9,5 +9,5 @@ import java.util.List;
  * Created by tims on 2/16/2016.
  */
 public interface DriverDao extends GenericDao<Driver> {
-    List<Driver> getSuitableDriversForOrder(Order order);
+    List<Driver> getSuitableDriversForOrder(Order order, int deliveryTimeThisMonth, int deliveryTimeNextMonth);
 }

@@ -19,5 +19,5 @@ public interface DriverService {
 
     List<Driver> findAll();
 
-    List<Driver> getSuitableDriversForOrder(Order order);
+    List<Driver> getSuitableDriversForOrder(Order order, int deliveryTimeThisMonth, int deliveryTimeNextMonth);
 }

@@ -57,7 +57,9 @@ public class OrderServiceDaoTest {
         order.setAssignedTruck(chosenTruck);
 
         //3rd assign drivers to form the truck shift
-        List<Driver> drivers = driverService.getSuitableDriversForOrder(order);
+        int deliveryTimeThisMonth = orderService.getDeliveryTimeThisMonth(order);
+        int deliveryTimeNextMonth = orderService.getDeliveryTimeNextMonth(order);
+        List<Driver> drivers = driverService.getSuitableDriversForOrder(order, deliveryTimeThisMonth, deliveryTimeNextMonth);
         if (order.getAssignedDrivers() == null)
             order.setAssignedDrivers(new ArrayList<Driver>());
         for (int i=0; i<chosenTruck.getShiftSize();i++) {
@@ -94,7 +96,9 @@ public class OrderServiceDaoTest {
         order.setAssignedTruck(chosenTruck);
 
         //3rd assign drivers to form the truck shift
-        List<Driver> drivers = driverService.getSuitableDriversForOrder(order);
+        int deliveryTimeThisMonth = orderService.getDeliveryTimeThisMonth(order);
+        int deliveryTimeNextMonth = orderService.getDeliveryTimeNextMonth(order);
+        List<Driver> drivers = driverService.getSuitableDriversForOrder(order, deliveryTimeThisMonth, deliveryTimeNextMonth);
         if (order.getAssignedDrivers() == null)
             order.setAssignedDrivers(new ArrayList<Driver>());
         for (int i=0; i<chosenTruck.getShiftSize();i++) {
@@ -132,10 +136,6 @@ public class OrderServiceDaoTest {
         order = orderService.findById(1);
         deliveryTimeThisMonth = orderService.getDeliveryTimeThisMonth(order);
         assertEquals(157, deliveryTimeThisMonth);
-
-        order = orderService.findById(12);
-        deliveryTimeThisMonth = orderService.getDeliveryTimeThisMonth(order);
-        assertEquals(187, deliveryTimeThisMonth);
     }
 
     @Test
@@ -148,9 +148,5 @@ public class OrderServiceDaoTest {
         order = orderService.findById(1);
         deliveryTimeNextMonth = orderService.getDeliveryTimeNextMonth(order);
         assertEquals(0, deliveryTimeNextMonth);
-
-        order = orderService.findById(12);
-        deliveryTimeNextMonth = orderService.getDeliveryTimeNextMonth(order);
-        assertEquals(314, deliveryTimeNextMonth);
     }
 }
