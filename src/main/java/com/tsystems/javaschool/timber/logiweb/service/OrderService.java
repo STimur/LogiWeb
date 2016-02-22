@@ -18,4 +18,12 @@ public interface OrderService {
     void create(Order order) throws UnloadNotLoadedCargoException, NotAllCargosUnloadedException, DoubleLoadCargoException;
 
     boolean validate(Order order) throws DoubleLoadCargoException, UnloadNotLoadedCargoException, NotAllCargosUnloadedException;
+
+    Order findById(int id);
+
+    int getDeliveryTime(Order order);
+
+    int getDeliveryTimeThisMonth(Order order);
+
+    int getDeliveryTimeNextMonth(Order order);
 }

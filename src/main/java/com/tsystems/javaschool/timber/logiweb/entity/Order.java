@@ -96,7 +96,6 @@ public class Order {
 
     @Transient
     public int getTimeEstimate() {
-        //TODO reimplement to really estimate based on route
         return 40;
     }
 }

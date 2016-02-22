@@ -110,4 +110,47 @@ public class OrderServiceDaoTest {
         orderService.delete(order.getId());
         assertEquals(orderService.findAll().size(), numOfOrders-1);
     }
+
+    @Test
+    public void CalculateOrderDeliveryTime() {
+        Order order = orderService.findById(2);
+        int deliveryTime = orderService.getDeliveryTime(order);
+        assertEquals(54, deliveryTime);
+
+        order = orderService.findById(1);
+        deliveryTime = orderService.getDeliveryTime(order);
+        assertEquals(157, deliveryTime);
+    }
+
+    @Test
+    public void CalculateOrderDeliveryTimeThisMonth() {
+        //TODO it's date dependent test
+        Order order = orderService.findById(2);
+        int deliveryTimeThisMonth = orderService.getDeliveryTimeThisMonth(order);
+        assertEquals(54, deliveryTimeThisMonth);
+
+        order = orderService.findById(1);
+        deliveryTimeThisMonth = orderService.getDeliveryTimeThisMonth(order);
+        assertEquals(157, deliveryTimeThisMonth);
+
+        order = orderService.findById(12);
+        deliveryTimeThisMonth = orderService.getDeliveryTimeThisMonth(order);
+        assertEquals(187, deliveryTimeThisMonth);
+    }
+
+    @Test
+    public void CalculateOrderDeliveryTimeNextMonth() {
+        //TODO it's date dependent test
+        Order order = orderService.findById(2);
+        int deliveryTimeNextMonth = orderService.getDeliveryTimeNextMonth(order);
+        assertEquals(0, deliveryTimeNextMonth);
+
+        order = orderService.findById(1);
+        deliveryTimeNextMonth = orderService.getDeliveryTimeNextMonth(order);
+        assertEquals(0, deliveryTimeNextMonth);
+
+        order = orderService.findById(12);
+        deliveryTimeNextMonth = orderService.getDeliveryTimeNextMonth(order);
+        assertEquals(314, deliveryTimeNextMonth);
+    }
 }

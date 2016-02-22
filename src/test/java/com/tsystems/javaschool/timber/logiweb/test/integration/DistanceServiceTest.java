@@ -27,7 +27,9 @@ public class DistanceServiceTest {
         List<City> cities = cityService.findAll();
         int numOfCities = cities.size();
         // in full directed graph G(V,E) |E| = |V|*(|V|-1)
+        // also we need zero routes from city to itself
+        // to easy calculate route length
         int numOfDistances = numOfCities * (numOfCities - 1);
-        assertEquals(numOfDistances, distances.size());
+        assertEquals(numOfDistances + numOfCities, distances.size());
     }
 }
