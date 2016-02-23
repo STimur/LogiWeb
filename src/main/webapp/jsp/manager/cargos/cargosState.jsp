@@ -29,20 +29,16 @@
     <h2>Cargos State Table</h2>
     <p>Current cargos:</p>
     <table class="table table-bordered table-striped table-hover">
-        <thead>
         <tr>
             <th>Id</th>
             <th>Ready</th>
         </tr>
-        </thead>
-        <tbody>
         <% for (Cargo cargo : cargos) { %>
         <tr>
             <td><%= cargo.getId() %></td>
             <td><%= cargo.getState().toString() %></td>
         </tr>
         <% } %>
-        </tbody>
     </table>
 </div>
 <jsp:include page="/footer.jspf"/>

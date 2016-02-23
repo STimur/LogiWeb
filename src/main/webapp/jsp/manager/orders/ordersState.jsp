@@ -28,20 +28,16 @@
     <h2>Orders State Table</h2>
     <p>Current orders:</p>
     <table class="table table-bordered table-striped table-hover">
-        <thead>
         <tr>
             <th>Id</th>
             <th>Ready</th>
         </tr>
-        </thead>
-        <tbody>
         <% for (Order order : orders) { %>
         <tr>
             <td><%= order.getId() %></td>
             <td><%= (order.isFinished()) ? "Yes" : "No"%></td>
         </tr>
         <% } %>
-        </tbody>
     </table>
 </div>
 <jsp:include page="/footer.jspf"/>

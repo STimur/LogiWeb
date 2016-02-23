@@ -40,6 +40,6 @@ body {
 .table-hover tr:hover th,
 .table-hover tr:nth-child(even):hover td,
 .table-hover tr:nth-child(odd):hover td {
-    background-color: #dce4ec;
+    background-color: #beede4;
 }
 

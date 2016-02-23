@@ -42,7 +42,6 @@
         </form>
     </div>
     <table class="table table-bordered table-striped table-hover">
-        <thead>
         <tr>
             <th>Id</th>
             <th>Ready</th>
@@ -51,8 +50,6 @@
             <th>Drivers</th>
             <th>Actions</th>
         </tr>
-        </thead>
-        <tbody>
         <% for (Order order : orders) { %>
         <tr>
             <td><%= order.getId() %>
@@ -90,7 +87,6 @@
             </td>
         </tr>
         <% } %>
-        </tbody>
     </table>
 </div>
 <jsp:include page="/footer.jspf"/>
