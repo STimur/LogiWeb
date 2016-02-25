@@ -8,6 +8,7 @@ import com.tsystems.javaschool.timber.logiweb.service.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.TruckService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class TruckController extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
+    final static Logger logger = Logger.getLogger(TruckController.class);
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -59,6 +62,7 @@ public class TruckController extends HttpServlet {
                         Truck truck = parseTruck(request);
                         truckService.create(truck);
                     } catch (Exception ex) {
+                        logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
                         rd.forward(request, response);
@@ -79,6 +83,7 @@ public class TruckController extends HttpServlet {
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/editTruck.jsp");
                         rd.forward(request, response);
                     } catch (Exception ex) {
+                        logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
                         rd.forward(request, response);
@@ -92,6 +97,7 @@ public class TruckController extends HttpServlet {
                         truckToUpdate.setId(id);
                         truckService.update(truckToUpdate);
                     } catch (Exception ex) {
+                        logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
                         rd.forward(request, response);

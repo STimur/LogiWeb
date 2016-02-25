@@ -16,6 +16,7 @@ import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
+import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,6 +34,7 @@ import java.util.List;
 public class OrderController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    final static Logger logger = Logger.getLogger(OrderController.class);
     private CityService cityService = new CityServiceImpl(new CityDaoJpa(City.class));
     private TruckService truckService = new TruckServiceImpl(new TruckDaoJpa(Truck.class));
     private DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
@@ -125,6 +127,7 @@ public class OrderController extends HttpServlet {
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                         rd.forward(request, response);
                     } catch (Exception ex) {
+                        logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
                         rd.forward(request, response);
@@ -205,6 +208,7 @@ public class OrderController extends HttpServlet {
                         orderService.create(orderToCreate);
                     } catch (UnloadNotLoadedCargoException |
                             NotAllCargosUnloadedException | DoubleLoadCargoException ex) {
+                        logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
                         rd.forward(request, response);

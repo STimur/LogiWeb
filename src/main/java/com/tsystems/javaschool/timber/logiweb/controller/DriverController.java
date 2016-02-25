@@ -10,6 +10,7 @@ import com.tsystems.javaschool.timber.logiweb.service.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.DriverService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
+import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,6 +25,8 @@ import java.util.List;
  */
 public class DriverController extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
+    final static Logger logger = Logger.getLogger(DriverController.class);
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -65,6 +68,7 @@ public class DriverController extends HttpServlet {
                         Driver driver = parseDriver(request);
                         driverService.create(driver);
                     } catch (Exception ex) {
+                        logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
                         rd.forward(request, response);
@@ -88,6 +92,7 @@ public class DriverController extends HttpServlet {
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
                         rd.forward(request, response);
                     } catch (Exception ex) {
+                        logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
                         rd.forward(request, response);
@@ -102,6 +107,7 @@ public class DriverController extends HttpServlet {
                         driverToUpdate.setId(id);
                         driverService.update(driverToUpdate);
                     } catch (Exception ex) {
+                        logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
                         rd.forward(request, response);
@@ -117,6 +123,7 @@ public class DriverController extends HttpServlet {
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/driver/driverJobInfo.jsp");
                         rd.forward(request, response);
                     } catch (Exception ex) {
+                        logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
                         rd.forward(request, response);
