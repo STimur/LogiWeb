@@ -55,8 +55,15 @@ public class TruckController extends HttpServlet {
         if (action != null) {
             switch (action) {
                 case "create":
-                    Truck truck = parseTruck(request);
-                    truckService.create(truck);
+                    try {
+                        Truck truck = parseTruck(request);
+                        truckService.create(truck);
+                    } catch (Exception ex) {
+                        request.getSession().setAttribute("errorMessage", ex.toString());
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
+                        rd.forward(request, response);
+                        return;
+                    }
                     break;
                 case "list":
                     break;
@@ -65,17 +72,31 @@ public class TruckController extends HttpServlet {
                     truckService.delete(id);
                     break;
                 case "edit":
-                    id = parseTruckId(request);
-                    Truck truckToEdit = truckService.findById(id);
-                    request.setAttribute("truckToEdit", truckToEdit);
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/editTruck.jsp");
-                    rd.forward(request, response);
+                    try {
+                        id = parseTruckId(request);
+                        Truck truckToEdit = truckService.findById(id);
+                        request.setAttribute("truckToEdit", truckToEdit);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/editTruck.jsp");
+                        rd.forward(request, response);
+                    } catch (Exception ex) {
+                        request.getSession().setAttribute("errorMessage", ex.toString());
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
+                        rd.forward(request, response);
+                        return;
+                    }
                     break;
                 case "update":
-                    Truck truckToUpdate = parseTruck(request);
-                    id = parseTruckId(request);
-                    truckToUpdate.setId(id);
-                    truckService.update(truckToUpdate);
+                    try {
+                        Truck truckToUpdate = parseTruck(request);
+                        id = parseTruckId(request);
+                        truckToUpdate.setId(id);
+                        truckService.update(truckToUpdate);
+                    } catch (Exception ex) {
+                        request.getSession().setAttribute("errorMessage", ex.toString());
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
+                        rd.forward(request, response);
+                        return;
+                    }
                     break;
             }
         }

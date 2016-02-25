@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Servlet implementation class Test
+ * Sample controller which shows how to use jQuery jTable for CRUD
+ *
  */
 public class TruckJSController extends HttpServlet {
     private static final long serialVersionUID = 1L;

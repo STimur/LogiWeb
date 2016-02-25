@@ -43,8 +43,7 @@ public class DriverController extends HttpServlet {
             request.setAttribute("drivers", drivers);
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/drivers.jsp");
             rd.forward(request, response);
-        }
-        else {
+        } else {
             response.sendRedirect("/accessDenied.jsp");
         }
     }
@@ -54,60 +53,84 @@ public class DriverController extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        try {
-            String action = request.getParameter("action");
-            DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
-            int id;
 
-            if (action != null) {
-                switch (action) {
-                    case "create": {
+        String action = request.getParameter("action");
+        DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
+        int id;
+
+        if (action != null) {
+            switch (action) {
+                case "create": {
+                    try {
                         Driver driver = parseDriver(request);
                         driverService.create(driver);
-                        break;
+                    } catch (Exception ex) {
+                        request.getSession().setAttribute("errorMessage", ex.toString());
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
+                        rd.forward(request, response);
+                        return;
                     }
-                    case "list": {
-                        break;
-                    }
-                    case "delete": {
-                        id = parseDriverId(request);
-                        driverService.delete(id);
-                        break;
-                    }
-                    case "edit": {
+                    break;
+                }
+                case "list": {
+                    break;
+                }
+                case "delete": {
+                    id = parseDriverId(request);
+                    driverService.delete(id);
+                    break;
+                }
+                case "edit": {
+                    try {
                         id = parseDriverId(request);
                         Driver driverToEdit = driverService.findById(id);
                         request.setAttribute("driverToEdit", driverToEdit);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
                         rd.forward(request, response);
-                        break;
+                    } catch (Exception ex) {
+                        request.getSession().setAttribute("errorMessage", ex.toString());
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
+                        rd.forward(request, response);
+                        return;
                     }
-                    case "update": {
+                    break;
+                }
+                case "update": {
+                    try {
                         Driver driverToUpdate = parseDriver(request);
                         id = parseDriverId(request);
                         driverToUpdate.setId(id);
                         driverService.update(driverToUpdate);
-                        break;
+                    } catch (Exception ex) {
+                        request.getSession().setAttribute("errorMessage", ex.toString());
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
+                        rd.forward(request, response);
+                        return;
                     }
-                    case "getJobInfo": {
+                    break;
+                }
+                case "getJobInfo": {
+                    try {
                         id = parseDriverId(request);
                         Driver driver = driverService.findById(id);
                         request.setAttribute("driver", driver);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/driver/driverJobInfo.jsp");
                         rd.forward(request, response);
-                        break;
+                    } catch (Exception ex) {
+                        request.getSession().setAttribute("errorMessage", ex.toString());
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
+                        rd.forward(request, response);
+                        return;
                     }
+                    break;
                 }
             }
-
-            List<Driver> drivers = driverService.findAll();
-            request.setAttribute("drivers", drivers);
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/drivers.jsp");
-            rd.forward(request, response);
-        } catch (NumberFormatException ex) {
-            System.out.println(ex);
-            ex.printStackTrace();
         }
+
+        List<Driver> drivers = driverService.findAll();
+        request.setAttribute("drivers", drivers);
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/drivers.jsp");
+        rd.forward(request, response);
     }
 
     private int parseDriverId(HttpServletRequest request) {
