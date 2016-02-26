@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LogiWeb.iml" filepath="$PROJECT_DIR$/LogiWeb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/persistence/persistence.iml" filepath="$PROJECT_DIR$/persistence/persistence.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-view/service-view.iml" filepath="$PROJECT_DIR$/service-view/service-view.iml" />
     </modules>
   </component>
 </project>

@@ -17,16 +17,25 @@
       <profile default="true" name="Default" enabled="false">
         <processorPath useClasspath="true" />
       </profile>
-      <profile default="false" name="Annotation profile for LogiWeb" enabled="true">
+      <profile default="false" name="Annotation profile for persistence" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="LogiWeb" />
+        <module name="persistence" />
+      </profile>
+      <profile default="false" name="Annotation profile for service-view" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="service-view" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="LogiWeb" target="1.8" />
+      <module name="LogiWeb" target="1.5" />
+      <module name="persistence" target="1.8" />
+      <module name="service-view" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
