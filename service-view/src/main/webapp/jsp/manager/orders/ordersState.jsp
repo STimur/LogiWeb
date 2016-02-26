@@ -15,8 +15,8 @@
 <html>
 <head>
     <title>Orders State Page</title>
-    <link rel="stylesheet" href="../../css/bootstrap/flatly.css">
-    <link rel="stylesheet" href="/css/logiweb.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
 <jsp:include page="/navbar.jspf"/>

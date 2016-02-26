@@ -4,8 +4,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <title>Trucks Page</title>
-<link rel="stylesheet" href="/logiweb/css/bootstrap/flatly.css">
-<link rel="stylesheet" href="/logiweb/css/logiweb.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 <body>
 <jsp:include page="/navbar.jspf"/>
 <div class="container">
@@ -15,7 +15,7 @@
     <% } else { %>
     <h2>Trucks</h2>
     <div class="text-right">
-        <a href="/logiweb/jsp/manager/trucks/addTruck.jsp" class="btn btn-primary btn-success">Add Truck</a>
+        <a href="${pageContext.request.contextPath}/jsp/manager/trucks/addTruck.jsp" class="btn btn-primary btn-success">Add Truck</a>
     </div>
     <table class="table table-bordered table-striped table-hover">
         <tr>
@@ -56,12 +56,12 @@
                 <%= cityName %>
             </td>
             <td>
-                <form class="form-inline" method="post" action="/logiweb/Truck">
+                <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Truck">
                     <button type="submit" class="btn btn-primary btn-primary" name="action" value="edit">Edit
                     </button>
                     <input type="hidden" name="id" value="<%=truck.getId()%>"/>
                 </form>
-                <form class="form-inline" method="post" action="/logiweb/Truck">
+                <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Truck">
                     <button type="submit" class="btn btn-primary btn-danger" name="action" value="delete">Remove
                     </button>
                     <input type="hidden" name="id" value="<%=truck.getId()%>"/>

@@ -216,7 +216,7 @@ public class OrderController extends HttpServlet {
                     }
                     clearAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
                             suitableDrivers, cities, loadedCargos);
-                    response.sendRedirect("/Order?action=list");
+                    response.sendRedirect(getServletContext().getContextPath() + "/Order?action=list");
                     return;
                 }
             }

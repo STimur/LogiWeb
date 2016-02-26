@@ -5,8 +5,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <title>Drivers Page</title>
-<link rel="stylesheet" href="/css/bootstrap/flatly.css">
-<link rel="stylesheet" href="/css/logiweb.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 <body>
 <jsp:include page="/navbar.jspf"/>
 <div class="container">
@@ -16,7 +16,7 @@
     <% } else { %>
     <h2>Drivers</h2>
     <div class="text-right">
-        <a href="/jsp/manager/drivers/addDriver.jsp" class="btn btn-primary btn-success">Add Driver</a>
+        <a href="${pageContext.request.contextPath}/jsp/manager/drivers/addDriver.jsp" class="btn btn-primary btn-success">Add Driver</a>
     </div>
     <table class="table table-bordered table-striped table-hover">
         <tr>
@@ -57,12 +57,12 @@
                 <%= cityName %>
             </td>
             <td>
-                <form class="form-inline" method="post" action="/Driver">
+                <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Driver">
                     <button type="submit" class="btn btn-primary btn-primary" name="action" value="edit">Edit
                     </button>
                     <input type="hidden" name="id" value="<%=driver.getId()%>"/>
                 </form>
-                <form class="form-inline" method="post" action="/Driver">
+                <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Driver">
                     <button type="submit" class="btn btn-primary btn-danger" name="action" value="delete">Remove
                     </button>
                     <input type="hidden" name="id" value="<%=driver.getId()%>"/>

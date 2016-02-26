@@ -15,8 +15,8 @@
 <html>
 <head>
     <title>Orders Page</title>
-    <link rel="stylesheet" href="/css/bootstrap/flatly.css">
-    <link rel="stylesheet" href="/css/logiweb.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
 <jsp:include page="/navbar.jspf"/>
@@ -37,7 +37,7 @@
     <h2>Orders Table</h2>
     <p>Current orders:</p>
     <div class="text-right">
-        <form method="post" action="/Order">
+        <form method="post" action="${pageContext.request.contextPath}/Order">
             <button type="submit" class="btn btn-primary" name="action" value="add">New Order</button>
         </form>
     </div>
@@ -79,7 +79,7 @@
                 </ol>
             </td>
             <td>
-                <form class="form-inline" method="post" action="/Order">
+                <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
                     <button type="submit" class="btn btn-primary btn-danger" name="action" value="deleteOrder">Remove
                     </button>
                     <input type="hidden" name="id" value="<%=order.getId()%>"/>

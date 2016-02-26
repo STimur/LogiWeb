@@ -1,10 +1,10 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.com.tsystems.javaschool.timber.logiweb.entity.*" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <title>Drivers Page</title>
-<link rel="stylesheet" href="/css/bootstrap/flatly.css">
-<link rel="stylesheet" href="/css/logiweb.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 <body>
 <jsp:include page="/navbar.jspf"/>
 <div class="container">

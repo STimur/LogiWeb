@@ -16,14 +16,14 @@
 <html>
 <head>
     <title>Driver Get Job Info</title>
-    <link rel="stylesheet" href="../../css/bootstrap/flatly.css">
-    <link rel="stylesheet" href="/css/logiweb.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
 <jsp:include page="/navbar.jspf"/>
 <div class="container col-md-2 col-md-offset-5">
     <h2>Enter driver personal number</h2>
-    <form method="post" action="/Driver">
+    <form method="post" action="${pageContext.request.contextPath}/Driver">
         <fieldset class="form-group">
             <label for="id">Personal number</label>
             <input type="text" class="form-control" id="id" name="id"

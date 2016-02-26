@@ -9,6 +9,7 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>
+            <url-pattern>*.jspf</url-pattern>
             <el-ignored>false</el-ignored>
         </jsp-property-group>
     </jsp-config>

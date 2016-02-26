@@ -14,8 +14,8 @@
 <html>
 <head>
     <title>Edit Driver</title>
-    <link rel="stylesheet" href="/css/bootstrap/flatly.css">
-    <link rel="stylesheet" href="/css/logiweb.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
 <%!
@@ -42,7 +42,7 @@
                 break;
         }
     %>
-    <form method="post" action="/Driver">
+    <form method="post" action="${pageContext.request.contextPath}/Driver">
         <fieldset class="form-group">
             <label for="name">Driver name</label>
             <input type="text" class="form-control" id="name" name="name"

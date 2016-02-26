@@ -2,7 +2,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.com.tsystems.javaschool.timber.logiweb.entity.*" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.DriverDaoJpa" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.OrderDaoJpa" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.*" %>
@@ -12,6 +11,7 @@
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.TruckService" %>
 <%@ page import="java.util.HashSet" %>
 <%@ page import="java.util.Set" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%--
   Created by IntelliJ IDEA.
@@ -24,8 +24,8 @@
 <html>
 <head>
     <title>Add Order Page</title>
-    <link rel="stylesheet" href="/css/bootstrap/flatly.css">
-    <link rel="stylesheet" href="/css/logiweb.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
 <jsp:include page="/navbar.jspf"/>
@@ -53,7 +53,7 @@
         }
     %>
     <h2>Add Order Page</h2>
-    <form class="form-inline" method="post" action="/Order">
+    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
         <div class="form-group">
             <label class="sr-only" for="pointCity">Choose city</label>
             <select class="form-control" id="pointCity" name="pointCity">
@@ -82,7 +82,7 @@
         <button type="submit" class="btn btn-primary" name="action" value="addLoadPoint">Add</button>
     </form>
     <% if (loadedCargos != null) { %>
-    <form class="form-inline" method="post" action="/Order">
+    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
         <div class="form-group">
             <select class="form-control">
                 <option>Unload</option>
@@ -130,13 +130,13 @@
     <% } else { %>
     <h1 class="text-warning">No route points yet!</h1>
     <% } %>
-    <form class="form-inline <%=getTrucksButtonVisisbility%>" method="post" action="/Order">
+    <form class="form-inline <%=getTrucksButtonVisisbility%>" method="post" action="${pageContext.request.contextPath}/Order">
         <button type="submit" class="btn btn-primary" name="action" value="getTrucks">Get Available Trucks</button>
     </form>
 
     <% if (trucks != null && trucks.size() > 0) { %>
     <h2>Assign Truck:</h2>
-    <form class="form-inline" method="post" action="/Order">
+    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
         <div class="form-group">
             <label class="sr-only" for="truckToAssign">Choose truck</label>
             <select class="form-control" id="truckToAssign" name="truckToAssign">
@@ -157,7 +157,7 @@
     <% } %>
     <% if (isTruckAssigned) { %>
     <h2>Assign <%=order.getAssignedTruck().getShiftSize()%> Drivers:</h2>
-    <form class="form-inline" method="post" action="/Order">
+    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
         <div class="form-group">
             <label class="sr-only" for="driverToAssign">Choose driver(s)</label>
             <select class="form-control" id="driverToAssign" name="driverToAssign">
@@ -181,7 +181,7 @@
     </ol>
     <% }} %>
     <% if (isShiftFormed) { %>
-    <form class="form-inline" method="post" action="/Order">
+    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
         <button type="submit" class="btn btn-primary btn-success" name="action" value="create">Create Order
         </button>
     </form>
