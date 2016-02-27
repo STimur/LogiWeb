@@ -3,8 +3,13 @@ package com.tsystems.javaschool.timber.logiweb.service;
 import com.tsystems.javaschool.timber.logiweb.entity.RoutePoint;
 
 /**
- * Created by timur_000 on 19.02.2016.
+ * Business logic related to RoutePoint entity.
+ *
+ * @author Timur Salakhetdinov
  */
 public interface RoutePointService {
+    /**
+     * Create RoutePoint entity in database.
+     */
     void create(RoutePoint routePoint);
 }

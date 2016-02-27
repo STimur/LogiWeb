@@ -5,8 +5,14 @@ import com.tsystems.javaschool.timber.logiweb.entity.Distance;
 import java.util.List;
 
 /**
- * Created by timur_000 on 19.02.2016.
+ * Business logic related to Distance entity.
+ *
+ * @author Timur Salakhetdinov
  */
 public interface DistanceService {
+    /**
+     * Get set of all distances in database.
+     * @return List of all distance between cities in database.
+     */
     List<Distance> findAll();
 }
