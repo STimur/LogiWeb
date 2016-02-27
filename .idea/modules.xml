@@ -4,7 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LogiWeb.iml" filepath="$PROJECT_DIR$/LogiWeb.iml" />
       <module fileurl="file://$PROJECT_DIR$/persistence/persistence.iml" filepath="$PROJECT_DIR$/persistence/persistence.iml" />
-      <module fileurl="file://$PROJECT_DIR$/service-view/service-view.iml" filepath="$PROJECT_DIR$/service-view/service-view.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/service.iml" filepath="$PROJECT_DIR$/service/service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/view/view.iml" filepath="$PROJECT_DIR$/view/view.iml" />
     </modules>
   </component>
 </project>
