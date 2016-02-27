@@ -39,15 +39,15 @@ public class DriverController extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //if (request.isUserInRole("manager")) {
+        if (request.isUserInRole("manager")) {
             DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
             List<Driver> drivers = driverService.findAll();
             request.setAttribute("drivers", drivers);
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/drivers.jsp");
             rd.forward(request, response);
-        //} else {
-        //    response.sendRedirect("/accessDenied.jsp");
-        //}
+        } else {
+            response.sendRedirect(getServletContext().getContextPath() + "/accessDenied.jsp");
+        }
     }
 
     /**

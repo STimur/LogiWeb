@@ -21,32 +21,27 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 
     <servlet>
         <servlet-name>TruckController</servlet-name>
-        <display-name>Truck</display-name>
         <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.TruckController</servlet-class>
     </servlet>
 
     <!-- servlet to try it out a sample of using js on client -->
     <servlet>
         <servlet-name>TruckJSController</servlet-name>
-        <display-name>TruckJS</display-name>
         <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.TruckJSController</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>DriverController</servlet-name>
-        <display-name>Driver</display-name>
         <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.DriverController</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>OrderController</servlet-name>
-        <display-name>Order</display-name>
         <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.OrderController</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>CargoController</servlet-name>
-        <display-name>Cargo</display-name>
         <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.CargoController</servlet-class>
     </servlet>
 
@@ -101,7 +96,7 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         <location>/accessDenied.jsp</location>
     </error-page>
 
-    <!--<security-constraint>
+    <security-constraint>
         <web-resource-collection>
             <web-resource-name>ManagerWorkspace</web-resource-name>
             <url-pattern>/*</url-pattern>
@@ -148,7 +143,7 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
             <url-pattern>/js/*</url-pattern>
             <url-pattern>/</url-pattern>
         </web-resource-collection>
-    </security-constraint>-->
+    </security-constraint>
 
     <login-config>
         <auth-method>FORM</auth-method>
