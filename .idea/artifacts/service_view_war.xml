@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="service-view:war">
-    <output-path>$PROJECT_DIR$/service-view/target</output-path>
-    <root id="archive" name="logiweb.war">
-      <element id="artifact" artifact-name="service-view:war exploded" />
-    </root>
-  </artifact>
-</component>

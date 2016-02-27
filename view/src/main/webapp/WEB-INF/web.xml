@@ -47,7 +47,6 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 
     <servlet>
         <servlet-name>LogoutController</servlet-name>
-        <display-name>Logout</display-name>
         <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.LogoutController</servlet-class>
     </servlet>
 
@@ -143,6 +142,14 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
             <url-pattern>/js/*</url-pattern>
             <url-pattern>/</url-pattern>
         </web-resource-collection>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Restricted Access</web-resource-name>
+            <url-pattern>/jsp/manager/trucks/trucksJS.jsp</url-pattern>
+        </web-resource-collection>
+        <auth-constraint />
     </security-constraint>
 
     <login-config>
