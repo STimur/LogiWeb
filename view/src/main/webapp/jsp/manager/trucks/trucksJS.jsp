@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: tims
@@ -72,7 +73,9 @@
     </script>
 </head>
 <body>
-<jsp:include page="/navbar.jspf"/>
+<c:import url="/navbar.jspf">
+    <c:param name="activeTab" value="Trucks"/>
+</c:import>
 <div class="container">
     <div style="width:60%;margin-right:20%;margin-left:20%;text-align:center;">
         <h1>Trucks</h1>

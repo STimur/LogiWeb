@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Truck" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.City" %>
 <%@ page import="java.util.List" %>
@@ -8,7 +9,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 <body>
-<jsp:include page="/navbar.jspf"/>
+<c:import url="/navbar.jspf">
+    <c:param name="activeTab" value="Drivers"/>
+</c:import>
 <div class="container">
     <% List<Driver> drivers = (List<Driver>) request.getAttribute("drivers");
         if (drivers == null) { %>

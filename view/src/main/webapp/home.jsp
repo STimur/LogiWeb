@@ -1,10 +1,13 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <title>Home Page</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 <body>
-<jsp:include page="navbar.jspf"/>
+<c:import url="/navbar.jspf">
+    <c:param name="activeTab" value="Home"/>
+</c:import>
 <div class="container">
     <h2>Home Page</h2>
     <%

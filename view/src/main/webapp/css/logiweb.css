@@ -43,3 +43,8 @@ body {
     background-color: #beede4;
 }
 
+/* Setting styles for active navbar-header */
+.navbar-header.active a {
+    background-color: #15a589;
+}
+

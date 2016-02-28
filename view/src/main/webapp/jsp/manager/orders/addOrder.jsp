@@ -28,7 +28,9 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
-<jsp:include page="/navbar.jspf"/>
+<c:import url="/navbar.jspf">
+    <c:param name="activeTab" value="Orders"/>
+</c:import>
 <div class="container">
     <%
         List<City> cities = (List<City>) session.getAttribute("cities");

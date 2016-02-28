@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.CityService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.City" %>
@@ -21,7 +22,9 @@
     static CityService cityService = new CityServiceImpl(new CityDaoJpa(City.class));
     static List<City> cities = cityService.findAll();
 %>
-<jsp:include page="/navbar.jspf"/>
+<c:import url="/navbar.jspf">
+    <c:param name="activeTab" value="Drivers"/>
+</c:import>
 <div class="container">
     <h2>Add Driver</h2>
     <form method="post" action="${pageContext.request.contextPath}/Driver">

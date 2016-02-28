@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.OrderService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.OrderDaoJpa" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Order" %>
@@ -20,7 +21,9 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
-<jsp:include page="/navbar.jspf"/>
+<c:import url="/navbar.jspf">
+    <c:param name="activeTab" value="GetJobInfo"/>
+</c:import>
 <div class="container col-md-2 col-md-offset-5">
     <h2>Enter driver personal number</h2>
     <form method="post" action="${pageContext.request.contextPath}/Driver">
