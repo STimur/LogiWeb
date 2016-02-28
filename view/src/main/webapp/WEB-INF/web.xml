@@ -6,14 +6,6 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          id="WebApp_ID" version="3.0">
     <display-name>T-Logist Web</display-name>
 
-    <jsp-config>
-        <jsp-property-group>
-            <url-pattern>*.jsp</url-pattern>
-            <url-pattern>*.jspf</url-pattern>
-            <el-ignored>false</el-ignored>
-        </jsp-property-group>
-    </jsp-config>
-
     <servlet>
         <servlet-name>FrontController</servlet-name>
         <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.FrontController</servlet-class>
@@ -159,5 +151,13 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
             <form-error-page>/login_failure.jsp</form-error-page>
         </form-login-config>
     </login-config>
+
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <url-pattern>*.jspf</url-pattern>
+            <el-ignored>false</el-ignored>
+        </jsp-property-group>
+    </jsp-config>
 
 </web-app>
