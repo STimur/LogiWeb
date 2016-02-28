@@ -23,7 +23,7 @@
 <c:import url="/navbar.jspf">
     <c:param name="activeTab" value="Orders"/>
 </c:import>
-<div id="ordersTable" class="container">
+<div class="container">
     <%
         OrderService orderService = new OrderServiceImpl(new OrderDaoJpa(Order.class));
 
@@ -43,7 +43,7 @@
             <button type="submit" class="btn btn-primary btn-success" name="action" value="add">Add Order</button>
         </form>
     </div>
-    <table class="table table-bordered table-striped table-hover">
+    <table id="ordersTable" class="table table-bordered table-striped table-hover">
         <tr>
             <th>Id</th>
             <th>Ready</th>
@@ -80,7 +80,7 @@
                     <% } %>
                 </ol>
             </td>
-            <td>
+            <td class="buttonsCell">
                 <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
                     <button type="submit" class="btn btn-primary btn-danger" name="action" value="deleteOrder">Remove
                     </button>

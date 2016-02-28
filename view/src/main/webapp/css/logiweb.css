@@ -11,9 +11,11 @@ html {
     position: relative;
     min-height: 100%;
 }
+
 body {
     margin-bottom: 60px;
 }
+
 .footer {
     position: absolute;
     padding: 25px 0px 0px 0px;
@@ -29,11 +31,11 @@ body {
     background-color: #eee;
 }
 
-.table-striped>tbody>tr:nth-child(even)>td {
+.table-striped > tbody > tr:nth-child(even) > td {
     background-color: #fff;
 }
 
-.table-striped>tbody>tr:nth-child(odd)>td {
+.table-striped > tbody > tr:nth-child(odd) > td {
     background-color: #eee;
 }
 
@@ -49,7 +51,7 @@ body {
 }
 
 /* Table alignment */
-.table > tbody > tr > td {
+.table.middleAligned > tbody > tr > td {
     vertical-align: middle;
 }
 
@@ -80,6 +82,22 @@ td.buttonsCell div div.removeButton {
 }
 
 td > div > div > form > button {
+    width: 90px;
+    height: 40px;
+}
+
+/* Remove button styling in Orders table */
+#ordersTable > tbody > tr > td.buttonsCell {
+    width: 110px;
+    padding-left: 9px;
+}
+
+#ordersTable > tbody > tr > td.buttonsCell > form > button {
+    width: 90px;
+    height: 40px;
+}
+
+#ordersTable > tbody > tr > td.buttonsCell > form > button {
     width: 90px;
     height: 40px;
 }

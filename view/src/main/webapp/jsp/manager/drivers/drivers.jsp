@@ -22,7 +22,7 @@
         <a href="${pageContext.request.contextPath}/jsp/manager/drivers/addDriver.jsp"
            class="btn btn-primary btn-success">Add Driver</a>
     </div>
-    <table class="table table-bordered table-striped table-hover">
+    <table class="table middleAligned table-bordered table-striped table-hover">
         <tr>
             <th>ID</th>
             <th>Name</th>

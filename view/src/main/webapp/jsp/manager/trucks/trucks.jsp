@@ -21,7 +21,7 @@
         <a href="${pageContext.request.contextPath}/jsp/manager/trucks/addTruck.jsp"
            class="btn btn-primary btn-success">Add Truck</a>
     </div>
-    <table class="table table-bordered table-striped table-hover">
+    <table class="table middleAligned table-bordered table-striped table-hover">
         <tr>
             <th>ID</th>
             <th>RegNumber</th>
