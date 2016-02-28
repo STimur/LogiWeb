@@ -37,11 +37,10 @@
         List<Order> orders = orderService.findAll();
     %>
 
-    <h2>Orders Table</h2>
-    <p>Current orders:</p>
+    <h2>Orders</h2>
     <div class="text-right">
         <form method="post" action="${pageContext.request.contextPath}/Order">
-            <button type="submit" class="btn btn-primary" name="action" value="add">New Order</button>
+            <button type="submit" class="btn btn-primary btn-success" name="action" value="add">Add Order</button>
         </form>
     </div>
     <table class="table table-bordered table-striped table-hover">

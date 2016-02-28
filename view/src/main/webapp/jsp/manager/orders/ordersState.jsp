@@ -29,7 +29,6 @@
     <p>You are not allowed to get pure <b>ordersState.jsp</b> without passing the controller!</p>
     <% } %>
     <h2>Orders State Table</h2>
-    <p>Current orders:</p>
     <table class="table table-bordered table-striped table-hover">
         <tr>
             <th>Id</th>

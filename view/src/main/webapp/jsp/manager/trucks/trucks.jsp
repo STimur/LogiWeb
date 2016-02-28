@@ -18,7 +18,8 @@
     <% } else { %>
     <h2>Trucks</h2>
     <div class="text-right">
-        <a href="${pageContext.request.contextPath}/jsp/manager/trucks/addTruck.jsp" class="btn btn-primary btn-success">Add Truck</a>
+        <a href="${pageContext.request.contextPath}/jsp/manager/trucks/addTruck.jsp"
+           class="btn btn-primary btn-success">Add Truck</a>
     </div>
     <table class="table table-bordered table-striped table-hover">
         <tr>
@@ -58,20 +59,27 @@
             <td>
                 <%= cityName %>
             </td>
-            <td>
-                <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Truck">
-                    <button type="submit" class="btn btn-primary btn-primary" name="action" value="edit">Edit
-                    </button>
-                    <input type="hidden" name="id" value="<%=truck.getId()%>"/>
-                </form>
-                <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Truck">
-                    <button type="submit" class="btn btn-primary btn-danger" name="action" value="delete">Remove
-                    </button>
-                    <input type="hidden" name="id" value="<%=truck.getId()%>"/>
-                </form>
+            <td class="buttonsCell">
+                <div class="row">
+                    <div class="col-md-6 editButton">
+                        <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Truck">
+                            <button type="submit" class="btn btn-primary btn-primary" name="action" value="edit">Edit
+                            </button>
+                            <input type="hidden" name="id" value="<%=truck.getId()%>"/>
+                        </form>
+                    </div>
+                    <div class="col-md-6 removeButton">
+                        <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Truck">
+                            <button type="submit" class="btn btn-primary btn-danger" name="action" value="delete">Remove
+                            </button>
+                            <input type="hidden" name="id" value="<%=truck.getId()%>"/>
+                        </form>
+                    </div>
+                </div>
             </td>
         </tr>
-        <% }} %>
+        <% }
+        } %>
     </table>
 </div>
 <jsp:include page="/footer.jspf"/>

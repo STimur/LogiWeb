@@ -48,3 +48,39 @@ body {
     background-color: #15a589;
 }
 
+/* Table alignment */
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+/* Create buttons spacing before tables */
+div.text-right a {
+    margin-bottom: 15px;
+}
+
+/* Buttons size inside tables */
+td.buttonsCell {
+    width: 225px;
+}
+
+td.buttonsCell div {
+    top: 8px;
+}
+
+td.buttonsCell .btn {
+    padding: 0;
+}
+
+td.buttonsCell div div.editButton {
+    padding-left: 20px;
+}
+
+td.buttonsCell div div.removeButton {
+    padding-left: 10px;
+}
+
+td > div > div > form > button {
+    width: 90px;
+    height: 40px;
+}
+

@@ -30,7 +30,6 @@
     <p>You are not allowed to get pure <b>cargosState.jsp</b> without passing the controller!</p>
     <% } %>
     <h2>Cargos State Table</h2>
-    <p>Current cargos:</p>
     <table class="table table-bordered table-striped table-hover">
         <tr>
             <th>Id</th>
