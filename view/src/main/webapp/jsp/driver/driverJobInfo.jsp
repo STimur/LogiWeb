@@ -10,7 +10,7 @@
 <c:import url="/navbar.jspf">
     <c:param name="activeTab" value="GetJobInfo"/>
 </c:import>
-<div class="container">
+<div class="container col-md-6 col-md-offset-3">
     <% Driver driver = (Driver) request.getAttribute("driver");
         if (driver == null) { %>
     <h2>Sorry, no driver with such personal number in database!</h2>
@@ -24,11 +24,12 @@
             Order order = driver.getOrder();
             if (order != null) {
                 List<Driver> codrivers = driver.getOrder().getAssignedDrivers();
-                for (Driver codriver : codrivers) { %>
+                for (Driver codriver : codrivers) {
+                    if (codriver.getId() != driver.getId()) {
+        %>
         <li><%=codriver.getId() + " " + codriver.toString()%>
         </li>
-        <% }
-        } else { %>
+        <% }}} else { %>
         <span class="text-warning">no order, so there is no coworkers</span>
         <% } %>
     </ul>

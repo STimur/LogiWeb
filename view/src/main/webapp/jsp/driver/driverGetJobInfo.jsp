@@ -24,7 +24,7 @@
 <c:import url="/navbar.jspf">
     <c:param name="activeTab" value="GetJobInfo"/>
 </c:import>
-<div class="container col-md-2 col-md-offset-5">
+<div class="container col-md-6 col-md-offset-3">
     <h2>Enter driver personal number</h2>
     <form method="post" action="${pageContext.request.contextPath}/Driver">
         <fieldset class="form-group">
@@ -33,6 +33,11 @@
                    placeholder="Enter driver personal number">
         </fieldset>
         <button type="submit" class="btn btn-success" name="action" value="getJobInfo">Get Job Info</button>
+        <c:if test="${not empty driverIdNotNumberException}">
+            <div class="validationError">
+                <span class="text-danger">Personal number should be more or equal to 1.</span>
+            </div>
+        </c:if>
     </form>
 </div>
 <jsp:include page="/footer.jspf"/>

@@ -5,10 +5,7 @@ import com.tsystems.javaschool.timber.logiweb.dao.jpa.DriverDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.City;
 import com.tsystems.javaschool.timber.logiweb.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.entity.DriverState;
-import com.tsystems.javaschool.timber.logiweb.exceptions.HoursWorkedOutOfRangeException;
-import com.tsystems.javaschool.timber.logiweb.exceptions.IntegerOutOfRangeException;
-import com.tsystems.javaschool.timber.logiweb.exceptions.NotNameException;
-import com.tsystems.javaschool.timber.logiweb.exceptions.NotSurnameException;
+import com.tsystems.javaschool.timber.logiweb.exceptions.*;
 import com.tsystems.javaschool.timber.logiweb.service.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.DriverService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
@@ -100,9 +97,13 @@ public class DriverController extends HttpServlet {
                     break;
                 }
                 case "delete": {
-                    id = parseDriverId(request);
-                    driverService.delete(id);
-                    break;
+                    try {
+                        id = parseDriverId(request);
+                        driverService.delete(id);
+                        break;
+                    } catch (DriverIdNotNumberException e) {
+                        e.printStackTrace();
+                    }
                 }
                 case "edit": {
                     try {
@@ -111,7 +112,7 @@ public class DriverController extends HttpServlet {
                         request.setAttribute("driverToEdit", driverToEdit);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
                         rd.forward(request, response);
-                    } catch (Exception ex) {
+                    } catch (Exception | DriverIdNotNumberException ex) {
                         logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
@@ -123,30 +124,46 @@ public class DriverController extends HttpServlet {
                 case "update": {
                     try {
                         Driver driverToUpdate = parseDriver(request);
-                        id = parseDriverId(request);
-                        driverToUpdate.setId(id);
-                        driverService.update(driverToUpdate);
+                        try {
+                            id = parseDriverId(request);
+                            driverToUpdate.setId(id);
+                            driverService.update(driverToUpdate);
+                        } catch (DriverIdNotNumberException e) {
+                            e.printStackTrace();
+                        }
                     } catch (NotNameException ex) {
-                        id = parseDriverId(request);
-                        Driver driverToEdit = driverService.findById(id);
-                        request.setAttribute("driverToEdit", driverToEdit);
-                        request.setAttribute("notNameException", ex);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
-                        rd.forward(request, response);
+                        try {
+                            id = parseDriverId(request);
+                            Driver driverToEdit = driverService.findById(id);
+                            request.setAttribute("driverToEdit", driverToEdit);
+                            request.setAttribute("notNameException", ex);
+                            RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
+                            rd.forward(request, response);
+                        } catch (DriverIdNotNumberException e) {
+                            e.printStackTrace();
+                        }
                     } catch (NotSurnameException ex) {
-                        id = parseDriverId(request);
-                        Driver driverToEdit = driverService.findById(id);
-                        request.setAttribute("driverToEdit", driverToEdit);
-                        request.setAttribute("notSurnameException", ex);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
-                        rd.forward(request, response);
+                        try {
+                            id = parseDriverId(request);
+                            Driver driverToEdit = driverService.findById(id);
+                            request.setAttribute("driverToEdit", driverToEdit);
+                            request.setAttribute("notSurnameException", ex);
+                            RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
+                            rd.forward(request, response);
+                        } catch (DriverIdNotNumberException e) {
+                            e.printStackTrace();
+                        }
                     } catch (HoursWorkedOutOfRangeException ex) {
-                        id = parseDriverId(request);
-                        Driver driverToEdit = driverService.findById(id);
-                        request.setAttribute("driverToEdit", driverToEdit);
-                        request.setAttribute("hoursWorkedOutOfRangeException", ex);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
-                        rd.forward(request, response);
+                        try {
+                            id = parseDriverId(request);
+                            Driver driverToEdit = driverService.findById(id);
+                            request.setAttribute("driverToEdit", driverToEdit);
+                            request.setAttribute("hoursWorkedOutOfRangeException", ex);
+                            RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
+                            rd.forward(request, response);
+                        } catch (DriverIdNotNumberException e) {
+                            e.printStackTrace();
+                        }
                     } catch (Exception ex) {
                         logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
@@ -162,6 +179,10 @@ public class DriverController extends HttpServlet {
                         Driver driver = driverService.findById(id);
                         request.setAttribute("driver", driver);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/driver/driverJobInfo.jsp");
+                        rd.forward(request, response);
+                    } catch (DriverIdNotNumberException ex) {
+                        request.setAttribute("driverIdNotNumberException", ex);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/driver/driverGetJobInfo.jsp");
                         rd.forward(request, response);
                     } catch (Exception ex) {
                         logger.error(ex.toString());
@@ -181,9 +202,14 @@ public class DriverController extends HttpServlet {
         rd.forward(request, response);
     }
 
-    private int parseDriverId(HttpServletRequest request) {
-        int id = Integer.valueOf(request.getParameter("id"));
-        return id;
+    private int parseDriverId(HttpServletRequest request) throws DriverIdNotNumberException {
+        int id = 0;
+        try {
+            id = InputParser.parseNumber(request.getParameter("id"), 1, Integer.MAX_VALUE);
+            return id;
+        } catch (NumberFormatException | IntegerOutOfRangeException ex) {
+            throw new DriverIdNotNumberException();
+        }
     }
 
     private Driver parseDriver(HttpServletRequest request) throws NotNameException, NotSurnameException, HoursWorkedOutOfRangeException {
@@ -200,7 +226,7 @@ public class DriverController extends HttpServlet {
             hoursWorkedThisMonth = InputParser.parseNumber(request.getParameter("hoursWorkedThisMonth"), 0, 176);
         } catch (PatternSyntaxException ex) {
             throw new NotSurnameException();
-        } catch (IntegerOutOfRangeException ex) {
+        } catch (IntegerOutOfRangeException | NumberFormatException ex) {
             throw new HoursWorkedOutOfRangeException();
         }
 
