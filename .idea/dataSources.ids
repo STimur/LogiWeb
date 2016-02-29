@@ -264,22 +264,21 @@ rolename</columns>
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <index id="72" parent="11" name="FK_mapToCity_cities_idx">
+      <index id="72" parent="11" name="FK_distFromCity_Сities_idx">
+        <columns>fromCityId</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="73" parent="11" name="FK_distToCity_Сities_idx">
         <columns>toCityId</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="73" parent="11" name="PRIMARY">
-        <columns>fromCityId
-toCityId</columns>
-        <primary>1</primary>
-      </key>
-      <foreign-key id="74" parent="11" name="FK_distFromCity_cities">
+      <foreign-key id="74" parent="11" name="FK_distFromCity_Сities">
         <columns>fromCityId</columns>
         <ref-key>~.Cities.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="75" parent="11" name="FK_distToCity_cities">
+      <foreign-key id="75" parent="11" name="FK_distToCity_Сities">
         <columns>toCityId</columns>
         <ref-key>~.Cities.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
