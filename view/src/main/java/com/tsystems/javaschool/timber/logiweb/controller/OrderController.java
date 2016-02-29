@@ -131,7 +131,7 @@ public class OrderController extends HttpServlet {
                         request.setAttribute("cargoNameException", ex);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                         rd.forward(request, response);
-                    } catch (CargoWeightOutOfRangeException ex) {
+                    } catch (NumberFormatException | CargoWeightOutOfRangeException ex) {
                         request.setAttribute("cargoWeightOutOfRangeException", ex);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                         rd.forward(request, response);

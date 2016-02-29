@@ -173,7 +173,7 @@
         </c:when>
         <c:when test="${isValidRoute && not empty order.getAssignedTruck()}">
             <h3>Assigned truck:</h3>
-            <p style="margin-left: 10px;">${order.getAssignedTruck()}</p>
+            <p style="margin-left: 10px;">${order.getAssignedTruck().toString()}</p>
         </c:when>
     </c:choose>
 
