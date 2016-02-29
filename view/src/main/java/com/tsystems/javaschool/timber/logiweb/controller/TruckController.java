@@ -67,6 +67,7 @@ public class TruckController extends HttpServlet {
                     Truck truck = null;
                     try {
                         truck = parseTruck(request);
+                        truckService.create(truck);
                     } catch (ShiftSizeOutOfRangeException ex) {
                         request.setAttribute("shiftSizeOutOfRangeException", ex);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/addTruck.jsp");
@@ -86,8 +87,6 @@ public class TruckController extends HttpServlet {
                         rd.forward(request, response);
                         return;
                     }
-                    truckService.create(truck);
-
                     break;
                 case "list":
                     break;
@@ -118,11 +117,26 @@ public class TruckController extends HttpServlet {
                         truckToUpdate.setId(id);
                         truckService.update(truckToUpdate);
                     } catch (ShiftSizeOutOfRangeException ex) {
-                        ex.printStackTrace();
+                        id = parseTruckId(request);
+                        Truck truckToEdit = truckService.findById(id);
+                        request.setAttribute("truckToEdit", truckToEdit);
+                        request.setAttribute("shiftSizeOutOfRangeException", ex);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/editTruck.jsp");
+                        rd.forward(request, response);
                     } catch (CapacityOutOfRangeException ex) {
-                        ex.printStackTrace();
+                        id = parseTruckId(request);
+                        Truck truckToEdit = truckService.findById(id);
+                        request.setAttribute("truckToEdit", truckToEdit);
+                        request.setAttribute("capacityOutOfRangeException", ex);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/editTruck.jsp");
+                        rd.forward(request, response);
                     } catch (PlateNumberFormatException ex) {
-                        ex.printStackTrace();
+                        id = parseTruckId(request);
+                        Truck truckToEdit = truckService.findById(id);
+                        request.setAttribute("truckToEdit", truckToEdit);
+                        request.setAttribute("plateNumberFormatException", ex);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/editTruck.jsp");
+                        rd.forward(request, response);
                     } catch (Exception ex) {
                         logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());

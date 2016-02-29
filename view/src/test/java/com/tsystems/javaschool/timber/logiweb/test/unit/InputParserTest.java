@@ -42,4 +42,18 @@ public class InputParserTest {
         assertEquals(false, InputParser.parsePlateNumber("ssss"));
         assertEquals(false, InputParser.parsePlateNumber("2347887435234325"));
     }
+
+    @Test
+    public void parseOnlyLetters_ValidInput() {
+        assertEquals("John", InputParser.parseLettersOnlyString("John"));
+        assertEquals("john", InputParser.parseLettersOnlyString("john"));
+        assertEquals("absdsrewqreqwerqewfsdgasd", InputParser.parseLettersOnlyString("absdsrewqreqwerqewfsdgasd"));
+    }
+
+    @Test(expected = PatternSyntaxException.class)
+    public void parseOnlyLetters_InvalidInput() throws PatternSyntaxException {
+        assertEquals("John", InputParser.parseLettersOnlyString("John5"));
+        assertEquals("john", InputParser.parseLettersOnlyString("-john:;"));
+        assertEquals("absdsrewqreqwerqewfsdgasd", InputParser.parseLettersOnlyString("J0hn"));
+    }
 }

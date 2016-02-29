@@ -5,10 +5,15 @@ import com.tsystems.javaschool.timber.logiweb.dao.jpa.DriverDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.City;
 import com.tsystems.javaschool.timber.logiweb.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.entity.DriverState;
+import com.tsystems.javaschool.timber.logiweb.exceptions.HoursWorkedOutOfRangeException;
+import com.tsystems.javaschool.timber.logiweb.exceptions.IntegerOutOfRangeException;
+import com.tsystems.javaschool.timber.logiweb.exceptions.NotNameException;
+import com.tsystems.javaschool.timber.logiweb.exceptions.NotSurnameException;
 import com.tsystems.javaschool.timber.logiweb.service.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.DriverService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
+import com.tsystems.javaschool.timber.logiweb.utility.InputParser;
 import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
@@ -18,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Servlet implementation class Test
@@ -66,6 +72,21 @@ public class DriverController extends HttpServlet {
                     try {
                         Driver driver = parseDriver(request);
                         driverService.create(driver);
+                    } catch (NotNameException ex) {
+                        request.setAttribute("notNameException", ex);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/addDriver.jsp");
+                        rd.forward(request, response);
+                        return;
+                    } catch (NotSurnameException ex) {
+                        request.setAttribute("notSurnameException", ex);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/addDriver.jsp");
+                        rd.forward(request, response);
+                        return;
+                    } catch (HoursWorkedOutOfRangeException ex) {
+                        request.setAttribute("hoursWorkedOutOfRangeException", ex);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/addDriver.jsp");
+                        rd.forward(request, response);
+                        return;
                     } catch (Exception ex) {
                         logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
@@ -105,6 +126,27 @@ public class DriverController extends HttpServlet {
                         id = parseDriverId(request);
                         driverToUpdate.setId(id);
                         driverService.update(driverToUpdate);
+                    } catch (NotNameException ex) {
+                        id = parseDriverId(request);
+                        Driver driverToEdit = driverService.findById(id);
+                        request.setAttribute("driverToEdit", driverToEdit);
+                        request.setAttribute("notNameException", ex);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
+                        rd.forward(request, response);
+                    } catch (NotSurnameException ex) {
+                        id = parseDriverId(request);
+                        Driver driverToEdit = driverService.findById(id);
+                        request.setAttribute("driverToEdit", driverToEdit);
+                        request.setAttribute("notSurnameException", ex);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
+                        rd.forward(request, response);
+                    } catch (HoursWorkedOutOfRangeException ex) {
+                        id = parseDriverId(request);
+                        Driver driverToEdit = driverService.findById(id);
+                        request.setAttribute("driverToEdit", driverToEdit);
+                        request.setAttribute("hoursWorkedOutOfRangeException", ex);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
+                        rd.forward(request, response);
                     } catch (Exception ex) {
                         logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
@@ -144,10 +186,24 @@ public class DriverController extends HttpServlet {
         return id;
     }
 
-    private Driver parseDriver(HttpServletRequest request) {
-        String name = request.getParameter("name");
-        String surname = request.getParameter("surname");
-        int hoursWorkedThisMonth = Integer.valueOf(request.getParameter("hoursWorkedThisMonth"));
+    private Driver parseDriver(HttpServletRequest request) throws NotNameException, NotSurnameException, HoursWorkedOutOfRangeException {
+        String name = "";
+        String surname = "";
+        int hoursWorkedThisMonth = 0;
+        try {
+            name = InputParser.parseLettersOnlyString(request.getParameter("name"));
+        } catch (PatternSyntaxException ex) {
+            throw new NotNameException();
+        }
+        try {
+            surname = InputParser.parseLettersOnlyString(request.getParameter("surname"));
+            hoursWorkedThisMonth = InputParser.parseNumber(request.getParameter("hoursWorkedThisMonth"), 0, 176);
+        } catch (PatternSyntaxException ex) {
+            throw new NotSurnameException();
+        } catch (IntegerOutOfRangeException ex) {
+            throw new HoursWorkedOutOfRangeException();
+        }
+
         DriverState state = DriverState.valueOf(request.getParameter("state"));
         int cityId = Integer.valueOf(request.getParameter("cityId"));
         CityService cityService = new CityServiceImpl(new CityDaoJpa(City.class));

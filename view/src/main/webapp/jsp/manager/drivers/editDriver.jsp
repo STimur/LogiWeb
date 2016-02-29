@@ -50,17 +50,32 @@
             <label for="name">Driver name</label>
             <input type="text" class="form-control" id="name" name="name"
                    placeholder="Enter driver name" value="<%=driver.getName()%>">
+            <c:if test="${not empty notNameException}">
+                <div class="validationError">
+                    <span class="text-danger">Name should consist only of latin letters.</span>
+                </div>
+            </c:if>
         </fieldset>
         <fieldset class="form-group">
             <label for="surname">Driver surname</label>
             <input type="text" class="form-control" id="surname" name="surname"
                    placeholder="Enter driver surname" value="<%=driver.getSurname()%>">
+            <c:if test="${not empty notSurnameException}">
+                <div class="validationError">
+                    <span class="text-danger">Surname should consist only of latin letters.</span>
+                </div>
+            </c:if>
         </fieldset>
         <fieldset class="form-group">
             <label for="hoursWorkedThisMonth">Hours of work in this month</label>
             <input type="text" class="form-control" id="hoursWorkedThisMonth"
                    name="hoursWorkedThisMonth" placeholder="How much hours of work driver had this month?"
                    value="<%=driver.getHoursWorkedThisMonth()%>">
+            <c:if test="${not empty hoursWorkedOutOfRangeException}">
+                <div class="validationError">
+                    <span class="text-danger">Hours of work should be between 0 and 176.</span>
+                </div>
+            </c:if>
         </fieldset>
         <fieldset class="form-group">
             <label for="state">Driver state</label>
@@ -84,7 +99,7 @@
                 <% } %>
             </select>
         </fieldset>
-        <button type="submit" class="btn btn-success" name="action" value="update">Edit Driver</button>
+        <button type="submit" class="btn btn-success" name="action" value="update">Save Changes</button>
         <input type="hidden" name="id" value="<%=driver.getId()%>">
     </form>
 </div>

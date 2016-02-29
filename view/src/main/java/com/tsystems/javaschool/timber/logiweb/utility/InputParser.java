@@ -24,4 +24,11 @@ public class InputParser {
             return input;
         throw new PatternSyntaxException("not a plate number", plateNumberRegex, -1);
     }
+
+    public static String parseLettersOnlyString(String input) throws PatternSyntaxException {
+        String lettersOnlyRegex = "[a-zA-Z]*";
+        if (input.matches(lettersOnlyRegex))
+            return input;
+        throw new PatternSyntaxException("not a plate number", lettersOnlyRegex, -1);
+    }
 }
