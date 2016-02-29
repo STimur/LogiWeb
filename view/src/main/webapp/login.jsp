@@ -10,11 +10,11 @@
     <form role="form" method="post" action="j_security_check">
         <div class="form-group">
             <label for="username">Username:</label>
-            <input type="text" class="form-control" id="username" name="j_username">
+            <input type="text" class="form-control" id="username" name="j_username" value="manager">
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" class="form-control" id="password" name="j_password">
+            <input type="password" class="form-control" id="password" name="j_password" value="manager">
         </div>
         <button type="submit" class="btn btn-default" value="Login">Login</button>
     </form>

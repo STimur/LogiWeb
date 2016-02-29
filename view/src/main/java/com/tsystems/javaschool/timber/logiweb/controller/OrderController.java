@@ -106,6 +106,7 @@ public class OrderController extends HttpServlet {
                     break;
                 }
                 case "add": {
+                    clearAttributes(request.getSession(), route, orderToCreate, suitableTrucks, suitableDrivers, cities, loadedCargos);
                     setAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
                             suitableDrivers, cities, loadedCargos);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
@@ -155,6 +156,7 @@ public class OrderController extends HttpServlet {
                             suitableDrivers, cities, loadedCargos);
                     orderToCreate = (Order) request.getSession().getAttribute("order");
                     orderToCreate.setRoute(route.get(0));
+                    request.getSession().setAttribute("isRouteFormed", true);
                     suitableTrucks = truckService.getSuitableTrucksForOrder(orderToCreate);
                     setAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
                             suitableDrivers, cities, loadedCargos);
@@ -241,6 +243,7 @@ public class OrderController extends HttpServlet {
         session.setAttribute("trucks", suitableTrucks);
         loadedCargos.clear();
         session.setAttribute("loadedCargos", loadedCargos);
+        session.setAttribute("isRouteFormed", false);
     }
 
     private void setAddOrderSessionAttributes(HttpSession session, List<RoutePoint> route,

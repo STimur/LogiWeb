@@ -114,4 +114,10 @@ public class Truck {
     public void setOrder(Order order) {
         this.order = order;
     }
+
+    @Override
+    public String toString() {
+        return "id: " + id + ", reg. number: " + regNumber +
+                ", shiftsize: " + shiftSize + ", capacity: " + capacity;
+    }
 }
