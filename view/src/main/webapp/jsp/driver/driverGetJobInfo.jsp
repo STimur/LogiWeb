@@ -31,13 +31,13 @@
             <label for="id">Personal number</label>
             <input type="text" class="form-control" id="id" name="id"
                    placeholder="Enter driver personal number">
+            <c:if test="${not empty driverIdNotNumberException}">
+                <div class="validationError">
+                    <span class="text-danger">Personal number should be more or equal to 1.</span>
+                </div>
+            </c:if>
         </fieldset>
         <button type="submit" class="btn btn-success" name="action" value="getJobInfo">Get Job Info</button>
-        <c:if test="${not empty driverIdNotNumberException}">
-            <div class="validationError">
-                <span class="text-danger">Personal number should be more or equal to 1.</span>
-            </div>
-        </c:if>
     </form>
 </div>
 <jsp:include page="/footer.jspf"/>
