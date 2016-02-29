@@ -280,7 +280,7 @@ public class OrderController extends HttpServlet {
         String name = "";
         int weight = 0;
         try {
-            InputParser.parseLettersOnlyString(request.getParameter("cargoName"));
+            name = InputParser.parseLettersOnlyString(request.getParameter("cargoName"));
             weight = InputParser.parseNumber(request.getParameter("cargoWeight"), 1, 40000);
         } catch (PatternSyntaxException ex) {
             throw new CargoNameException();
