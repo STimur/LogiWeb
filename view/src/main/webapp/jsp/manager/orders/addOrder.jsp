@@ -90,7 +90,18 @@
                        placeholder="Enter cargo weight">
             </div>
             <button type="submit" class="btn btn-primary" name="action" value="addLoadPoint">Add</button>
+            <c:if test="${not empty cargoNameException}">
+                <div class="validationError">
+                    <span class="text-danger">Cargo name should consist only of latin letters.</span>
+                </div>
+            </c:if>
+            <c:if test="${not empty cargoWeightOutOfRangeException}">
+                <div class="validationError">
+                    <span class="text-danger">Cargo weight should be between 1 and 40000.</span>
+                </div>
+            </c:if>
         </form>
+
         <c:choose>
             <c:when test="${not empty loadedCargos}">
                 <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">

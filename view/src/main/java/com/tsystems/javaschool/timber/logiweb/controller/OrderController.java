@@ -5,9 +5,7 @@ import com.tsystems.javaschool.timber.logiweb.dao.jpa.DriverDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.dao.jpa.OrderDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.*;
-import com.tsystems.javaschool.timber.logiweb.exceptions.DoubleLoadCargoException;
-import com.tsystems.javaschool.timber.logiweb.exceptions.NotAllCargosUnloadedException;
-import com.tsystems.javaschool.timber.logiweb.exceptions.UnloadNotLoadedCargoException;
+import com.tsystems.javaschool.timber.logiweb.exceptions.*;
 import com.tsystems.javaschool.timber.logiweb.service.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.DriverService;
 import com.tsystems.javaschool.timber.logiweb.service.OrderService;
@@ -16,6 +14,7 @@ import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
+import com.tsystems.javaschool.timber.logiweb.utility.InputParser;
 import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
@@ -27,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Servlet implementation class Test
@@ -125,6 +125,14 @@ public class OrderController extends HttpServlet {
                         loadedCargos.add(routePoint.getCargo());
                         setAddOrderSessionAttributes(request.getSession(), route, orderToCreate, suitableTrucks,
                                 suitableDrivers, cities, loadedCargos);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
+                        rd.forward(request, response);
+                    } catch (CargoNameException ex) {
+                        request.setAttribute("cargoNameException", ex);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
+                        rd.forward(request, response);
+                    } catch (CargoWeightOutOfRangeException ex) {
+                        request.setAttribute("cargoWeightOutOfRangeException", ex);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                         rd.forward(request, response);
                     } catch (Exception ex) {
@@ -268,9 +276,17 @@ public class OrderController extends HttpServlet {
         suitableDrivers.addAll((List<Driver>) session.getAttribute("drivers"));
     }
 
-    private RoutePoint parseRoutePoint(HttpServletRequest request) {
-        String name = request.getParameter("cargoName");
-        int weight = Integer.valueOf(request.getParameter("cargoWeight"));
+    private RoutePoint parseRoutePoint(HttpServletRequest request) throws CargoNameException, CargoWeightOutOfRangeException {
+        String name = "";
+        int weight = 0;
+        try {
+            InputParser.parseLettersOnlyString(request.getParameter("cargoName"));
+            weight = InputParser.parseNumber(request.getParameter("cargoWeight"), 1, 40000);
+        } catch (PatternSyntaxException ex) {
+            throw new CargoNameException();
+        } catch (IntegerOutOfRangeException ex) {
+            throw new CargoWeightOutOfRangeException();
+        }
         Cargo cargo = new Cargo(name, weight);
         int cityId = Integer.valueOf(request.getParameter("pointCity"));
         RoutePointType pointType = RoutePointType.valueOf(request.getParameter("pointType"));
