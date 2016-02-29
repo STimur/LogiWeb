@@ -32,12 +32,17 @@
             <label for="regNumber">Truck registration number</label>
             <input type="text" class="form-control" id="regNumber" name="regNumber"
                    placeholder="Enter truck registration number">
+            <c:if test="${not empty plateNumberFormatException}">
+                <div class="validationError">
+                    <span class="text-danger">Plate number must be 2 latin letters followed by 5 numbers, e.g. &quot;AB12345&quot;</span>
+                </div>
+            </c:if>
         </fieldset>
         <fieldset class="form-group">
             <label for="shiftSize">Shift size</label>
             <input type="text" class="form-control" id="shiftSize" name="shiftSize"
                    placeholder="Enter truck shift size">
-            <c:if test="${not empty exception}">
+            <c:if test="${not empty shiftSizeOutOfRangeException}">
                 <div class="validationError">
                     <span class="text-danger">Shift size should be a number between 1 and 4</span>
                 </div>
@@ -46,6 +51,11 @@
         <fieldset class="form-group">
             <label for="capacity">Capacity</label>
             <input type="text" class="form-control" id="capacity" name="capacity" placeholder="Enter truck capacity">
+            <c:if test="${not empty capacityOutOfRangeException}">
+                <div class="validationError">
+                    <span class="text-danger">Capacity should be a number between 10 and 40</span>
+                </div>
+            </c:if>
         </fieldset>
         <fieldset class="form-group">
             <label for="state">Truck state</label>

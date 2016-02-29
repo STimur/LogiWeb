@@ -4,17 +4,20 @@ import com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.City;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
+import com.tsystems.javaschool.timber.logiweb.exceptions.CapacityOutOfRangeException;
 import com.tsystems.javaschool.timber.logiweb.exceptions.IntegerOutOfRangeException;
+import com.tsystems.javaschool.timber.logiweb.exceptions.PlateNumberFormatException;
 import com.tsystems.javaschool.timber.logiweb.exceptions.ShiftSizeOutOfRangeException;
 import com.tsystems.javaschool.timber.logiweb.service.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.TruckService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
-import com.tsystems.javaschool.timber.logiweb.utility.IntegerParser;
+import com.tsystems.javaschool.timber.logiweb.utility.InputParser;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -65,8 +68,15 @@ public class TruckController extends HttpServlet {
                     try {
                         truck = parseTruck(request);
                     } catch (ShiftSizeOutOfRangeException ex) {
-                        request.setAttribute("exception", ex);
-                        String url = request.getRequestURI().toString();
+                        request.setAttribute("shiftSizeOutOfRangeException", ex);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/addTruck.jsp");
+                        rd.forward(request, response);
+                    } catch (CapacityOutOfRangeException ex) {
+                        request.setAttribute("capacityOutOfRangeException", ex);
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/addTruck.jsp");
+                        rd.forward(request, response);
+                    } catch (PlateNumberFormatException ex) {
+                        request.setAttribute("plateNumberFormatException", ex);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/addTruck.jsp");
                         rd.forward(request, response);
                     } catch (Exception ex) {
@@ -103,14 +113,16 @@ public class TruckController extends HttpServlet {
                 case "update":
                     try {
                         Truck truckToUpdate = null;
-                        try {
-                            truckToUpdate = parseTruck(request);
-                        } catch (ShiftSizeOutOfRangeException e) {
-                            e.printStackTrace();
-                        }
+                        truckToUpdate = parseTruck(request);
                         id = parseTruckId(request);
                         truckToUpdate.setId(id);
                         truckService.update(truckToUpdate);
+                    } catch (ShiftSizeOutOfRangeException ex) {
+                        ex.printStackTrace();
+                    } catch (CapacityOutOfRangeException ex) {
+                        ex.printStackTrace();
+                    } catch (PlateNumberFormatException ex) {
+                        ex.printStackTrace();
                     } catch (Exception ex) {
                         logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
@@ -133,15 +145,25 @@ public class TruckController extends HttpServlet {
         return id;
     }
 
-    private Truck parseTruck(HttpServletRequest request) throws ShiftSizeOutOfRangeException {
-        String regNumber = request.getParameter("regNumber");
+    private Truck parseTruck(HttpServletRequest request) throws ShiftSizeOutOfRangeException, CapacityOutOfRangeException, PlateNumberFormatException {
+        String regNumber = "";
+        try {
+            regNumber = InputParser.parsePlateNumber(request.getParameter("regNumber"));
+        } catch (PatternSyntaxException ex) {
+            throw new PlateNumberFormatException();
+        }
         int shiftSize = 0;
         try {
-            shiftSize = IntegerParser.parseNumber(request.getParameter("shiftSize"), 1, 4);
-        } catch (IntegerOutOfRangeException e) {
+            shiftSize = InputParser.parseNumber(request.getParameter("shiftSize"), 1, 4);
+        } catch (IntegerOutOfRangeException ex) {
             throw new ShiftSizeOutOfRangeException();
         }
-        int capacity = Integer.valueOf(request.getParameter("capacity"));
+        int capacity = 0;
+        try {
+            capacity = InputParser.parseNumber(request.getParameter("capacity"), 10, 40);
+        } catch (IntegerOutOfRangeException ex) {
+            throw new CapacityOutOfRangeException();
+        }
         String state = request.getParameter("state");
         int cityId = Integer.valueOf(request.getParameter("cityId"));
         CityService cityService = new CityServiceImpl(new CityDaoJpa(City.class));
