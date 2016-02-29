@@ -102,3 +102,8 @@ td > div > div > form > button {
     height: 40px;
 }
 
+/* Validation messages */
+div.validationError {
+    margin: 5px 0 0 5px;
+}
+

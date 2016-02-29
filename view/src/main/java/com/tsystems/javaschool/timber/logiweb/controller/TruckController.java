@@ -4,10 +4,13 @@ import com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.City;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
+import com.tsystems.javaschool.timber.logiweb.exceptions.IntegerOutOfRangeException;
+import com.tsystems.javaschool.timber.logiweb.exceptions.ShiftSizeOutOfRangeException;
 import com.tsystems.javaschool.timber.logiweb.service.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.TruckService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
+import com.tsystems.javaschool.timber.logiweb.utility.IntegerParser;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -58,9 +61,14 @@ public class TruckController extends HttpServlet {
         if (action != null) {
             switch (action) {
                 case "create":
+                    Truck truck = null;
                     try {
-                        Truck truck = parseTruck(request);
-                        truckService.create(truck);
+                        truck = parseTruck(request);
+                    } catch (ShiftSizeOutOfRangeException ex) {
+                        request.setAttribute("exception", ex);
+                        String url = request.getRequestURI().toString();
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/addTruck.jsp");
+                        rd.forward(request, response);
                     } catch (Exception ex) {
                         logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
@@ -68,6 +76,8 @@ public class TruckController extends HttpServlet {
                         rd.forward(request, response);
                         return;
                     }
+                    truckService.create(truck);
+
                     break;
                 case "list":
                     break;
@@ -92,7 +102,12 @@ public class TruckController extends HttpServlet {
                     break;
                 case "update":
                     try {
-                        Truck truckToUpdate = parseTruck(request);
+                        Truck truckToUpdate = null;
+                        try {
+                            truckToUpdate = parseTruck(request);
+                        } catch (ShiftSizeOutOfRangeException e) {
+                            e.printStackTrace();
+                        }
                         id = parseTruckId(request);
                         truckToUpdate.setId(id);
                         truckService.update(truckToUpdate);
@@ -118,9 +133,14 @@ public class TruckController extends HttpServlet {
         return id;
     }
 
-    private Truck parseTruck(HttpServletRequest request) {
+    private Truck parseTruck(HttpServletRequest request) throws ShiftSizeOutOfRangeException {
         String regNumber = request.getParameter("regNumber");
-        int shiftSize = Integer.valueOf(request.getParameter("shiftSize"));
+        int shiftSize = 0;
+        try {
+            shiftSize = IntegerParser.parseNumber(request.getParameter("shiftSize"), 1, 4);
+        } catch (IntegerOutOfRangeException e) {
+            throw new ShiftSizeOutOfRangeException();
+        }
         int capacity = Integer.valueOf(request.getParameter("capacity"));
         String state = request.getParameter("state");
         int cityId = Integer.valueOf(request.getParameter("cityId"));
@@ -129,5 +149,4 @@ public class TruckController extends HttpServlet {
         Truck truck = new Truck(regNumber, shiftSize, capacity, state, city);
         return truck;
     }
-
 }

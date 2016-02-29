@@ -37,6 +37,11 @@
             <label for="shiftSize">Shift size</label>
             <input type="text" class="form-control" id="shiftSize" name="shiftSize"
                    placeholder="Enter truck shift size">
+            <c:if test="${not empty exception}">
+                <div class="validationError">
+                    <span class="text-danger">Shift size should be a number between 1 and 4</span>
+                </div>
+            </c:if>
         </fieldset>
         <fieldset class="form-group">
             <label for="capacity">Capacity</label>
