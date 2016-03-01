@@ -78,6 +78,6 @@ public class Cargo {
 
     @Override
     public String toString() {
-        return name + " with weight " + weight + " tonn(s)";
+        return name + " with weight " + weight + " kg";
     }
 }

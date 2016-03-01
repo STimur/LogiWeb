@@ -118,6 +118,6 @@ public class Truck {
     @Override
     public String toString() {
         return "id: " + id + ", reg. number: " + regNumber +
-                ", shiftsize: " + shiftSize + ", capacity: " + capacity;
+                ", shiftsize: " + shiftSize + ", capacity: " + capacity + " tons";
     }
 }

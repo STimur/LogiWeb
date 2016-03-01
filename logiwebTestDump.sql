@@ -37,7 +37,7 @@ CREATE TABLE `Cargos` (
 
 LOCK TABLES `Cargos` WRITE;
 /*!40000 ALTER TABLE `Cargos` DISABLE KEYS */;
-INSERT INTO `Cargos` VALUES (1,'A',10,'READY'),(2,'cheese',5,'READY'),(3,'stone',8,'READY'),(4,'milk',15,'READY'),(5,'toyota',4,'READY'),(6,'cats',1,'READY');
+INSERT INTO `Cargos` VALUES (1,'A',10000,'READY'),(2,'cheese',5000,'READY'),(3,'stone',8000,'READY'),(4,'milk',15000,'READY'),(5,'toyota',4000,'READY'),(6,'cats',1000,'READY');
 /*!40000 ALTER TABLE `Cargos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,10 +76,10 @@ CREATE TABLE `Distances` (
   `fromCityId` int(11) NOT NULL,
   `toCityId` int(11) NOT NULL,
   `distance` int(11) NOT NULL,
-  PRIMARY KEY (`fromCityId`,`toCityId`),
-  KEY `FK_mapToCity_cities_idx` (`toCityId`),
-  CONSTRAINT `FK_distFromCity_cities` FOREIGN KEY (`fromCityId`) REFERENCES `cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_distToCity_cities` FOREIGN KEY (`toCityId`) REFERENCES `cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `FK_distFromCity_Сities_idx` (`fromCityId`),
+  KEY `FK_DistToCity_Сities_idx` (`toCityId`),
+  CONSTRAINT `FK_DistFromCity_Сities` FOREIGN KEY (`fromCityId`) REFERENCES `Cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_DistToCity_Сities` FOREIGN KEY (`toCityId`) REFERENCES `Cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -112,9 +112,11 @@ CREATE TABLE `Drivers` (
   PRIMARY KEY (`id`),
   KEY `FK_Drivers_Cities_idx` (`currentCityId`),
   KEY `FK_Drivers_Trucks_idx` (`currentTruckId`),
+  KEY `FK_Drivers_Orders_idx` (`currentOrderId`),
   CONSTRAINT `FK_Drivers_Cities` FOREIGN KEY (`currentCityId`) REFERENCES `Cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Drivers_Orders` FOREIGN KEY (`currentOrderId`) REFERENCES `Orders` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_Drivers_Trucks` FOREIGN KEY (`currentTruckId`) REFERENCES `Trucks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,9 +142,11 @@ CREATE TABLE `Orders` (
   `routeId` int(11) DEFAULT NULL,
   `truckId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_orders_trucks_idx` (`truckId`),
-  CONSTRAINT `FK_orders_trucks` FOREIGN KEY (`truckId`) REFERENCES `Trucks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+  KEY `FK_Orders_RoutePoints_idx` (`routeId`),
+  KEY `FK_Orders_Trucks_idx` (`truckId`),
+  CONSTRAINT `FK_Orders_RoutePoints` FOREIGN KEY (`routeId`) REFERENCES `RoutePoints` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Orders_Trucks` FOREIGN KEY (`truckId`) REFERENCES `Trucks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,7 +172,13 @@ CREATE TABLE `RoutePoints` (
   `cargoId` int(11) DEFAULT NULL,
   `type` enum('LOAD','UNLOAD') DEFAULT NULL,
   `nextPointId` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `FK_RoutePoints_Cities_idx` (`cityId`),
+  KEY `FK_RoutePoints_Cargos_idx` (`cargoId`),
+  KEY `FK_RoutePoints_RoutePoints_idx` (`nextPointId`),
+  CONSTRAINT `FK_RoutePoints_Cargos` FOREIGN KEY (`cargoId`) REFERENCES `Cargos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_RoutePoints_Cities` FOREIGN KEY (`cityId`) REFERENCES `Cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_RoutePoints_RoutePoints` FOREIGN KEY (`nextPointId`) REFERENCES `RoutePoints` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -200,9 +210,9 @@ CREATE TABLE `Trucks` (
   PRIMARY KEY (`id`),
   KEY `city_id_idx` (`currentCityId`),
   KEY `FK_trucks_orders_idx` (`orderId`),
-  CONSTRAINT `FK_trucks_cities` FOREIGN KEY (`currentCityId`) REFERENCES `Cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_trucks_orders` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
+  CONSTRAINT `FK_Trucks_Cities` FOREIGN KEY (`currentCityId`) REFERENCES `Cities` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Trucks_Orders` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -211,7 +221,7 @@ CREATE TABLE `Trucks` (
 
 LOCK TABLES `Trucks` WRITE;
 /*!40000 ALTER TABLE `Trucks` DISABLE KEYS */;
-INSERT INTO `Trucks` VALUES (1,'AA10223',2,20,'OK',2,1),(2,'BB10223',2,20,'OK',2,2),(3,'CC10223',4,20,'BROKEN',1,NULL),(4,'DD10223',4,20,'OK',4,NULL),(5,'EE10223',4,20,'BROKEN',5,NULL),(6,'GG10000',3,100,'OK',1,NULL),(44,'HG22000',2,20,'BROKEN',3,NULL),(55,'YU50023',2,40,'OK',3,NULL),(58,'TW25552',5,80,'BROKEN',3,NULL),(61,'CH35678',10,100,'OK',3,NULL);
+INSERT INTO `Trucks` VALUES (1,'AA10223',2,20,'OK',2,1),(2,'BB10223',2,20,'OK',2,2),(3,'CC10223',4,20,'BROKEN',1,NULL),(4,'DD10223',4,20,'OK',4,NULL),(5,'EE10223',4,20,'BROKEN',5,NULL),(6,'GG10000',3,40,'OK',1,NULL),(44,'HG22000',2,20,'BROKEN',3,NULL),(55,'YU50023',2,40,'OK',3,NULL),(58,'TW25552',5,40,'BROKEN',3,NULL),(61,'CH35678',10,40,'BROKEN',NULL,NULL),(63,'XX20025',2,30,'BROKEN',3,NULL);
 /*!40000 ALTER TABLE `Trucks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -298,4 +308,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-02-22 21:03:54
+-- Dump completed on 2016-03-01  4:13:37

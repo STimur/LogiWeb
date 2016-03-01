@@ -17,7 +17,7 @@ public class TruckDaoJpa extends GenericDaoJpa<Truck> implements TruckDao {
         openEntityManager();
         List<Truck> trucks = (List<Truck>) getEntityManager()
                 .createNamedQuery("findSuitableTrucks")
-                .setParameter("maxLoad", order.calcMaxLoad())
+                .setParameter("maxLoad", (int)Math.ceil(order.calcMaxLoad()/1000)) // converting kgs to tonns and ceiling
                 .getResultList();
         closeEntityManager();
         return trucks;
