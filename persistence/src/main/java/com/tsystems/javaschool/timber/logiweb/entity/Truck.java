@@ -12,7 +12,7 @@ import javax.persistence.*;
                         "FROM Truck t " +
                         "WHERE t.order IS NULL AND " +
                         "      t.state LIKE 'OK' AND" +
-                        "      t.capacity > :maxLoad")
+                        "      t.capacity >= :maxLoad")
 })
 @Table(name = "Trucks", schema = "logiweb")
 public class Truck {
