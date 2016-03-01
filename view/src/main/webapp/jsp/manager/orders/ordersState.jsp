@@ -28,11 +28,11 @@
         if (orders == null) { %>
     <p>You are not allowed to get pure <b>ordersState.jsp</b> without passing the controller!</p>
     <% } %>
-    <h2>Orders State Table</h2>
-    <table class="table table-bordered table-striped table-hover">
+    <h2>Orders State</h2>
+    <table id="ordersStateTable" class="table table-bordered table-striped table-hover">
         <tr>
-            <th>Id</th>
-            <th>Ready</th>
+            <th class="col-md-5">Id</th>
+            <th class="col-md-7">Ready</th>
         </tr>
         <% for (Order order : orders) { %>
         <tr>

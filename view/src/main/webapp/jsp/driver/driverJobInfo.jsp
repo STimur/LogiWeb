@@ -10,7 +10,7 @@
 <c:import url="/navbar.jspf">
     <c:param name="activeTab" value="GetJobInfo"/>
 </c:import>
-<div class="container col-md-6 col-md-offset-3">
+<div class="container">
     <% Driver driver = (Driver) request.getAttribute("driver");
         if (driver == null) { %>
     <h2>Sorry, no driver with such personal number in database!</h2>

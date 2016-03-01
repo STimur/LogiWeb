@@ -24,11 +24,10 @@
 <c:import url="/navbar.jspf">
     <c:param name="activeTab" value="GetJobInfo"/>
 </c:import>
-<div class="container col-md-6 col-md-offset-3">
+<div class="container">
     <h2>Enter driver personal number</h2>
-    <form method="post" action="${pageContext.request.contextPath}/Driver">
+    <form id="getJobInfoForm" method="post" action="${pageContext.request.contextPath}/Driver">
         <fieldset class="form-group">
-            <label for="id">Personal number</label>
             <input type="text" class="form-control" id="id" name="id"
                    placeholder="Enter driver personal number">
             <c:if test="${not empty driverIdNotNumberException}">

@@ -29,11 +29,11 @@
         if (cargos == null) { %>
     <p>You are not allowed to get pure <b>cargosState.jsp</b> without passing the controller!</p>
     <% } %>
-    <h2>Cargos State Table</h2>
-    <table class="table table-bordered table-striped table-hover">
+    <h2>Cargos State</h2>
+    <table id="cargoStatesTable" class="table table-bordered table-striped table-hover">
         <tr>
-            <th>Id</th>
-            <th>Ready</th>
+            <th class="col-md-5">Id</th>
+            <th class="col-md-7">Ready</th>
         </tr>
         <% for (Cargo cargo : cargos) { %>
         <tr>

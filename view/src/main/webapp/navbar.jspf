@@ -20,7 +20,7 @@
                         <li ${param.activeTab eq "OrdersState" ? 'class="active"' : ''}>
                             <a href="${pageContext.request.contextPath}/Order?action=stateList">Orders state</a></li>
                         <li ${param.activeTab eq "Cargos" ? 'class="active"' : ''}>
-                            <a href="${pageContext.request.contextPath}/Cargo?action=stateList">Cargos</a></li>
+                            <a href="${pageContext.request.contextPath}/Cargo?action=stateList">Cargos state</a></li>
                     </c:when>
                     <c:when test="${pageContext.request.isUserInRole('driver')}">
                         <li ${param.activeTab eq "GetJobInfo" ? 'class="active"' : ''}>
