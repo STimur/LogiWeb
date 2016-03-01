@@ -56,7 +56,7 @@
         <tr>
             <td><%= order.getId() %>
             </td>
-            <td><%= order.isFinished() %>
+            <td><%= (order.isFinished()) ? "Yes" : "No"%>
             </td>
             <td>
                 <ol>

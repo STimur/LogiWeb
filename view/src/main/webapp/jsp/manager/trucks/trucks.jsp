@@ -46,7 +46,7 @@
                 <%= truck.getCapacity() %>
             </td>
             <td>
-                <%= truck.getState() %>
+                <%= truck.getState().equals("OK") ? "OK" : "Broken"%>
             </td>
             <%
                 City city = truck.getCity();
