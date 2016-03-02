@@ -169,13 +169,13 @@ public class TruckController extends HttpServlet {
         int shiftSize = 0;
         try {
             shiftSize = InputParser.parseNumber(request.getParameter("shiftSize"), 1, 4);
-        } catch (IntegerOutOfRangeException ex) {
+        } catch (NumberFormatException | IntegerOutOfRangeException ex) {
             throw new ShiftSizeOutOfRangeException();
         }
         int capacity = 0;
         try {
             capacity = InputParser.parseNumber(request.getParameter("capacity"), 10, 40);
-        } catch (IntegerOutOfRangeException ex) {
+        } catch (NumberFormatException | IntegerOutOfRangeException ex) {
             throw new CapacityOutOfRangeException();
         }
         String state = request.getParameter("state");

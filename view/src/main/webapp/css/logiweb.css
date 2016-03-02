@@ -112,7 +112,7 @@ div.validationError {
     width: 34%;
 }
 
-#getJobInfoForm {
+#getJobInfoForm, #addDriverForm, #editDriverForm, #addTruckForm, #editTruckForm {
     width: 28%
 }
 

@@ -27,14 +27,14 @@
 </c:import>
 <div class="container">
     <h2>Add Truck</h2>
-    <form method="post" action="${pageContext.request.contextPath}/Truck">
+    <form id="addTruckForm" method="post" action="${pageContext.request.contextPath}/Truck">
         <fieldset class="form-group">
             <label for="regNumber">Truck registration number</label>
             <input type="text" class="form-control" id="regNumber" name="regNumber"
                    placeholder="Enter truck registration number">
             <c:if test="${not empty plateNumberFormatException}">
                 <div class="validationError">
-                    <span class="text-danger">Plate number must be 2 latin letters followed by 5 numbers, e.g. &quot;AB12345&quot;</span>
+                    <span class="text-danger">Enter 2 letters plus 5 numbers, e.g. &quot;AB12345&quot;</span>
                 </div>
             </c:if>
         </fieldset>
@@ -53,7 +53,7 @@
             <input type="text" class="form-control" id="capacity" name="capacity" placeholder="Enter truck capacity">
             <c:if test="${not empty capacityOutOfRangeException}">
                 <div class="validationError">
-                    <span class="text-danger">Capacity should be a number between 10 and 40</span>
+                    <span class="text-danger">Should be a number between 10 and 40</span>
                 </div>
             </c:if>
         </fieldset>

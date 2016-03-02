@@ -45,7 +45,7 @@
                 break;
         }
     %>
-    <form method="post" action="${pageContext.request.contextPath}/Driver">
+    <form id="editDriverForm" method="post" action="${pageContext.request.contextPath}/Driver">
         <fieldset class="form-group">
             <label for="name">Driver name</label>
             <input type="text" class="form-control" id="name" name="name"

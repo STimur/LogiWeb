@@ -27,7 +27,7 @@
 </c:import>
 <div class="container">
     <h2>Add Driver</h2>
-    <form method="post" action="${pageContext.request.contextPath}/Driver">
+    <form id="addDriverForm" method="post" action="${pageContext.request.contextPath}/Driver">
         <fieldset class="form-group">
             <label for="name">Driver name</label>
             <input type="text" class="form-control" id="name" name="name"
