@@ -5,12 +5,16 @@ import com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.TruckDao;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
+import org.apache.log4j.Logger;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 public class TruckServiceImpl implements TruckService {
 
     private static TruckDao truckDao;
+
+    final static Logger logger = Logger.getLogger(TruckServiceImpl.class);
 
     public TruckServiceImpl(TruckDao truckDao) {
         this.truckDao = truckDao;
@@ -18,23 +22,41 @@ public class TruckServiceImpl implements TruckService {
 
     @Override
     public void create(Truck truck) {
-        JpaUtil.beginTransaction();
-        truckDao.persist(truck);
-        JpaUtil.commitTransaction();
+        try {
+            logger.info("Creating new truck...");
+            JpaUtil.beginTransaction();
+            truckDao.persist(truck);
+            JpaUtil.commitTransaction();
+        } catch (PersistenceException ex) {
+            logger.error("Error while creating new truck.");
+            JpaUtil.rollbackTransaction();
+        }
     }
 
     @Override
     public void update(Truck truck) {
-        JpaUtil.beginTransaction();
-        truckDao.update(truck);
-        JpaUtil.commitTransaction();
+        try {
+            logger.info("Updating truck...");
+            JpaUtil.beginTransaction();
+            truckDao.update(truck);
+            JpaUtil.commitTransaction();
+        } catch (PersistenceException ex) {
+            logger.error("Error while updating truck.");
+            JpaUtil.rollbackTransaction();
+        }
     }
 
     @Override
     public void delete(int id) {
-        JpaUtil.beginTransaction();
-        truckDao.delete(id);
-        JpaUtil.commitTransaction();
+        try {
+            logger.info("Deleting truck...");
+            JpaUtil.beginTransaction();
+            truckDao.delete(id);
+            JpaUtil.commitTransaction();
+        } catch (PersistenceException ex) {
+            logger.error("Error while deleting truck.");
+            JpaUtil.rollbackTransaction();
+        }
     }
 
     @Override
@@ -48,5 +70,7 @@ public class TruckServiceImpl implements TruckService {
     }
 
     @Override
-    public List<Truck> getSuitableTrucksForOrder(Order order) { return truckDao.getSuitableTrucksForOrder(order); }
+    public List<Truck> getSuitableTrucksForOrder(Order order) {
+        return truckDao.getSuitableTrucksForOrder(order);
+    }
 }

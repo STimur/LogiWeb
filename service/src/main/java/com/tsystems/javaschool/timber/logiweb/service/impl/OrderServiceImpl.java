@@ -42,32 +42,37 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void delete(int id) {
-        JpaUtil.beginTransaction();
-        Order foundOrder = Daos.getOrderDao().find(id);
-        //updating corresponding truck and drivers rows
-        Truck orderTruck = foundOrder.getAssignedTruck();
-        orderTruck.setOrder(null);
-        Daos.getTruckDao().update(orderTruck);
-        List<Driver> drivers = foundOrder.getAssignedDrivers();
-        for (Driver driver: drivers) {
-            driver.setCurrentTruck(null);
-            driver.setOrder(null);
-            Daos.getDriverDao().update(driver);
+        try {
+            logger.info("Deleting order...");
+            JpaUtil.beginTransaction();
+            Order foundOrder = Daos.getOrderDao().find(id);
+            //updating corresponding truck and drivers rows
+            Truck orderTruck = foundOrder.getAssignedTruck();
+            orderTruck.setOrder(null);
+            Daos.getTruckDao().update(orderTruck);
+            List<Driver> drivers = foundOrder.getAssignedDrivers();
+            for (Driver driver : drivers) {
+                driver.setCurrentTruck(null);
+                driver.setOrder(null);
+                Daos.getDriverDao().update(driver);
+            }
+            //deleting corresponding routepoints and cargos rows
+            RoutePoint currentPoint = foundOrder.getRoute();
+            RoutePoint pointToRemove;
+            while (currentPoint != null) {
+                pointToRemove = currentPoint;
+                currentPoint = currentPoint.getNextRoutePoint();
+                Cargo cargoToRemove = Daos.getCargoDao().find(pointToRemove.getCargo().getId());
+                if (cargoToRemove != null)
+                    Daos.getCargoDao().delete(cargoToRemove.getId());
+                Daos.getRoutePointDao().delete(pointToRemove.getId());
+            }
+            Daos.getOrderDao().delete(foundOrder.getId());
+            JpaUtil.commitTransaction();
+        } catch (PersistenceException ex) {
+            logger.error("Error while deleting order.");
+            JpaUtil.rollbackTransaction();
         }
-        //deleting corresponding routepoints and cargos rows
-        RoutePoint currentPoint = foundOrder.getRoute();
-        RoutePoint pointToRemove;
-        while (currentPoint != null) {
-            pointToRemove = currentPoint;
-            currentPoint = currentPoint.getNextRoutePoint();
-            Cargo cargoToRemove = Daos.getCargoDao().find(pointToRemove.getCargo().getId());
-            if (cargoToRemove != null)
-                Daos.getCargoDao().delete(cargoToRemove.getId());
-            Daos.getRoutePointDao().delete(pointToRemove.getId());
-        }
-        Daos.getOrderDao().delete(foundOrder.getId());
-        //orderDao.delete(id);
-        JpaUtil.commitTransaction();
     }
 
     @Override
@@ -136,6 +141,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findById(int id) {
         return (Order) orderDao.find(id);
+
     }
 
     @Override

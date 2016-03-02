@@ -4,7 +4,9 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.Generic
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.City;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
+import org.apache.log4j.Logger;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 /**
@@ -13,29 +15,49 @@ import java.util.List;
 public class CityServiceImpl implements CityService {
     private static GenericDao cityDao;
 
+    final static Logger logger = Logger.getLogger(CityServiceImpl.class);
+
     public CityServiceImpl(GenericDao cityDao) {
         this.cityDao = cityDao;
     }
 
     @Override
     public void create(City city) {
-        JpaUtil.beginTransaction();
-        cityDao.persist(city);
-        JpaUtil.commitTransaction();
+        try {
+            logger.info("Creating new city...");
+            JpaUtil.beginTransaction();
+            cityDao.persist(city);
+            JpaUtil.commitTransaction();
+        } catch (PersistenceException ex) {
+            logger.error("Error while creating new city.");
+            JpaUtil.rollbackTransaction();
+        }
     }
 
     @Override
     public void update(City city) {
-        JpaUtil.beginTransaction();
-        cityDao.update(city);
-        JpaUtil.commitTransaction();
+        try {
+            logger.info("Updating city...");
+            JpaUtil.beginTransaction();
+            cityDao.update(city);
+            JpaUtil.commitTransaction();
+        } catch (PersistenceException ex) {
+            logger.error("Error while updating city.");
+            JpaUtil.rollbackTransaction();
+        }
     }
 
     @Override
     public void delete(int id) {
-        JpaUtil.beginTransaction();
-        cityDao.delete(id);
-        JpaUtil.commitTransaction();
+        try {
+            logger.info("Deleting city...");
+            JpaUtil.beginTransaction();
+            cityDao.delete(id);
+            JpaUtil.commitTransaction();
+        } catch (PersistenceException ex) {
+            logger.error("Error while deleting city.");
+            JpaUtil.rollbackTransaction();
+        }
     }
 
     @Override
