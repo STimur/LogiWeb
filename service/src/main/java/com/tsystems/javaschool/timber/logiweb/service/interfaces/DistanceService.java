@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.service.interfaces;
 
-import com.tsystems.javaschool.timber.logiweb.entity.Distance;
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.Distance;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.service.interfaces;
 
-import com.tsystems.javaschool.timber.logiweb.entity.City;
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.City;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
 package com.tsystems.javaschool.timber.logiweb.service.impl;
 
-import com.tsystems.javaschool.timber.logiweb.dao.interfaces.GenericDao;
-import com.tsystems.javaschool.timber.logiweb.entity.City;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.GenericDao;
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.City;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService;
-import com.tsystems.javaschool.timber.logiweb.dao.util.JpaUtil;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
 
 import java.util.List;
 

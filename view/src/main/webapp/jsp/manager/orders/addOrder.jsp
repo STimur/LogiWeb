@@ -1,9 +1,9 @@
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.TruckDaoJpa" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CityDaoJpa" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.DriverDaoJpa" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.OrderDaoJpa" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.DriverDaoJpa" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.OrderDaoJpa" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.*" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService" %>
@@ -12,6 +12,7 @@
 <%@ page import="java.util.HashSet" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.*" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%--
   Created by IntelliJ IDEA.

@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.service.interfaces;
 
-import com.tsystems.javaschool.timber.logiweb.entity.Order;
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.NotAllCargosUnloadedException;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.UnloadNotLoadedCargoException;

@@ -1,12 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.OrderDaoJpa" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Order" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.OrderDaoJpa" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Order" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.RoutePoint" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Driver" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.RoutePoint" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Cargo" %><%--
+<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Cargo" %><%--
   Created by IntelliJ IDEA.
   User: tims
   Date: 2/17/2016

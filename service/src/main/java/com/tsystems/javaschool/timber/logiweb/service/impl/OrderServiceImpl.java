@@ -1,14 +1,16 @@
 package com.tsystems.javaschool.timber.logiweb.service.impl;
 
-import com.tsystems.javaschool.timber.logiweb.dao.interfaces.DriverDao;
-import com.tsystems.javaschool.timber.logiweb.dao.interfaces.GenericDao;
-import com.tsystems.javaschool.timber.logiweb.dao.jpa.*;
-import com.tsystems.javaschool.timber.logiweb.dao.util.Daos;
-import com.tsystems.javaschool.timber.logiweb.entity.*;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.DriverDao;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.GenericDao;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CargoDaoJpa;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.DistanceDaoJpa;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.RoutePointDaoJpa;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.Daos;
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.*;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.NotAllCargosUnloadedException;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.UnloadNotLoadedCargoException;
-import com.tsystems.javaschool.timber.logiweb.dao.util.JpaUtil;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.CargoService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.DistanceService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService;
@@ -17,8 +19,6 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import java.util.*;
 

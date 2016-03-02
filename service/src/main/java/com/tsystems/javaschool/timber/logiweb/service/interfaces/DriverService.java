@@ -1,7 +1,7 @@
 package com.tsystems.javaschool.timber.logiweb.service.interfaces;
 
-import com.tsystems.javaschool.timber.logiweb.entity.Driver;
-import com.tsystems.javaschool.timber.logiweb.entity.Order;
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver;
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.Order;
 
 import java.util.List;
 

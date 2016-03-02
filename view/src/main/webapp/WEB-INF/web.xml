@@ -8,38 +8,38 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 
     <servlet>
         <servlet-name>FrontController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.FrontController</servlet-class>
+        <servlet-class>com.tsystems.javaschool.timber.logiweb.view.controllers.FrontController</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>TruckController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.TruckController</servlet-class>
+        <servlet-class>com.tsystems.javaschool.timber.logiweb.view.controllers.TruckController</servlet-class>
     </servlet>
 
     <!-- servlet to try it out a sample of using js on client -->
     <servlet>
         <servlet-name>TruckJSController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.TruckJSController</servlet-class>
+        <servlet-class>com.tsystems.javaschool.timber.logiweb.view.controllers.TruckJSController</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>DriverController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.DriverController</servlet-class>
+        <servlet-class>com.tsystems.javaschool.timber.logiweb.view.controllers.DriverController</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>OrderController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.OrderController</servlet-class>
+        <servlet-class>com.tsystems.javaschool.timber.logiweb.view.controllers.OrderController</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>CargoController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.CargoController</servlet-class>
+        <servlet-class>com.tsystems.javaschool.timber.logiweb.view.controllers.CargoController</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>LogoutController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.controller.LogoutController</servlet-class>
+        <servlet-class>com.tsystems.javaschool.timber.logiweb.view.controllers.LogoutController</servlet-class>
     </servlet>
 
     <servlet-mapping>

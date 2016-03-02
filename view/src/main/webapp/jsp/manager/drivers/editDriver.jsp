@@ -1,10 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CityDaoJpa" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.City" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.City" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Driver" %><%--
+<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver" %><%--
   Created by IntelliJ IDEA.
   User: tims
   Date: 2/19/2016

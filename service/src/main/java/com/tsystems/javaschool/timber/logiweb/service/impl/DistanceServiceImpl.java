@@ -1,7 +1,7 @@
 package com.tsystems.javaschool.timber.logiweb.service.impl;
 
-import com.tsystems.javaschool.timber.logiweb.dao.interfaces.GenericDao;
-import com.tsystems.javaschool.timber.logiweb.entity.Distance;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.GenericDao;
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.Distance;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.DistanceService;
 
 import java.util.List;

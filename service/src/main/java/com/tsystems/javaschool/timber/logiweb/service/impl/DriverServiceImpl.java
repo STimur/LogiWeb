@@ -1,10 +1,10 @@
 package com.tsystems.javaschool.timber.logiweb.service.impl;
 
-import com.tsystems.javaschool.timber.logiweb.dao.interfaces.DriverDao;
-import com.tsystems.javaschool.timber.logiweb.entity.Driver;
-import com.tsystems.javaschool.timber.logiweb.entity.Order;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.DriverDao;
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver;
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
-import com.tsystems.javaschool.timber.logiweb.dao.util.JpaUtil;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.service.interfaces;
 
-import com.tsystems.javaschool.timber.logiweb.entity.RoutePoint;
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.RoutePoint;
 
 /**
  * Business logic related to RoutePoint entity.
