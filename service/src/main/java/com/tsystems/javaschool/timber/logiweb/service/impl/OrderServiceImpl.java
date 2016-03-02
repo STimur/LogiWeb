@@ -13,9 +13,13 @@ import com.tsystems.javaschool.timber.logiweb.service.interfaces.CargoService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.DistanceService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.RoutePointService;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 import java.util.*;
 
 /**
@@ -23,6 +27,8 @@ import java.util.*;
  */
 public class OrderServiceImpl implements OrderService {
     private static GenericDao orderDao;
+
+    final static Logger logger = Logger.getLogger(OrderServiceImpl.class);
 
     public OrderServiceImpl(GenericDao truckDao) {
         this.orderDao = truckDao;
@@ -36,24 +42,55 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void delete(int id) {
         JpaUtil.beginTransaction();
-        orderDao.delete(id);
+        Order foundOrder = Daos.getOrderDao().find(id);
+        //updating corresponding truck and drivers rows
+        Truck orderTruck = foundOrder.getAssignedTruck();
+        orderTruck.setOrder(null);
+        Daos.getTruckDao().update(orderTruck);
+        List<Driver> drivers = foundOrder.getAssignedDrivers();
+        for (Driver driver: drivers) {
+            driver.setCurrentTruck(null);
+            driver.setOrder(null);
+            Daos.getDriverDao().update(driver);
+        }
+        //deleting corresponding routepoints and cargos rows
+        RoutePoint currentPoint = foundOrder.getRoute();
+        RoutePoint pointToRemove;
+        while (currentPoint != null) {
+            pointToRemove = currentPoint;
+            currentPoint = currentPoint.getNextRoutePoint();
+            Cargo cargoToRemove = Daos.getCargoDao().find(pointToRemove.getCargo().getId());
+            if (cargoToRemove != null)
+                Daos.getCargoDao().delete(cargoToRemove.getId());
+            Daos.getRoutePointDao().delete(pointToRemove.getId());
+        }
+        Daos.getOrderDao().delete(foundOrder.getId());
+        //orderDao.delete(id);
         JpaUtil.commitTransaction();
     }
 
     @Override
     public void create(Order order) throws UnloadNotLoadedCargoException, NotAllCargosUnloadedException, DoubleLoadCargoException {
-        JpaUtil.beginTransaction();
-        validate(order);
-        createRoutePointsInOrder(order);
-        orderDao.persist(order);
-        //now we can update corresponding truck row
-        Daos.getTruckDao().update(order.getAssignedTruck());
-        //now we can update corresponding drivers rows
-        DriverDao driverDao = Daos.getDriverDao();
-        List<Driver> drivers = order.getAssignedDrivers();
-        for (Driver driver : drivers)
-            driverDao.update(driver);
-        JpaUtil.commitTransaction();
+        try {
+            logger.info("Creating new order...");
+            JpaUtil.beginTransaction();
+            validate(order);
+            createRoutePointsInOrder(order);
+            orderDao.persist(order);
+            //now we can update corresponding truck row
+            Daos.getTruckDao().update(order.getAssignedTruck());
+            //now we can update corresponding drivers rows
+            DriverDao driverDao = Daos.getDriverDao();
+            List<Driver> drivers = order.getAssignedDrivers();
+            for (Driver driver : drivers)
+                driverDao.update(driver);
+            JpaUtil.commitTransaction();
+            logger.info("New order created successfully.");
+        } catch (UnloadNotLoadedCargoException| NotAllCargosUnloadedException
+                | DoubleLoadCargoException | PersistenceException ex) {
+            logger.error("Error while creating new order.");
+            JpaUtil.rollbackTransaction();
+        }
     }
 
     private void createRoutePointsInOrder(Order order) {

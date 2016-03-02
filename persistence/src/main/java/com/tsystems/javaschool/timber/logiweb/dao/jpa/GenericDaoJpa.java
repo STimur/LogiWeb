@@ -20,32 +20,6 @@ public abstract class GenericDaoJpa<T> implements GenericDao<T> {
         return entityClass;
     }
 
-    /*protected static EntityManagerFactory getEntityManagerFactory() {
-        return emFactory;
-    }*/
-
-    /*protected EntityManager getEntityManager() {
-        return eManager;
-    }*/
-
- /*   protected void openEntityManager() {
-        eManager = getEntityManagerFactory().createEntityManager();
-    }*/
-
-/*    protected void openEntityManagerWithTransaction() {
-        eManager = getEntityManagerFactory().createEntityManager();
-        eManager.getTransaction().begin();
-    }*/
-
-  /*  protected void closeEntityManager() {
-        eManager.close();
-    }
-*/
-  /*  protected void closeEntityManagerWithTransaction() {
-        eManager.getTransaction().commit();
-        eManager.close();
-    }
-*/
     @Override
     public void persist(T entity) {
         EntityManager em = JpaUtil.getEntityManager();

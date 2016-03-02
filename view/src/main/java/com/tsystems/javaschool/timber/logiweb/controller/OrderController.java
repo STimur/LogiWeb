@@ -105,7 +105,7 @@ public class OrderController extends HttpServlet {
                     rd.forward(request, response);
                     break;
                 }
-                case "delete": {
+                case "deleteOrder": {
                     id = parseOrderId(request);
                     orderService.delete(id);
                     break;

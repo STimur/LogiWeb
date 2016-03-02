@@ -26,14 +26,14 @@
 <div class="container">
     <%
         OrderService orderService = new OrderServiceImpl(new OrderDaoJpa(Order.class));
-
+        /*
         String action = request.getParameter("action");
         if (action != null) {
             if (action.equals("deleteOrder")) {
                 int id = Integer.valueOf(request.getParameter("id"));
                 orderService.delete(id);
             }
-        }
+        } */
         List<Order> orders = orderService.findAll();
     %>
 

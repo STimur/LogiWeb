@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.timber.logiweb.service.impl;
 
 import com.tsystems.javaschool.timber.logiweb.dao.interfaces.GenericDao;
+import com.tsystems.javaschool.timber.logiweb.dao.util.JpaUtil;
 import com.tsystems.javaschool.timber.logiweb.entity.RoutePoint;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.RoutePointService;
 

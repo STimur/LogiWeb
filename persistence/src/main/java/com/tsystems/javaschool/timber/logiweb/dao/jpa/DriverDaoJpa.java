@@ -19,8 +19,8 @@ public class DriverDaoJpa extends GenericDaoJpa<Driver> implements DriverDao {
 
     @Override
     public List<Driver> getSuitableDriversForOrder(Order order, int deliveryTimeThisMonth, int deliveryTimeNextMonth) {
-        EntityManager em = JpaUtil.getEntityManager();
-        List<Driver> drivers = (List<Driver>) em
+        EntityManager entityManager = JpaUtil.getEntityManager();
+        List<Driver> drivers = (List<Driver>) entityManager
                 .createNamedQuery("findSuitableDrivers")
                 .setParameter("assignedTruckCity", order.getAssignedTruck().getCity())
                 .setParameter("deliveryTimeThisMonth", deliveryTimeThisMonth)

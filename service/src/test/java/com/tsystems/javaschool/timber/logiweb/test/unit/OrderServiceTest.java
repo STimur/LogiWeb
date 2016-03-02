@@ -95,7 +95,7 @@ public class OrderServiceTest {
 
         context.assertIsSatisfied();
 
-        orderService.create(order);
+        orderService.validate(order);
     }
 
     @Test(expected = NotAllCargosUnloadedException.class)
@@ -114,7 +114,7 @@ public class OrderServiceTest {
 
         context.assertIsSatisfied();
 
-        orderService.create(order);
+        orderService.validate(order);
     }
 
     @Test(expected = UnloadNotLoadedCargoException.class)
@@ -134,7 +134,7 @@ public class OrderServiceTest {
 
         context.assertIsSatisfied();
 
-        orderService.create(order);
+        orderService.validate(order);
     }
 
 }

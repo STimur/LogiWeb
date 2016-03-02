@@ -14,13 +14,4 @@ public class CargoDaoJpa extends GenericDaoJpa<Cargo> implements CargoDao {
     public CargoDaoJpa(Class<Cargo> entityClass) {
         super(entityClass);
     }
-
-    @Override
-    public void persist(Cargo cargo) {
-        EntityManager em = JpaUtil.getEntityManager();
-        if (em.find(Cargo.class, cargo.getId()) != null)
-            em.merge(cargo);
-        else
-            em.persist(cargo);
-    }
 }
