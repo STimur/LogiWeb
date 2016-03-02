@@ -7,6 +7,7 @@
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.TruckDaoJpa" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.util.Services" %>
 <%--
   Created by IntelliJ IDEA.
   User: tims
@@ -23,7 +24,7 @@
 </head>
 <body>
 <%!
-    static CityService cityService = new CityServiceImpl(new CityDaoJpa(City.class));
+    static CityService cityService = Services.getCityService();
     static List<City> cities = cityService.findAll();
 %>
 <c:import url="/navbar.jspf">

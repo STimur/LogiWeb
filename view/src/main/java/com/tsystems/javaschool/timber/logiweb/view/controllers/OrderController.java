@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
+import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.CargoNameException;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.CargoWeightOutOfRangeException;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.IntegerOutOfRangeException;
@@ -40,9 +41,10 @@ public class OrderController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     final static Logger logger = Logger.getLogger(OrderController.class);
-    private CityService cityService = new CityServiceImpl(new CityDaoJpa(City.class));
-    private TruckService truckService = new TruckServiceImpl(new TruckDaoJpa(Truck.class));
-    private DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
+    private CityService cityService = Services.getCityService();
+    private TruckService truckService = Services.getTruckService();
+    private DriverService driverService = Services.getDriverService();
+    OrderService orderService = Services.getOrderService();
 
 
     /**
@@ -58,7 +60,6 @@ public class OrderController extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        OrderService orderService = new OrderServiceImpl(new OrderDaoJpa(Order.class));
         List<Order> orders = orderService.findAll();
         RequestDispatcher requestDispatcher;
 
@@ -84,7 +85,6 @@ public class OrderController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String action = request.getParameter("action");
-        OrderService orderService = new OrderServiceImpl(new OrderDaoJpa(Order.class));
         int id;
 
         List<RoutePoint> route = new ArrayList<RoutePoint>();

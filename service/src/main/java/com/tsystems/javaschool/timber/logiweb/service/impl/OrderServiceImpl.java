@@ -15,6 +15,7 @@ import com.tsystems.javaschool.timber.logiweb.service.interfaces.CargoService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.DistanceService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.RoutePointService;
+import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
@@ -98,15 +99,13 @@ public class OrderServiceImpl implements OrderService {
         //need to add points in reversed order cause the first ones have
         //the links to the next
         List<RoutePoint> revertedRoute = new ArrayList<RoutePoint>();
-        CargoService cargoService = new CargoServiceImpl(new CargoDaoJpa(Cargo.class));
         while (currentPoint != null) {
-            cargoService.create(currentPoint.getCargo());
+            Services.getCargoService().create(currentPoint.getCargo());
             revertedRoute.add(0, currentPoint);
             currentPoint = currentPoint.getNextRoutePoint();
         }
-        RoutePointService routePointService = new RoutePointServiceImpl(new RoutePointDaoJpa(RoutePoint.class));
         for (RoutePoint point: revertedRoute)
-            routePointService.create(point);
+            Services.getRoutePointService().create(point);
 
     }
 
@@ -143,8 +142,7 @@ public class OrderServiceImpl implements OrderService {
     public int getDeliveryTime(Order order) {
         int velocity = 80;
 
-        DistanceService distanceService = new DistanceServiceImpl(new DistanceDaoJpa(Distance.class));
-        List<Distance> distances = distanceService.findAll();
+        List<Distance> distances = Services.getDistanceService().findAll();
 
         RoutePoint currentPoint = order.getRoute();
         RoutePoint nextPoint = currentPoint.getNextRoutePoint();

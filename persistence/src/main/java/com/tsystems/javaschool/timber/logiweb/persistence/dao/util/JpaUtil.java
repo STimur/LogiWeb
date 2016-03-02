@@ -39,5 +39,11 @@ public class JpaUtil {
         return entityManager;
     }
 
-
+    public static void closeEntityManagerFactory() {
+        if (entityManager != null && entityManagerFactory.isOpen()) {
+            entityManager.close();
+        }
+        if (entityManagerFactory != null)
+            entityManagerFactory.close();
+    }
 }

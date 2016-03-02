@@ -6,6 +6,7 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
+import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import com.tsystems.javaschool.timber.logiweb.view.util.TruckSerializer;
 
 import javax.servlet.ServletException;
@@ -22,14 +23,12 @@ import java.util.List;
  */
 public class TruckJSController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private final TruckService truckService;
+    private TruckService truckService = Services.getTruckService();
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TruckJSController() {
-        truckService = new TruckServiceImpl(new TruckDaoJpa(Truck.class));
-    }
+    public TruckJSController() {}
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

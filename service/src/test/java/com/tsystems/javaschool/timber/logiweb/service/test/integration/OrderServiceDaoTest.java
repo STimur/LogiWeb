@@ -16,6 +16,7 @@ import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
+import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,10 +28,10 @@ import java.util.List;
  * Created by tims on 2/18/2016.
  */
 public class OrderServiceDaoTest {
-    static CityService cityService = new CityServiceImpl(new CityDaoJpa(City.class));
-    static TruckService truckService = new TruckServiceImpl(new TruckDaoJpa(Truck.class));
-    static DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
-    static OrderService orderService = new OrderServiceImpl(new OrderDaoJpa(Order.class));
+    static CityService cityService = Services.getCityService();
+    static TruckService truckService = Services.getTruckService();
+    static DriverService driverService = Services.getDriverService();
+    static OrderService orderService = Services.getOrderService();
     Order order;
 
     @Before

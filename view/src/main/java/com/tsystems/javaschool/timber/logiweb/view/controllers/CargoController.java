@@ -4,6 +4,7 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CargoDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Cargo;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.CargoService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CargoServiceImpl;
+import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,8 +33,7 @@ public class CargoController extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        CargoService cargoService = new CargoServiceImpl(new CargoDaoJpa(Cargo.class));
-        List<Cargo> cargos = cargoService.findAll();
+        List<Cargo> cargos = Services.getCargoService().findAll();
         RequestDispatcher requestDispatcher;
 
         if (action != null) {

@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
+import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.*;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CityDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.DriverDaoJpa;
@@ -43,8 +44,7 @@ public class DriverController extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.isUserInRole("manager")) {
-            DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
-            List<Driver> drivers = driverService.findAll();
+            List<Driver> drivers = Services.getDriverService().findAll();
             request.setAttribute("drivers", drivers);
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/drivers.jsp");
             rd.forward(request, response);
@@ -60,7 +60,7 @@ public class DriverController extends HttpServlet {
 
 
         String action = request.getParameter("action");
-        DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
+        DriverService driverService = Services.getDriverService();
         int id;
 
         if (action != null) {
@@ -232,8 +232,7 @@ public class DriverController extends HttpServlet {
 
         DriverState state = DriverState.valueOf(request.getParameter("state"));
         int cityId = Integer.valueOf(request.getParameter("cityId"));
-        CityService cityService = new CityServiceImpl(new CityDaoJpa(City.class));
-        City city = cityService.findById(cityId);
+        City city = Services.getCityService().findById(cityId);
         Driver driver = new Driver(name, surname, hoursWorkedThisMonth, state, city);
         return driver;
     }

@@ -4,7 +4,8 @@
 <%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.City" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver" %><%--
+<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.util.Services" %><%--
   Created by IntelliJ IDEA.
   User: tims
   Date: 2/19/2016
@@ -20,7 +21,7 @@
 </head>
 <body>
 <%!
-    static CityService cityService = new CityServiceImpl(new CityDaoJpa(City.class));
+    static CityService cityService = Services.getCityService();
     static List<City> cities = cityService.findAll();
 %>
 <c:import url="/navbar.jspf">

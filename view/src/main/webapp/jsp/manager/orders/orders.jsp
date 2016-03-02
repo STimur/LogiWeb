@@ -5,7 +5,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.RoutePoint" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl" %><%--
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.util.Services" %><%--
   Created by IntelliJ IDEA.
   User: tims
   Date: 2/17/2016
@@ -25,7 +26,7 @@
 </c:import>
 <div class="container">
     <%
-        OrderService orderService = new OrderServiceImpl(new OrderDaoJpa(Order.class));
+        OrderService orderService = Services.getOrderService();
         /*
         String action = request.getParameter("action");
         if (action != null) {

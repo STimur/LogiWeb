@@ -8,6 +8,7 @@ import com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.DistanceService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.DistanceServiceImpl;
+import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -20,10 +21,8 @@ public class DistanceServiceTest {
 
     @Test
     public void FindAll() {
-        DistanceService distanceService = new DistanceServiceImpl(new DistanceDaoJpa(Distance.class));
-        List<Distance> distances = distanceService.findAll();
-        CityService cityService = new CityServiceImpl(new CityDaoJpa(City.class));
-        List<City> cities = cityService.findAll();
+        List<Distance> distances = Services.getDistanceService().findAll();
+        List<City> cities = Services.getCityService().findAll();
         int numOfCities = cities.size();
         // in full directed graph G(V,E) |E| = |V|*(|V|-1)
         // also we need zero routes from city to itself

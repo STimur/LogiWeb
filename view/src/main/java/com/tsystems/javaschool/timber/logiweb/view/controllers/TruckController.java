@@ -183,8 +183,7 @@ public class TruckController extends HttpServlet {
         }
         String state = request.getParameter("state");
         int cityId = Integer.valueOf(request.getParameter("cityId"));
-        CityService cityService = new CityServiceImpl(new CityDaoJpa(City.class));
-        City city = cityService.findById(cityId);
+        City city = Services.getCityService().findById(cityId);
         Truck truck = new Truck(regNumber, shiftSize, capacity, state, city);
         return truck;
     }
