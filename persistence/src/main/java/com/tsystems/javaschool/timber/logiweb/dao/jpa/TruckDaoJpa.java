@@ -3,7 +3,9 @@ package com.tsystems.javaschool.timber.logiweb.dao.jpa;
 import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
 import com.tsystems.javaschool.timber.logiweb.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
+import com.tsystems.javaschool.timber.logiweb.util.JpaUtil;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public class TruckDaoJpa extends GenericDaoJpa<Truck> implements TruckDao {
@@ -14,12 +16,11 @@ public class TruckDaoJpa extends GenericDaoJpa<Truck> implements TruckDao {
 
     @Override
     public List<Truck> getSuitableTrucksForOrder(Order order) {
-        openEntityManager();
-        List<Truck> trucks = (List<Truck>) getEntityManager()
+        EntityManager em = JpaUtil.getEntityManager();
+        List<Truck> trucks = (List<Truck>) em
                 .createNamedQuery("findSuitableTrucks")
                 .setParameter("maxLoad", (int)Math.ceil(order.calcMaxLoad()/1000)) // converting kgs to tonns and ceiling
                 .getResultList();
-        closeEntityManager();
         return trucks;
     }
 }

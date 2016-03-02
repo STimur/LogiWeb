@@ -4,7 +4,9 @@ import com.tsystems.javaschool.timber.logiweb.dao.DriverDao;
 import com.tsystems.javaschool.timber.logiweb.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.service.DriverService;
+import com.tsystems.javaschool.timber.logiweb.util.JpaUtil;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
@@ -19,22 +21,28 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public void create(Driver driver) {
+        JpaUtil.beginTransaction();
         driverDao.persist(driver);
+        JpaUtil.commitTransaction();
     }
 
     @Override
     public void update(Driver driver) {
+        JpaUtil.beginTransaction();
         driverDao.update(driver);
+        JpaUtil.commitTransaction();
+    }
+
+    @Override
+    public void delete(int id) {
+        JpaUtil.beginTransaction();
+        driverDao.delete(id);
+        JpaUtil.commitTransaction();
     }
 
     @Override
     public Driver findById(int id) {
         return (Driver) driverDao.find(id);
-    }
-
-    @Override
-    public void delete(int id) {
-        driverDao.delete(id);
     }
 
     @Override

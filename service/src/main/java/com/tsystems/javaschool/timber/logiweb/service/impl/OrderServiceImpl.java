@@ -7,9 +7,11 @@ import com.tsystems.javaschool.timber.logiweb.exceptions.DoubleLoadCargoExceptio
 import com.tsystems.javaschool.timber.logiweb.exceptions.NotAllCargosUnloadedException;
 import com.tsystems.javaschool.timber.logiweb.exceptions.UnloadNotLoadedCargoException;
 import com.tsystems.javaschool.timber.logiweb.service.*;
+import com.tsystems.javaschool.timber.logiweb.util.JpaUtil;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 
+import javax.persistence.EntityManager;
 import java.util.*;
 
 /**
@@ -29,11 +31,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void delete(int id) {
+        JpaUtil.beginTransaction();
         orderDao.delete(id);
+        JpaUtil.commitTransaction();
     }
 
     @Override
     public void create(Order order) throws UnloadNotLoadedCargoException, NotAllCargosUnloadedException, DoubleLoadCargoException {
+        JpaUtil.beginTransaction();
         validate(order);
         createRoutePointsInOrder(order);
         orderDao.persist(order);

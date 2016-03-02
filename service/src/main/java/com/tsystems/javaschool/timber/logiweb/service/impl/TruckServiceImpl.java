@@ -4,7 +4,9 @@ import com.tsystems.javaschool.timber.logiweb.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
 import com.tsystems.javaschool.timber.logiweb.service.TruckService;
+import com.tsystems.javaschool.timber.logiweb.util.JpaUtil;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public class TruckServiceImpl implements TruckService {
@@ -17,22 +19,28 @@ public class TruckServiceImpl implements TruckService {
 
     @Override
     public void create(Truck truck) {
+        JpaUtil.beginTransaction();
         truckDao.persist(truck);
+        JpaUtil.commitTransaction();
     }
 
     @Override
     public void update(Truck truck) {
+        JpaUtil.beginTransaction();
         truckDao.update(truck);
+        JpaUtil.commitTransaction();
+    }
+
+    @Override
+    public void delete(int id) {
+        JpaUtil.beginTransaction();
+        truckDao.delete(id);
+        JpaUtil.commitTransaction();
     }
 
     @Override
     public Truck findById(int id) {
         return (Truck) truckDao.find(id);
-    }
-
-    @Override
-    public void delete(int id) {
-        truckDao.delete(id);
     }
 
     @Override

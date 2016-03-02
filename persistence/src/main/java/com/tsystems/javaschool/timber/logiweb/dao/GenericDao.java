@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.dao;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
@@ -25,19 +26,19 @@ public interface GenericDao<T> {
     void update(T entity);
 
     /**
+     * Remove persistence object from database by its primarky key.
+     *
+     * @param id primary key of persistence object in database
+     */
+    void delete(int id);
+
+    /**
      * Find persistence object by its primary key.
      *
      * @param id primary key of object
      * @return persistence object or null if not found
      */
     T find(int id);
-
-    /**
-     * Remove persistence object from database by its primarky key.
-     *
-     * @param id primary key of persistence object in database
-     */
-    void delete(int id);
 
     /**
      * Find all objects of that persistence class.
