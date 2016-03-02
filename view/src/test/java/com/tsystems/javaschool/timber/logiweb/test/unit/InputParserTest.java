@@ -1,8 +1,7 @@
 package com.tsystems.javaschool.timber.logiweb.test.unit;
 
-import com.tsystems.javaschool.timber.logiweb.exceptions.IntegerOutOfRangeException;
-import com.tsystems.javaschool.timber.logiweb.exceptions.PlateNumberFormatException;
-import com.tsystems.javaschool.timber.logiweb.utility.InputParser;
+import com.tsystems.javaschool.timber.logiweb.controller.exceptions.IntegerOutOfRangeException;
+import com.tsystems.javaschool.timber.logiweb.controller.util.InputParser;
 import org.junit.Test;
 
 import java.util.regex.PatternSyntaxException;

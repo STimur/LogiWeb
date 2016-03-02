@@ -1,11 +1,11 @@
 package com.tsystems.javaschool.timber.logiweb.test.unit;
 
-import com.tsystems.javaschool.timber.logiweb.dao.GenericDao;
+import com.tsystems.javaschool.timber.logiweb.dao.interfaces.GenericDao;
 import com.tsystems.javaschool.timber.logiweb.entity.*;
-import com.tsystems.javaschool.timber.logiweb.exceptions.DoubleLoadCargoException;
-import com.tsystems.javaschool.timber.logiweb.exceptions.NotAllCargosUnloadedException;
-import com.tsystems.javaschool.timber.logiweb.exceptions.UnloadNotLoadedCargoException;
-import com.tsystems.javaschool.timber.logiweb.service.OrderService;
+import com.tsystems.javaschool.timber.logiweb.service.exceptions.DoubleLoadCargoException;
+import com.tsystems.javaschool.timber.logiweb.service.exceptions.NotAllCargosUnloadedException;
+import com.tsystems.javaschool.timber.logiweb.service.exceptions.UnloadNotLoadedCargoException;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -15,8 +15,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by tims on 2/15/2016.

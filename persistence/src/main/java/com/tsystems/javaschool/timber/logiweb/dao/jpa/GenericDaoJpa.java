@@ -1,13 +1,9 @@
 package com.tsystems.javaschool.timber.logiweb.dao.jpa;
 
-import com.tsystems.javaschool.timber.logiweb.dao.GenericDao;
-import com.tsystems.javaschool.timber.logiweb.entity.Truck;
-import com.tsystems.javaschool.timber.logiweb.util.JpaUtil;
+import com.tsystems.javaschool.timber.logiweb.dao.interfaces.GenericDao;
+import com.tsystems.javaschool.timber.logiweb.dao.util.JpaUtil;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**

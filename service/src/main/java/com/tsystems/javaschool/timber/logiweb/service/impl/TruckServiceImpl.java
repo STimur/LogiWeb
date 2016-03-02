@@ -2,11 +2,10 @@ package com.tsystems.javaschool.timber.logiweb.service.impl;
 
 import com.tsystems.javaschool.timber.logiweb.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
-import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
-import com.tsystems.javaschool.timber.logiweb.service.TruckService;
-import com.tsystems.javaschool.timber.logiweb.util.JpaUtil;
+import com.tsystems.javaschool.timber.logiweb.dao.interfaces.TruckDao;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
+import com.tsystems.javaschool.timber.logiweb.dao.util.JpaUtil;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 public class TruckServiceImpl implements TruckService {

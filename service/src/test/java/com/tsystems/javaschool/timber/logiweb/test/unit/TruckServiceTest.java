@@ -1,8 +1,8 @@
 package com.tsystems.javaschool.timber.logiweb.test.unit;
 
 import com.tsystems.javaschool.timber.logiweb.entity.*;
-import com.tsystems.javaschool.timber.logiweb.dao.TruckDao;
-import com.tsystems.javaschool.timber.logiweb.service.TruckService;
+import com.tsystems.javaschool.timber.logiweb.dao.interfaces.TruckDao;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
 import org.jmock.Expectations;
 import org.jmock.Mockery;

@@ -1,11 +1,8 @@
 package com.tsystems.javaschool.timber.logiweb.service.impl;
 
-import com.tsystems.javaschool.timber.logiweb.dao.GenericDao;
+import com.tsystems.javaschool.timber.logiweb.dao.interfaces.GenericDao;
 import com.tsystems.javaschool.timber.logiweb.entity.RoutePoint;
-import com.tsystems.javaschool.timber.logiweb.service.RoutePointService;
-import com.tsystems.javaschool.timber.logiweb.util.JpaUtil;
-
-import javax.persistence.EntityManager;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.RoutePointService;
 
 /**
  * Created by tims on 2/18/2016.
@@ -19,8 +16,6 @@ public class RoutePointServiceImpl implements RoutePointService {
 
     @Override
     public void create(RoutePoint routePoint) {
-        JpaUtil.beginTransaction();
         routePointDao.persist(routePoint);
-        JpaUtil.commitTransaction();
     }
 }

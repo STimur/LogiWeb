@@ -1,16 +1,16 @@
 package com.tsystems.javaschool.timber.logiweb.controller;
 
+import com.tsystems.javaschool.timber.logiweb.controller.exceptions.*;
 import com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.dao.jpa.DriverDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.City;
 import com.tsystems.javaschool.timber.logiweb.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.entity.DriverState;
-import com.tsystems.javaschool.timber.logiweb.exceptions.*;
-import com.tsystems.javaschool.timber.logiweb.service.CityService;
-import com.tsystems.javaschool.timber.logiweb.service.DriverService;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
-import com.tsystems.javaschool.timber.logiweb.utility.InputParser;
+import com.tsystems.javaschool.timber.logiweb.controller.util.InputParser;
 import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;

@@ -1,8 +1,8 @@
 package com.tsystems.javaschool.timber.logiweb.test.unit;
 
-import com.tsystems.javaschool.timber.logiweb.dao.DriverDao;
+import com.tsystems.javaschool.timber.logiweb.dao.interfaces.DriverDao;
 import com.tsystems.javaschool.timber.logiweb.entity.*;
-import com.tsystems.javaschool.timber.logiweb.service.DriverService;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -12,8 +12,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by tims on 2/17/2016.

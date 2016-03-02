@@ -1,9 +1,9 @@
 package com.tsystems.javaschool.timber.logiweb.dao.jpa;
 
-import com.tsystems.javaschool.timber.logiweb.dao.DriverDao;
+import com.tsystems.javaschool.timber.logiweb.dao.interfaces.DriverDao;
 import com.tsystems.javaschool.timber.logiweb.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.entity.Order;
-import com.tsystems.javaschool.timber.logiweb.util.JpaUtil;
+import com.tsystems.javaschool.timber.logiweb.dao.util.JpaUtil;
 
 import javax.persistence.EntityManager;
 import java.util.List;

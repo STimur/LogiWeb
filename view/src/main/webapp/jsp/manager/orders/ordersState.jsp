@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.OrderService" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.OrderDaoJpa" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.Order" %>
 <%@ page import="java.util.List" %>

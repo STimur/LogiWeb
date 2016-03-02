@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
-import com.tsystems.javaschool.timber.logiweb.service.TruckService;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
-import com.tsystems.javaschool.timber.logiweb.utility.TruckSerializer;
+import com.tsystems.javaschool.timber.logiweb.controller.util.TruckSerializer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

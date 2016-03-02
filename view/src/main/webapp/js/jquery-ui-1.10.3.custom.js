@@ -14080,7 +14080,7 @@ $.effects.effect.bounce = function( o, done ) {
 		speed = o.duration / anims,
 		easing = o.easing,
 
-		// utility:
+		// util:
 		ref = ( direction === "up" || direction === "down" ) ? "top" : "left",
 		motion = ( direction === "up" || direction === "left" ),
 		i,

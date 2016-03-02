@@ -1,11 +1,9 @@
 package com.tsystems.javaschool.timber.logiweb.service.impl;
 
-import com.tsystems.javaschool.timber.logiweb.dao.GenericDao;
+import com.tsystems.javaschool.timber.logiweb.dao.interfaces.GenericDao;
 import com.tsystems.javaschool.timber.logiweb.entity.Cargo;
-import com.tsystems.javaschool.timber.logiweb.service.CargoService;
-import com.tsystems.javaschool.timber.logiweb.util.JpaUtil;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.CargoService;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
@@ -20,9 +18,7 @@ public class CargoServiceImpl implements CargoService {
 
     @Override
     public void create(Cargo cargo) {
-        JpaUtil.beginTransaction();
         cargoDao.persist(cargo);
-        JpaUtil.commitTransaction();
     }
 
     @Override

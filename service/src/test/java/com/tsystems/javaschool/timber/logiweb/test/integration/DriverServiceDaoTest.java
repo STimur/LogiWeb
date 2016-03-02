@@ -8,15 +8,13 @@ import com.tsystems.javaschool.timber.logiweb.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.entity.DriverState;
 import com.tsystems.javaschool.timber.logiweb.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
-import com.tsystems.javaschool.timber.logiweb.service.DriverService;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by tims on 2/15/2016.

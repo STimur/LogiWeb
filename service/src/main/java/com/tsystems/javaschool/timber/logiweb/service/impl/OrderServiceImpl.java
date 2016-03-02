@@ -1,17 +1,21 @@
 package com.tsystems.javaschool.timber.logiweb.service.impl;
 
-import com.tsystems.javaschool.timber.logiweb.dao.*;
+import com.tsystems.javaschool.timber.logiweb.dao.interfaces.DriverDao;
+import com.tsystems.javaschool.timber.logiweb.dao.interfaces.GenericDao;
 import com.tsystems.javaschool.timber.logiweb.dao.jpa.*;
+import com.tsystems.javaschool.timber.logiweb.dao.util.Daos;
 import com.tsystems.javaschool.timber.logiweb.entity.*;
-import com.tsystems.javaschool.timber.logiweb.exceptions.DoubleLoadCargoException;
-import com.tsystems.javaschool.timber.logiweb.exceptions.NotAllCargosUnloadedException;
-import com.tsystems.javaschool.timber.logiweb.exceptions.UnloadNotLoadedCargoException;
-import com.tsystems.javaschool.timber.logiweb.service.*;
-import com.tsystems.javaschool.timber.logiweb.util.JpaUtil;
+import com.tsystems.javaschool.timber.logiweb.service.exceptions.DoubleLoadCargoException;
+import com.tsystems.javaschool.timber.logiweb.service.exceptions.NotAllCargosUnloadedException;
+import com.tsystems.javaschool.timber.logiweb.service.exceptions.UnloadNotLoadedCargoException;
+import com.tsystems.javaschool.timber.logiweb.dao.util.JpaUtil;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.CargoService;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.DistanceService;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.RoutePointService;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 
-import javax.persistence.EntityManager;
 import java.util.*;
 
 /**
@@ -43,13 +47,13 @@ public class OrderServiceImpl implements OrderService {
         createRoutePointsInOrder(order);
         orderDao.persist(order);
         //now we can update corresponding truck row
-        TruckService truckService = new TruckServiceImpl(new TruckDaoJpa(Truck.class));
-        truckService.update(order.getAssignedTruck());
+        Daos.getTruckDao().update(order.getAssignedTruck());
         //now we can update corresponding drivers rows
-        DriverService driverService = new DriverServiceImpl(new DriverDaoJpa(Driver.class));
+        DriverDao driverDao = Daos.getDriverDao();
         List<Driver> drivers = order.getAssignedDrivers();
         for (Driver driver : drivers)
-            driverService.update(driver);
+            driverDao.update(driver);
+        JpaUtil.commitTransaction();
     }
 
     private void createRoutePointsInOrder(Order order) {

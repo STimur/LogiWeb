@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.dao.jpa.CityDaoJpa" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.CityService" %>
+<%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.entity.City" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl" %>

@@ -5,13 +5,13 @@ import com.tsystems.javaschool.timber.logiweb.dao.jpa.DriverDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.dao.jpa.OrderDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.*;
-import com.tsystems.javaschool.timber.logiweb.exceptions.DoubleLoadCargoException;
-import com.tsystems.javaschool.timber.logiweb.exceptions.NotAllCargosUnloadedException;
-import com.tsystems.javaschool.timber.logiweb.exceptions.UnloadNotLoadedCargoException;
-import com.tsystems.javaschool.timber.logiweb.service.CityService;
-import com.tsystems.javaschool.timber.logiweb.service.DriverService;
-import com.tsystems.javaschool.timber.logiweb.service.OrderService;
-import com.tsystems.javaschool.timber.logiweb.service.TruckService;
+import com.tsystems.javaschool.timber.logiweb.service.exceptions.DoubleLoadCargoException;
+import com.tsystems.javaschool.timber.logiweb.service.exceptions.NotAllCargosUnloadedException;
+import com.tsystems.javaschool.timber.logiweb.service.exceptions.UnloadNotLoadedCargoException;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl;
@@ -22,8 +22,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by tims on 2/18/2016.

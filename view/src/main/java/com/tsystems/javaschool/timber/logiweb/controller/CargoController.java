@@ -2,8 +2,7 @@ package com.tsystems.javaschool.timber.logiweb.controller;
 
 import com.tsystems.javaschool.timber.logiweb.dao.jpa.CargoDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.entity.Cargo;
-import com.tsystems.javaschool.timber.logiweb.entity.Order;
-import com.tsystems.javaschool.timber.logiweb.service.CargoService;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.CargoService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CargoServiceImpl;
 
 import javax.servlet.RequestDispatcher;
