@@ -5,10 +5,7 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.City;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.service.util.Services;
-import com.tsystems.javaschool.timber.logiweb.view.exceptions.CapacityOutOfRangeException;
-import com.tsystems.javaschool.timber.logiweb.view.exceptions.IntegerOutOfRangeException;
-import com.tsystems.javaschool.timber.logiweb.view.exceptions.PlateNumberFormatException;
-import com.tsystems.javaschool.timber.logiweb.view.exceptions.ShiftSizeOutOfRangeException;
+import com.tsystems.javaschool.timber.logiweb.view.exceptions.*;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
@@ -67,16 +64,8 @@ public class TruckController extends HttpServlet {
                     try {
                         truck = parseTruck(request);
                         Services.getTruckService().create(truck);
-                    } catch (ShiftSizeOutOfRangeException ex) {
-                        request.setAttribute("shiftSizeOutOfRangeException", ex);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/addTruck.jsp");
-                        rd.forward(request, response);
-                    } catch (CapacityOutOfRangeException ex) {
-                        request.setAttribute("capacityOutOfRangeException", ex);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/addTruck.jsp");
-                        rd.forward(request, response);
-                    } catch (PlateNumberFormatException ex) {
-                        request.setAttribute("plateNumberFormatException", ex);
+                    } catch (TruckValidationException ex) {
+                        request.setAttribute("truckValidationException", ex);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/addTruck.jsp");
                         rd.forward(request, response);
                     } catch (Exception ex) {
@@ -115,25 +104,11 @@ public class TruckController extends HttpServlet {
                         id = parseTruckId(request);
                         updatedTruck.setId(id);
                         updateTruck(updatedTruck);
-                    } catch (ShiftSizeOutOfRangeException ex) {
+                    } catch (TruckValidationException ex) {
                         id = parseTruckId(request);
                         Truck truckToEdit = Services.getTruckService().findById(id);
                         request.setAttribute("truckToEdit", truckToEdit);
                         request.setAttribute("shiftSizeOutOfRangeException", ex);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/editTruck.jsp");
-                        rd.forward(request, response);
-                    } catch (CapacityOutOfRangeException ex) {
-                        id = parseTruckId(request);
-                        Truck truckToEdit = Services.getTruckService().findById(id);
-                        request.setAttribute("truckToEdit", truckToEdit);
-                        request.setAttribute("capacityOutOfRangeException", ex);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/editTruck.jsp");
-                        rd.forward(request, response);
-                    } catch (PlateNumberFormatException ex) {
-                        id = parseTruckId(request);
-                        Truck truckToEdit = Services.getTruckService().findById(id);
-                        request.setAttribute("truckToEdit", truckToEdit);
-                        request.setAttribute("plateNumberFormatException", ex);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/editTruck.jsp");
                         rd.forward(request, response);
                     } catch (Exception ex) {
@@ -162,25 +137,37 @@ public class TruckController extends HttpServlet {
         return id;
     }
 
-    private Truck parseTruck(HttpServletRequest request) throws ShiftSizeOutOfRangeException, CapacityOutOfRangeException, PlateNumberFormatException {
+    private Truck parseTruck(HttpServletRequest request) throws TruckValidationException {
+        TruckValidationException truckValidationException = new TruckValidationException("");
         String regNumber = "";
         try {
             regNumber = InputParser.parsePlateNumber(request.getParameter("regNumber"));
+            truckValidationException.getPlateNumberValidationUnit().setInputValue(regNumber);
         } catch (PatternSyntaxException ex) {
-            throw new PlateNumberFormatException();
+            truckValidationException.getPlateNumberValidationUnit().setValid(false);
+            truckValidationException.getPlateNumberValidationUnit().setInputValue(ex.getDescription());
+            truckValidationException.setValid(false);
         }
         int shiftSize = 0;
         try {
             shiftSize = InputParser.parseNumber(request.getParameter("shiftSize"), 1, 4);
+            truckValidationException.getShiftSizeValidationUnit().setInputValue(Integer.toString(shiftSize));
         } catch (NumberFormatException | IntegerOutOfRangeException ex) {
-            throw new ShiftSizeOutOfRangeException();
+            truckValidationException.getShiftSizeValidationUnit().setValid(false);
+            truckValidationException.getShiftSizeValidationUnit().setInputValue(ex.getMessage());
+            truckValidationException.setValid(false);
         }
         int capacity = 0;
         try {
             capacity = InputParser.parseNumber(request.getParameter("capacity"), 10, 40);
+            truckValidationException.getCapacityValidationUnit().setInputValue(Integer.toString(capacity));
         } catch (NumberFormatException | IntegerOutOfRangeException ex) {
-            throw new CapacityOutOfRangeException();
+            truckValidationException.getCapacityValidationUnit().setValid(false);
+            truckValidationException.getCapacityValidationUnit().setInputValue(ex.getMessage());
+            truckValidationException.setValid(false);
         }
+        if (!truckValidationException.isValid())
+            throw truckValidationException;
         String state = request.getParameter("state");
         int cityId = Integer.valueOf(request.getParameter("cityId"));
         City city = Services.getCityService().findById(cityId);

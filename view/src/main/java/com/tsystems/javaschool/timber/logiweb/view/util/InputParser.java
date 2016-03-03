@@ -9,11 +9,16 @@ import java.util.regex.PatternSyntaxException;
  */
 public class InputParser {
     public static int parseNumber(String input, int min, int max) throws IntegerOutOfRangeException {
-        int num = Integer.valueOf(input);
+        int num = 0;
+        try {
+            num = Integer.valueOf(input);
+        } catch (NumberFormatException ex) {
+            throw new IntegerOutOfRangeException(input);
+        }
         if (num < min)
-            throw new IntegerOutOfRangeException();
+            throw new IntegerOutOfRangeException(input);
         if (num > max)
-            throw new IntegerOutOfRangeException();
+            throw new IntegerOutOfRangeException(input);
         return num;
     }
 
@@ -21,7 +26,7 @@ public class InputParser {
         String plateNumberRegex = "[a-zA-Z]{2}[0-9]{5}";
         if (input.matches(plateNumberRegex))
             return input;
-        throw new PatternSyntaxException("not a plate number", plateNumberRegex, -1);
+        throw new PatternSyntaxException(input, plateNumberRegex, -1);
     }
 
     public static String parseLettersOnlyString(String input) throws PatternSyntaxException {
