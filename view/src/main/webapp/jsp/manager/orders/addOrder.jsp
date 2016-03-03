@@ -178,60 +178,90 @@
         </c:when>
     </c:choose>
 
-    <c:choose>
-        <c:when test="${not empty trucks && trucks.size() > 0 && empty order.getAssignedTruck()}">
-            <h3>Available trucks:</h3>
-            <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
-                <div class="form-group">
-                    <label class="sr-only" for="truckToAssign">Choose truck</label>
-                    <select class="form-control" id="truckToAssign" name="truckToAssign">
-                        <c:forEach var="i" begin="0" end="${trucks.size()-1}">
-                            <c:if test="${isTruckAssigned}">
-                                <c:set var="selected"
-                                       value="${order.getAssignedTruck().getId()==trucks.get(i).getId() ? 'selected' : ''}"/>
-                            </c:if>
-                            <option value="${trucks.get(i).getId()}" ${selected}>
-                                    ${trucks.get(i).getRegNumber()}
-                            </option>
-                        </c:forEach>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary" name="action" value="assignTruck">Assign</button>
-            </form>
-        </c:when>
-    </c:choose>
     <c:set var="shiftSize" value="${order.getAssignedTruck().getShiftSize()}"/>
+    <c:set var="numOfAvailableDrivers" value="${drivers.size()}"/>
     <c:set var="numOfAssignedDrivers" value="${order.getAssignedDrivers().size()}"/>
-    <c:if test="${isTruckAssigned && shiftSize != numOfAssignedDrivers}">
-        <h3>Available drivers:</h3>
-        <!-- <h2>Assign order.getAssignedTruck().getShiftSize() Drivers:</h2> -->
-        <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
-            <div class="form-group">
-                <label class="sr-only" for="driverToAssign">Choose driver(s)</label>
-                <select class="form-control" id="driverToAssign" name="driverToAssign">
-                    <c:forEach items="${drivers}" var="driver" varStatus="loop">
-                        <option value="${driver.getId()}${" "}${loop.index.toString()}">${driver}</option>
-                    </c:forEach>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary" name="action" value="assignDriver">Assign</button>
-            <span class="text-warning"
-                  style="margin-left: 10px;">Shift size is ${shiftSize}! Assign ${shiftSize-numOfAssignedDrivers} more driver(s).</span>
-        </form>
+
+    <c:if test="${isRouteFormed}">
+        <c:choose>
+            <c:when test="${not empty trucks && trucks.size() > 0 && !isTruckAssigned}">
+                <h3>Available trucks:</h3>
+                <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
+                    <div class="form-group">
+                        <label class="sr-only" for="truckToAssign">Choose truck</label>
+                        <select class="form-control" id="truckToAssign" name="truckToAssign">
+                            <c:forEach var="i" begin="0" end="${trucks.size()-1}">
+                                <c:if test="${isTruckAssigned}">
+                                    <c:set var="selected"
+                                           value="${order.getAssignedTruck().getId()==trucks.get(i).getId() ? 'selected' : ''}"/>
+                                </c:if>
+                                <option value="${trucks.get(i).getId()}" ${selected}>
+                                        ${trucks.get(i).getRegNumber()}
+                                </option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="action" value="assignTruck">Assign</button>
+                </form>
+            </c:when>
+            <c:when test="${empty trucks}">
+                <c:choose>
+                    <c:when test="${order.calcMaxLoad() > 40000}">
+                        <h4 class="text-warning">Suggested route needs a truck with capacity more than 40 tons.</h4>
+                        <h4 class="text-warning">Max capacity of truck is 40 tons.</h4>
+                        <h4 class="text-warning">Recreate your order and make your order less heavier.</h4>
+                    </c:when>
+                    <c:otherwise>
+                        <h4 class="text-warning">Sorry, all trucks are on orders.</h4>
+                        <h4 class="text-warning">We will inform you as soon as free trucks will appear.</h4>
+                    </c:otherwise>
+                </c:choose>
+            </c:when>
+        </c:choose>
     </c:if>
-    <c:if test="${order.getAssignedDrivers() != null && order.getAssignedDrivers().size() > 0}">
-        <h3>List of assigned drivers:</h3>
-        <ol>
-            <c:forEach items="${order.getAssignedDrivers()}" var="driver">
-                <li>${driver}</li>
-            </c:forEach>
-        </ol>
-    </c:if>
-    <c:if test="${isShiftFormed}">
-        <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
-            <button type="submit" class="btn btn-primary btn-success" name="action" value="create">Create Order
-            </button>
-        </form>
+
+    <c:if test="${isTruckAssigned}">
+        <c:choose>
+            <c:when test="${numOfAvailableDrivers + numOfAssignedDrivers >= shiftSize}">
+                <c:if test="${shiftSize != numOfAssignedDrivers}">
+                    <h3>Available drivers:</h3>
+                    <!-- <h2>Assign order.getAssignedTruck().getShiftSize() Drivers:</h2> -->
+                    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
+                        <div class="form-group">
+                            <label class="sr-only" for="driverToAssign">Choose driver(s)</label>
+                            <select class="form-control" id="driverToAssign" name="driverToAssign">
+                                <c:forEach items="${drivers}" var="driver" varStatus="loop">
+                                    <option value="${driver.getId()}${" "}${loop.index.toString()}">${driver}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" name="action" value="assignDriver">Assign</button>
+                        <span class="text-warning"
+                              style="margin-left: 10px;">Shift size is ${shiftSize}! Assign ${shiftSize-numOfAssignedDrivers} more driver(s).</span>
+                    </form>
+                </c:if>
+                <c:if test="${order.getAssignedDrivers() != null && order.getAssignedDrivers().size() > 0}">
+                    <h3>List of assigned drivers:</h3>
+                    <ol>
+                        <c:forEach items="${order.getAssignedDrivers()}" var="driver">
+                            <li>${driver}</li>
+                        </c:forEach>
+                    </ol>
+                </c:if>
+                <c:if test="${isShiftFormed}">
+                    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
+                        <button type="submit" class="btn btn-primary btn-success" name="action" value="create">Create
+                            Order
+                        </button>
+                    </form>
+                </c:if>
+            </c:when>
+            <c:otherwise>
+                <h4 class="text-warning">Sorry, not enough drivers for this truck.</h4>
+                <h4 class="text-warning">Recreate order and choose another truck if available.</h4>
+                <h4 class="text-warning">If not we will inform you as soon as drivers will appear.</h4>
+            </c:otherwise>
+        </c:choose>
     </c:if>
 </div>
 <jsp:include page="/footer.jspf"/>
