@@ -108,7 +108,7 @@ public class TruckController extends HttpServlet {
                         id = parseTruckId(request);
                         Truck truckToEdit = Services.getTruckService().findById(id);
                         request.setAttribute("truckToEdit", truckToEdit);
-                        request.setAttribute("shiftSizeOutOfRangeException", ex);
+                        request.setAttribute("truckValidationException", ex);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/editTruck.jsp");
                         rd.forward(request, response);
                     } catch (Exception ex) {

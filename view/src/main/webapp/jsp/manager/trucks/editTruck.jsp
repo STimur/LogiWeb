@@ -48,8 +48,9 @@
         <fieldset class="form-group">
             <label for="regNumber">Truck registration number</label>
             <input type="text" class="form-control" id="regNumber" name="regNumber"
-                   placeholder="Enter truck registration number" value="<%=truck.getRegNumber()%>">
-            <c:if test="${not empty plateNumberFormatException}">
+                   placeholder="Enter truck registration number"
+                   value="${not empty truckValidationException ? truckValidationException.getPlateNumberValidationUnit().getInputValue() : truckToEdit.getRegNumber()}">
+            <c:if test="${not empty truckValidationException && !truckValidationException.getPlateNumberValidationUnit().isValid()}">
                 <div class="validationError">
                     <span class="text-danger">Enter 2 letters plus 5 numbers, e.g. &quot;AB12345&quot;</span>
                 </div>
@@ -58,8 +59,9 @@
         <fieldset class="form-group">
             <label for="shiftSize">Shift size</label>
             <input type="text" class="form-control" id="shiftSize" name="shiftSize"
-                   placeholder="Enter truck shift size" value="<%=truck.getShiftSize()%>">
-            <c:if test="${not empty shiftSizeOutOfRangeException}">
+                   placeholder="Enter truck shift size"
+                   value="${not empty truckValidationException ? truckValidationException.getShiftSizeValidationUnit().getInputValue() : truckToEdit.getShiftSize()}">
+            <c:if test="${not empty truckValidationException && !truckValidationException.getShiftSizeValidationUnit().isValid()}">
                 <div class="validationError">
                     <span class="text-danger">Shift size should be a number between 1 and 4</span>
                 </div>
@@ -68,8 +70,9 @@
         <fieldset class="form-group">
             <label for="capacity">Capacity</label>
             <input type="text" class="form-control" id="capacity"
-                   name="capacity" placeholder="Enter truck capacity" value="<%=truck.getCapacity()%>">
-            <c:if test="${not empty capacityOutOfRangeException}">
+                   name="capacity" placeholder="Enter truck capacity"
+                   value="${not empty truckValidationException ? truckValidationException.getCapacityValidationUnit().getInputValue() : truckToEdit.getCapacity()}">
+            <c:if test="${not empty truckValidationException && !truckValidationException.getCapacityValidationUnit().isValid()}">
                 <div class="validationError">
                     <span class="text-danger">Should be a number between 10 and 40</span>
                 </div>
