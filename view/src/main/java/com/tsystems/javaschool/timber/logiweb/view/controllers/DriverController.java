@@ -126,7 +126,7 @@ public class DriverController extends HttpServlet {
                             id = parseDriverId(request);
                             Driver driverToEdit = driverService.findById(id);
                             request.setAttribute("driverToEdit", driverToEdit);
-                            request.setAttribute("notNameException", ex);
+                            request.setAttribute("driverValidationException", ex);
                             RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
                             rd.forward(request, response);
                         } catch (DriverIdNotNumberException e) {
