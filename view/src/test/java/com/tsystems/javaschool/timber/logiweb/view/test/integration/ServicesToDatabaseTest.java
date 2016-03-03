@@ -1,18 +1,15 @@
-package com.tsystems.javaschool.timber.logiweb.view.test.functional;
+package com.tsystems.javaschool.timber.logiweb.view.test.integration;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.service.util.Services;
-import com.tsystems.javaschool.timber.logiweb.view.controllers.TruckController;
 import org.junit.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by tims on 3/3/2016.
  */
-public class TruckControllerTest {
+public class ServicesToDatabaseTest {
 
     @Test
     public void TestUpdateTruckFrom2Clients() throws InterruptedException {
