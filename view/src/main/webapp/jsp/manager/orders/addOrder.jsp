@@ -70,12 +70,14 @@
             </div>
             <div class="form-group">
                 <label class="sr-only" for="cargoName">Enter cargo name</label>
-                <input type="text" class="form-control" id="cargoName" name="cargoName" placeholder="Enter cargo name">
+                <input type="text" class="form-control" id="cargoName" name="cargoName" placeholder="Enter cargo name"
+                       value="${cargoValidationException.getNameValidationUnit().getInputValue()}">
             </div>
             <div class="form-group">
                 <label class="sr-only" for="cargoWeight">Enter cargo weight</label>
                 <input type="text" class="form-control" id="cargoWeight" name="cargoWeight"
-                       placeholder="Enter cargo weight">
+                       placeholder="Enter cargo weight"
+                       value="${cargoValidationException.getWeightValidationUnit().getInputValue()}">
             </div>
             <button type="submit" class="btn btn-primary" name="action" value="addLoadPoint">Add</button>
             <c:if test="${not empty cargoValidationException && !cargoValidationException.getNameValidationUnit().isValid()}">
