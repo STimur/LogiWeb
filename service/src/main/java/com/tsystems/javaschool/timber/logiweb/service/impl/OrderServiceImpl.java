@@ -9,6 +9,7 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.Daos;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.*;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.NotAllCargosUnloadedException;
+import com.tsystems.javaschool.timber.logiweb.service.exceptions.OrderNotCreated;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.UnloadNotLoadedCargoException;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.CargoService;
@@ -69,14 +70,15 @@ public class OrderServiceImpl implements OrderService {
             }
             Daos.getOrderDao().delete(foundOrder.getId());
             JpaUtil.commitTransaction();
-        } catch (PersistenceException ex) {
+        } catch (NullPointerException | PersistenceException ex) {
             logger.error("Error while deleting order.");
             JpaUtil.rollbackTransaction();
+            throw new PersistenceException("Another client already deleted this order. Refresh your orders page.");
         }
     }
 
     @Override
-    public void create(Order order) throws UnloadNotLoadedCargoException, NotAllCargosUnloadedException, DoubleLoadCargoException {
+    public void create(Order order) throws UnloadNotLoadedCargoException, NotAllCargosUnloadedException, DoubleLoadCargoException, OrderNotCreated {
         try {
             logger.info("Creating new order...");
             JpaUtil.beginTransaction();
@@ -84,18 +86,24 @@ public class OrderServiceImpl implements OrderService {
             createRoutePointsInOrder(order);
             orderDao.persist(order);
             //now we can update corresponding truck row
+            if (Daos.getTruckDao().find(order.getAssignedTruck().getId()).getOrder() != null)
+                throw new PersistenceException("Truck have already been assigned to order in another client.");
             Daos.getTruckDao().update(order.getAssignedTruck());
             //now we can update corresponding drivers rows
             DriverDao driverDao = Daos.getDriverDao();
             List<Driver> drivers = order.getAssignedDrivers();
-            for (Driver driver : drivers)
+            for (Driver driver : drivers) {
+                if (Daos.getDriverDao().find(driver.getId()).getOrder() != null)
+                    throw new PersistenceException("Driver have already been assigned to order in another client.");
                 driverDao.update(driver);
+            }
             JpaUtil.commitTransaction();
             logger.info("New order created successfully.");
         } catch (UnloadNotLoadedCargoException| NotAllCargosUnloadedException
                 | DoubleLoadCargoException | PersistenceException ex) {
-            logger.error("Error while creating new order.");
+            logger.error("Error while creating new order: " + ex.getMessage());
             JpaUtil.rollbackTransaction();
+            throw new OrderNotCreated("Another client assigned this truck or drivers. Try again");
         }
     }
 

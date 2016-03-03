@@ -112,7 +112,7 @@ public class Driver {
         this.currentCity = city;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "currentTruckId")
     public Truck getCurrentTruck() {
         return currentTruck;

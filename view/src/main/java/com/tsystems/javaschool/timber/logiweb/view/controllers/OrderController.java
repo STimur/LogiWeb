@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
+import com.tsystems.javaschool.timber.logiweb.service.exceptions.OrderNotCreated;
 import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.CargoNameException;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.CargoWeightOutOfRangeException;
@@ -23,6 +24,7 @@ import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.view.util.InputParser;
 import org.apache.log4j.Logger;
 
+import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -107,7 +109,15 @@ public class OrderController extends HttpServlet {
                 }
                 case "deleteOrder": {
                     id = parseOrderId(request);
-                    orderService.delete(id);
+                    try {
+                        orderService.delete(id);
+                    } catch (PersistenceException ex) {
+                        logger.error(ex.toString());
+                        request.getSession().setAttribute("errorMessage", ex.getMessage());
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
+                        rd.forward(request, response);
+                        return;
+                    }
                     break;
                 }
                 case "add": {
@@ -225,6 +235,12 @@ public class OrderController extends HttpServlet {
                             NotAllCargosUnloadedException | DoubleLoadCargoException ex) {
                         logger.error(ex.toString());
                         request.getSession().setAttribute("errorMessage", ex.toString());
+                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
+                        rd.forward(request, response);
+                        return;
+                    } catch (OrderNotCreated ex) {
+                        logger.error(ex.toString());
+                        request.getSession().setAttribute("errorMessage", ex.getMessage());
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
                         rd.forward(request, response);
                         return;

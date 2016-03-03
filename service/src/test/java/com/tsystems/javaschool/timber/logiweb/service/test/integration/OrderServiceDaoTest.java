@@ -7,6 +7,7 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.*;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.NotAllCargosUnloadedException;
+import com.tsystems.javaschool.timber.logiweb.service.exceptions.OrderNotCreated;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.UnloadNotLoadedCargoException;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
@@ -41,7 +42,7 @@ public class OrderServiceDaoTest {
 
     @Test
     public void CreateOrder() throws Exception, DoubleLoadCargoException,
-            NotAllCargosUnloadedException, UnloadNotLoadedCargoException {
+            NotAllCargosUnloadedException, UnloadNotLoadedCargoException, OrderNotCreated {
 
         //mimic addOrder.jsp order creation process
         //1st create route for order
@@ -80,7 +81,7 @@ public class OrderServiceDaoTest {
 
     @Test
     public void DeleteOrder() throws DoubleLoadCargoException,
-            NotAllCargosUnloadedException, UnloadNotLoadedCargoException {
+            NotAllCargosUnloadedException, UnloadNotLoadedCargoException, OrderNotCreated {
 
         //mimic addOrder.jsp order creation process
         //1st create route for order
@@ -106,8 +107,8 @@ public class OrderServiceDaoTest {
             order.setAssignedDrivers(new ArrayList<Driver>());
         for (int i=0; i<chosenTruck.getShiftSize();i++) {
             Driver driver = drivers.get(i);
-            driver.setOrder(order);
-            driver.setCurrentTruck(order.getAssignedTruck());
+            //driver.setOrder(order);
+            //driver.setCurrentTruck(order.getAssignedTruck());
             order.getAssignedDrivers().add(driver);
         }
 

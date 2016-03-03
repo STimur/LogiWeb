@@ -3,6 +3,7 @@ package com.tsystems.javaschool.timber.logiweb.service.interfaces;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.NotAllCargosUnloadedException;
+import com.tsystems.javaschool.timber.logiweb.service.exceptions.OrderNotCreated;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.UnloadNotLoadedCargoException;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public interface OrderService {
     /**
      * Create Driver entity in database.
      */
-    void create(Order order) throws UnloadNotLoadedCargoException, NotAllCargosUnloadedException, DoubleLoadCargoException;
+    void create(Order order) throws UnloadNotLoadedCargoException, NotAllCargosUnloadedException, DoubleLoadCargoException, OrderNotCreated;
 
     /**
      * Check that order have same number of Unload and Load points
