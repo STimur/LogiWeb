@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void delete(int id) {
+    public synchronized void delete(int id) {
         try {
             logger.info("Deleting order...");
             JpaUtil.beginTransaction();

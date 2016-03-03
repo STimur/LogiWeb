@@ -36,7 +36,7 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public void update(Driver driver) {
+    public synchronized void update(Driver driver) {
         try {
             logger.info("Updating driver...");
             JpaUtil.beginTransaction();
@@ -49,7 +49,7 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public void delete(int id) {
+    public synchronized void delete(int id) {
         try {
             logger.info("Deleting driver...");
             JpaUtil.beginTransaction();

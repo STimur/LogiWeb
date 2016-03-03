@@ -35,7 +35,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public void update(City city) {
+    public synchronized void update(City city) {
         try {
             logger.info("Updating city...");
             JpaUtil.beginTransaction();
@@ -48,7 +48,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public void delete(int id) {
+    public synchronized void delete(int id) {
         try {
             logger.info("Deleting city...");
             JpaUtil.beginTransaction();

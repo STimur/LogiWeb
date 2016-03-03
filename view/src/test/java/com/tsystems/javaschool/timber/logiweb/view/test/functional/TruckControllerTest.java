@@ -16,7 +16,6 @@ public class TruckControllerTest {
 
     @Test
     public void TestUpdateTruckFrom2Clients() throws InterruptedException {
-        TruckController truckController = new TruckController();
         Truck updatedTruck = Services.getTruckService().findById(58);
         for (int i=0;i<10;i++) {
             new Thread()
@@ -25,12 +24,12 @@ public class TruckControllerTest {
                     Truck updatedTruck = Services.getTruckService().findById(58);
                     Random rn = new Random();
                     updatedTruck.setShiftSize(rn.nextInt(4)+1);
-                    truckController.updateTruck(updatedTruck);
+                    Services.getTruckService().update(updatedTruck);
                 }
             }.start();
         }
         updatedTruck.setShiftSize(1);
-        truckController.updateTruck(updatedTruck);
+        Services.getTruckService().update(updatedTruck);
     }
 
 }

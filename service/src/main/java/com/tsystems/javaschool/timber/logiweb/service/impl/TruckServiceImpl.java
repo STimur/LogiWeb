@@ -34,7 +34,7 @@ public class TruckServiceImpl implements TruckService {
     }
 
     @Override
-    public void update(Truck truck) {
+    public synchronized void update(Truck truck) {
         try {
             logger.info("Updating truck...");
             JpaUtil.beginTransaction();
@@ -47,7 +47,7 @@ public class TruckServiceImpl implements TruckService {
     }
 
     @Override
-    public void delete(int id) {
+    public synchronized void delete(int id) {
         try {
             logger.info("Deleting truck...");
             JpaUtil.beginTransaction();

@@ -153,7 +153,7 @@ public class TruckController extends HttpServlet {
         rd.forward(request, response);
     }
 
-    public synchronized void updateTruck(Truck updatedTruck) {
+    private synchronized void updateTruck(Truck updatedTruck) {
         Services.getTruckService().update(updatedTruck);
     }
 
