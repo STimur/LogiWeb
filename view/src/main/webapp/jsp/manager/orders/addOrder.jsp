@@ -1,17 +1,4 @@
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.TruckDaoJpa" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CityDaoJpa" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.DriverDaoJpa" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.OrderDaoJpa" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.*" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService" %>
-<%@ page import="java.util.HashSet" %>
-<%@ page import="java.util.Set" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.entity.*" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%--
@@ -91,12 +78,12 @@
                        placeholder="Enter cargo weight">
             </div>
             <button type="submit" class="btn btn-primary" name="action" value="addLoadPoint">Add</button>
-            <c:if test="${not empty cargoNameException}">
+            <c:if test="${not empty cargoValidationException && !cargoValidationException.getNameValidationUnit().isValid()}">
                 <div class="validationError">
                     <span class="text-danger">Cargo name should consist only of latin letters.</span>
                 </div>
             </c:if>
-            <c:if test="${not empty cargoWeightOutOfRangeException}">
+            <c:if test="${not empty cargoValidationException && !cargoValidationException.getWeightValidationUnit().isValid()}">
                 <div class="validationError">
                     <span class="text-danger">Cargo weight should be between 1 and 40000.</span>
                 </div>

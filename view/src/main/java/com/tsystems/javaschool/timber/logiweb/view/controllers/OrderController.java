@@ -3,6 +3,7 @@ package com.tsystems.javaschool.timber.logiweb.view.controllers;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.OrderNotCreated;
 import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.CargoNameException;
+import com.tsystems.javaschool.timber.logiweb.view.exceptions.CargoValidationException;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.CargoWeightOutOfRangeException;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.IntegerOutOfRangeException;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CityDaoJpa;
@@ -142,12 +143,8 @@ public class OrderController extends HttpServlet {
                                 suitableDrivers, cities, loadedCargos);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                         rd.forward(request, response);
-                    } catch (CargoNameException ex) {
-                        request.setAttribute("cargoNameException", ex);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
-                        rd.forward(request, response);
-                    } catch (NumberFormatException | CargoWeightOutOfRangeException ex) {
-                        request.setAttribute("cargoWeightOutOfRangeException", ex);
+                    } catch (CargoValidationException ex) {
+                        request.setAttribute("cargoValidationException", ex);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/orders/addOrder.jsp");
                         rd.forward(request, response);
                     } catch (Exception ex) {
@@ -297,17 +294,29 @@ public class OrderController extends HttpServlet {
         suitableDrivers.addAll((List<Driver>) session.getAttribute("drivers"));
     }
 
-    private RoutePoint parseRoutePoint(HttpServletRequest request) throws CargoNameException, CargoWeightOutOfRangeException {
+    private RoutePoint parseRoutePoint(HttpServletRequest request) throws CargoValidationException {
+        CargoValidationException cargoValidationException = new CargoValidationException("");
         String name = "";
         int weight = 0;
         try {
             name = InputParser.parseLettersOnlyString(request.getParameter("cargoName"));
-            weight = InputParser.parseNumber(request.getParameter("cargoWeight"), 1, 40000);
+            cargoValidationException.getNameValidationUnit().setInputValue(name);
         } catch (PatternSyntaxException ex) {
-            throw new CargoNameException();
-        } catch (IntegerOutOfRangeException ex) {
-            throw new CargoWeightOutOfRangeException();
+            cargoValidationException.getNameValidationUnit().setValid(false);
+            cargoValidationException.getNameValidationUnit().setInputValue(ex.getDescription());
+            cargoValidationException.setValid(false);
         }
+        try {
+            weight = InputParser.parseNumber(request.getParameter("cargoWeight"), 1, 40000);
+            cargoValidationException.getWeightValidationUnit().setInputValue(Integer.toString(weight));
+        } catch (IntegerOutOfRangeException ex) {
+            cargoValidationException.getWeightValidationUnit().setValid(false);
+            cargoValidationException.getWeightValidationUnit().setInputValue(ex.getMessage());
+            cargoValidationException.setValid(false);
+        }
+        if (!cargoValidationException.isValid())
+            throw cargoValidationException;
+
         Cargo cargo = new Cargo(name, weight);
         int cityId = Integer.valueOf(request.getParameter("pointCity"));
         RoutePointType pointType = RoutePointType.valueOf(request.getParameter("pointType"));
