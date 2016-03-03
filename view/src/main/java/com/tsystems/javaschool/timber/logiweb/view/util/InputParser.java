@@ -33,6 +33,6 @@ public class InputParser {
         String lettersOnlyRegex = "[a-zA-Z]*";
         if (input.matches(lettersOnlyRegex))
             return input;
-        throw new PatternSyntaxException("not a plate number", lettersOnlyRegex, -1);
+        throw new PatternSyntaxException(input, lettersOnlyRegex, -1);
     }
 }

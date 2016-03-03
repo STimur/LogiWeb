@@ -32,8 +32,9 @@
         <fieldset class="form-group">
             <label for="name">Driver name</label>
             <input type="text" class="form-control" id="name" name="name"
-                   placeholder="Enter driver name">
-            <c:if test="${not empty notNameException}">
+                   placeholder="Enter driver name"
+                   value="${driverValidationException.getNameValidationUnit().getInputValue()}">
+            <c:if test="${not empty driverValidationException && !driverValidationException.getNameValidationUnit().isValid()}">
                 <div class="validationError">
                     <span class="text-danger">Name should consist only of latin letters.</span>
                 </div>
@@ -42,8 +43,9 @@
         <fieldset class="form-group">
             <label for="surname">Driver surname</label>
             <input type="text" class="form-control" id="surname" name="surname"
-                   placeholder="Enter driver surname">
-            <c:if test="${not empty notSurnameException}">
+                   placeholder="Enter driver surname"
+                   value="${driverValidationException.getSurnameValidationUnit().getInputValue()}">
+            <c:if test="${not empty driverValidationException && !driverValidationException.getSurnameValidationUnit().isValid()}">
                 <div class="validationError">
                     <span class="text-danger">Surname should consist only of latin letters.</span>
                 </div>
@@ -52,8 +54,9 @@
         <fieldset class="form-group">
             <label for="hoursWorkedThisMonth">Hours of work in this month</label>
             <input type="text" class="form-control" id="hoursWorkedThisMonth"
-                   name="hoursWorkedThisMonth" placeholder="How much hours of work driver had this month?">
-            <c:if test="${not empty hoursWorkedOutOfRangeException}">
+                   name="hoursWorkedThisMonth" placeholder="How much hours of work driver had this month?"
+                   value="${driverValidationException.getHoursOfWorkValidationUnit().getInputValue()}">
+            <c:if test="${not empty driverValidationException && !driverValidationException.getHoursOfWorkValidationUnit().isValid()}">
                 <div class="validationError">
                     <span class="text-danger">Hours of work should be between 0 and 176.</span>
                 </div>
