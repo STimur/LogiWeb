@@ -47,7 +47,7 @@ public class OrderController extends HttpServlet {
     private CityService cityService = Services.getCityService();
     private TruckService truckService = Services.getTruckService();
     private DriverService driverService = Services.getDriverService();
-    OrderService orderService = Services.getOrderService();
+    private OrderService orderService = Services.getOrderService();
 
 
     /**
