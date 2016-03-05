@@ -1,6 +1,9 @@
 package com.tsystems.javaschool.timber.logiweb.persistence.entity;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -97,5 +100,15 @@ public class Order {
     @Transient
     public int getTimeEstimate() {
         return 40;
+    }
+
+    public List<RoutePoint> formRouteAsList() {
+        RoutePoint currentPoint = route;
+        ArrayList<RoutePoint> routeAsList = new ArrayList<RoutePoint>();
+        while (currentPoint != null) {
+            routeAsList.add(currentPoint);
+            currentPoint = currentPoint.getNextRoutePoint();
+        }
+        return routeAsList;
     }
 }
