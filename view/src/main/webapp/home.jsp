@@ -10,15 +10,16 @@
 </c:import>
 <div class="container">
     <h2>Home Page</h2>
-    <%
-        String username = (String) request.getUserPrincipal().getName();
-        String userrole = "";
-        if (request.isUserInRole("manager"))
-            userrole = "manager";
-        else
-            userrole = "driver";
-    %>
-    <p>Hello, <span class="text-info"><%=userrole%></span> <b><%=username%></b>!
+    <c:set var="username" value="${pageContext.request.getUserPrincipal().getName()}"/>
+    <c:choose>
+        <c:when test="${pageContext.request.isUserInRole('manager')}">
+            <c:set var="userrole" value="manager"/>
+        </c:when>
+        <c:otherwise>
+            <c:set var="userrole" value="driver"/>
+        </c:otherwise>
+    </c:choose>
+    <p>Hello, <b>${username}</b>! You authorized as <span class="text-info">${userrole}</span>.
 </div>
 <jsp:include page="footer.jspf"/>
 </body>
