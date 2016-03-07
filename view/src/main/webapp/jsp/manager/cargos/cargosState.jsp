@@ -25,23 +25,26 @@
     <c:param name="activeTab" value="Cargos"/>
 </c:import>
 <div class="container">
-    <% List<Cargo> cargos = (List<Cargo>) request.getAttribute("cargos");
-        if (cargos == null) { %>
-    <p>You are not allowed to get pure <b>cargosState.jsp</b> without passing the controller!</p>
-    <% } %>
-    <h2>Cargos State</h2>
-    <table id="cargoStatesTable" class="table table-bordered table-striped table-hover">
-        <tr>
-            <th class="col-md-5">Id</th>
-            <th class="col-md-7">Ready</th>
-        </tr>
-        <% for (Cargo cargo : cargos) { %>
-        <tr>
-            <td><%= cargo.getId() %></td>
-            <td><%= cargo.getState().toString() %></td>
-        </tr>
-        <% } %>
-    </table>
+    <c:choose>
+        <c:when test="${empty cargos}">
+            <p>You are <b>not logged in</b> and not allowed to get cargos state.</p>
+        </c:when>
+        <c:otherwise>
+            <h2>Cargos State</h2>
+            <table id="cargoStatesTable" class="table table-bordered table-striped table-hover">
+                <tr>
+                    <th class="col-md-5">Id</th>
+                    <th class="col-md-7">Ready</th>
+                </tr>
+                <c:forEach items="${cargos}" var="cargo">
+                    <tr>
+                        <td>${cargo.getId()}</td>
+                        <td>${cargo.getState().toString()}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </c:otherwise>
+    </c:choose>
 </div>
 <jsp:include page="/footer.jspf"/>
 </body>

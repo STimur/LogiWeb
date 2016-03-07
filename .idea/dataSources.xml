@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="2713571278">
+  <component name="DataSourceManagerImpl" format="xml" hash="448806405">
     <data-source source="LOCAL" name="MySQL - logiweb@localhost" uuid="337b1580-6199-41b7-8482-11c6eb33136e">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
