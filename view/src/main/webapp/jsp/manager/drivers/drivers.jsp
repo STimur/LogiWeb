@@ -19,8 +19,9 @@
     <% } else { %>
     <h2>Drivers</h2>
     <div class="text-right">
-        <a href="${pageContext.request.contextPath}/jsp/manager/drivers/addDriver.jsp"
-           class="btn btn-primary btn-success">Add Driver</a>
+        <form method="post" action="${pageContext.request.contextPath}/Driver">
+            <button type="submit" class="btn btn-primary btn-success" name="action" value="add">Add Driver</button>
+        </form>
     </div>
     <table class="table middleAligned table-bordered table-striped table-hover">
         <tr>

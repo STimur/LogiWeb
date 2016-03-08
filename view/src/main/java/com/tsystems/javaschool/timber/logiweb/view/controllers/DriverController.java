@@ -28,6 +28,8 @@ import java.util.regex.PatternSyntaxException;
  */
 public class DriverController extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    static List<City> cities = Services.getCityService().findAll();
+
 
     final static Logger logger = Logger.getLogger(DriverController.class);
 
@@ -65,6 +67,11 @@ public class DriverController extends HttpServlet {
 
         if (action != null) {
             switch (action) {
+                case "add": {
+                    request.setAttribute("cities", cities);
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/addDriver.jsp");
+                    rd.forward(request, response);
+                }
                 case "create": {
                     try {
                         Driver driver = parseDriver(request);
