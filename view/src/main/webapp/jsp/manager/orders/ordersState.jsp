@@ -1,11 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.OrderDaoJpa" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Order" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.RoutePoint" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: tims
   Date: 2/17/2016
@@ -24,23 +18,26 @@
     <c:param name="activeTab" value="OrdersState"/>
 </c:import>
 <div class="container">
-    <% List<Order> orders = (List<Order>) request.getAttribute("orders");
-        if (orders == null) { %>
-    <p>You are not allowed to get pure <b>ordersState.jsp</b> without passing the controller!</p>
-    <% } %>
-    <h2>Orders State</h2>
-    <table id="ordersStateTable" class="table table-bordered table-striped table-hover">
-        <tr>
-            <th class="col-md-5">Id</th>
-            <th class="col-md-7">Ready</th>
-        </tr>
-        <% for (Order order : orders) { %>
-        <tr>
-            <td><%= order.getId() %></td>
-            <td><%= (order.isFinished()) ? "Yes" : "No"%></td>
-        </tr>
-        <% } %>
-    </table>
+    <c:choose>
+        <c:when test="${empty orders}">
+            <p>You are <b>not logged in</b> and not allowed to get orders state.</p>
+        </c:when>
+        <c:otherwise>
+            <h2>Orders State</h2>
+            <table id="ordersStateTable" class="table table-bordered table-striped table-hover">
+                <tr>
+                    <th class="col-md-5">Id</th>
+                    <th class="col-md-7">Ready</th>
+                </tr>
+                <c:forEach items="${orders}" var="order">
+                    <tr>
+                        <td>${order.getId()}</td>
+                        <td>${(order.isFinished()) ? "Yes" : "No"}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </c:otherwise>
+    </c:choose>
 </div>
 <jsp:include page="/footer.jspf"/>
 </body>
