@@ -1,12 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.OrderDaoJpa" %>
 <%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Order" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.RoutePoint" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.util.Services" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: tims
   Date: 2/17/2016
@@ -25,19 +19,6 @@
     <c:param name="activeTab" value="Orders"/>
 </c:import>
 <div class="container">
-    <%
-        OrderService orderService = Services.getOrderService();
-        /*
-        String action = request.getParameter("action");
-        if (action != null) {
-            if (action.equals("deleteOrder")) {
-                int id = Integer.valueOf(request.getParameter("id"));
-                orderService.delete(id);
-            }
-        } */
-        List<Order> orders = orderService.findAll();
-    %>
-
     <h2>Orders</h2>
     <div class="text-right">
         <form method="post" action="${pageContext.request.contextPath}/Order">
@@ -53,43 +34,37 @@
             <th>Drivers</th>
             <th>Actions</th>
         </tr>
-        <% for (Order order : orders) { %>
-        <tr>
-            <td><%= order.getId() %>
-            </td>
-            <td><%= (order.isFinished()) ? "Yes" : "No"%>
-            </td>
-            <td>
-                <ol>
-                    <%
-                        RoutePoint currentPoint = order.getRoute();
-                        while (currentPoint != null) {
-                    %>
-                    <li><%= currentPoint %>
-                    </li>
-                    <% currentPoint = currentPoint.getNextRoutePoint();
-                    } %>
-                </ol>
-            </td>
-            <td><%= order.getAssignedTruck().getRegNumber() %>
-            </td>
-            <td>
-                <ol>
-                    <% for (Driver driver : order.getAssignedDrivers()) { %>
-                    <li><%= driver %>
-                    </li>
-                    <% } %>
-                </ol>
-            </td>
-            <td class="buttonsCell">
-                <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
-                    <button type="submit" class="btn btn-primary btn-danger" name="action" value="deleteOrder">Remove
-                    </button>
-                    <input type="hidden" name="id" value="<%=order.getId()%>"/>
-                </form>
-            </td>
-        </tr>
-        <% } %>
+        <c:forEach items="${orders}" var="order">
+            <tr>
+                <td>${order.getId()}
+                </td>
+                <td>${(order.isFinished()) ? "Yes" : "No"}
+                </td>
+                <td>
+                    <ol>
+                        <c:forEach items="${order.formRouteAsList()}" var="routePoint">
+                            <li>${routePoint}</li>
+                        </c:forEach>
+                    </ol>
+                </td>
+                <td>${order.getAssignedTruck().getRegNumber()}</td>
+                <td>
+                    <ol>
+                        <c:forEach items="${order.getAssignedDrivers()}" var="driver">
+                            <li>${driver}</li>
+                        </c:forEach>
+                    </ol>
+                </td>
+                <td class="buttonsCell">
+                    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
+                        <button type="submit" class="btn btn-primary btn-danger" name="action" value="deleteOrder">
+                            Remove
+                        </button>
+                        <input type="hidden" name="id" value="${order.getId()}"/>
+                    </form>
+                </td>
+            </tr>
+        </c:forEach>
     </table>
 </div>
 <jsp:include page="/footer.jspf"/>
