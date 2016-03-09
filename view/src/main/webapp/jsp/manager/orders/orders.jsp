@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Order" %>
 <%--
   Created by IntelliJ IDEA.
   User: tims

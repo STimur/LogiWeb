@@ -1,9 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Order" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.RoutePoint" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <title>Drivers Page</title>

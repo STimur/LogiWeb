@@ -72,6 +72,7 @@ public class TruckController extends HttpServlet {
                         Services.getTruckService().create(truck);
                     } catch (TruckValidationException ex) {
                         request.setAttribute("truckValidationException", ex);
+                        request.setAttribute("cities", cities);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/addTruck.jsp");
                         rd.forward(request, response);
                     } catch (Exception ex) {

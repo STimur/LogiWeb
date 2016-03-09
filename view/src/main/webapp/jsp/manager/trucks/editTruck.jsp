@@ -1,13 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CityDaoJpa" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.City" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.TruckDaoJpa" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.util.Services" %>
 <%--
   Created by IntelliJ IDEA.
   User: tims
@@ -23,27 +14,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
-<%!
-    static CityService cityService = Services.getCityService();
-    static List<City> cities = cityService.findAll();
-%>
 <c:import url="/navbar.jspf">
     <c:param name="activeTab" value="Trucks"/>
 </c:import>
 <div class="container">
     <h2>Edit Truck</h2>
-    <%
-        Truck truck = (Truck) request.getAttribute("truckToEdit");
-        String selectOkState;
-        String selectBrokenState;
-        if (truck.getState().equals("OK")) {
-            selectOkState = "selected";
-            selectBrokenState = "";
-        } else {
-            selectOkState = "";
-            selectBrokenState = "selected";
-        }
-    %>
     <form id="editTruckForm" method="post" action="${pageContext.request.contextPath}/Truck">
         <fieldset class="form-group">
             <label for="regNumber">Truck registration number</label>
@@ -81,26 +56,27 @@
         <fieldset class="form-group">
             <label for="state">Truck state</label>
             <select class="form-control" id="state" name="state">
-                <option value="OK" <%=selectOkState%>>OK</option>
-                <option value="BROKEN" <%=selectBrokenState%>>Broken</option>
+                <c:set var="truckState" value="${truckToEdit.getState()}"/>
+                <c:set var="selectOkState" value="${(truckState eq 'OK') ? 'selected' : ''}"/>
+                <c:set var="selectBrokenState" value="${(truckState eq 'BROKEN') ? 'selected' : ''}"/>
+                <option value="OK" ${selectOkState}>OK</option>
+                <option value="BROKEN" ${selectBrokenState}>Broken</option>
             </select>
         </fieldset>
         <fieldset class="form-group">
             <label for="city">City</label>
             <select class="form-control" id="city" name="cityId">
-                <%
-                    int truckCityId = truck.getCity().getId();
-                    for (City city : cities) {
-                        String selected = (truckCityId == city.getId()) ? "selected" : "";
-                %>
-                <option value="<%= city.getId()%>" <%=selected%>>
-                    <%= city.getName() %>
-                </option>
-                <% } %>
+                <c:set var="truckCityId" value="${truckToEdit.getCity().getId()}"/>
+                <c:forEach items="${cities}" var="city">
+                    <c:set var="selected" value="${(truckCityId == city.getId()) ? 'selected' : ''}"/>
+                    <option value="${city.getId()}" ${selected}>
+                            ${city.getName()}
+                    </option>
+                </c:forEach>
             </select>
         </fieldset>
         <button type="submit" class="btn btn-success" name="action" value="update">Save Changes</button>
-        <input type="hidden" name="id" value="<%=truck.getId()%>">
+        <input type="hidden" name="id" value="${truckToEdit.getId()}">
     </form>
 </div>
 <jsp:include page="/footer.jspf"/>

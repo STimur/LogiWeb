@@ -1,8 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.City" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.util.Services" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: tims
   Date: 2/19/2016
