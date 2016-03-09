@@ -1,10 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CityDaoJpa" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.City" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.util.Services" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: tims
   Date: 2/19/2016
@@ -19,10 +14,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
-<%!
-    static CityService cityService = Services.getCityService();
-    static List<City> cities = cityService.findAll();
-%>
 <c:import url="/navbar.jspf">
     <c:param name="activeTab" value="Trucks"/>
 </c:import>
@@ -71,11 +62,11 @@
         <fieldset class="form-group">
             <label for="city">City</label>
             <select class="form-control" id="city" name="cityId">
-                <% for (City city : cities) { %>
-                <option value="<%= city.getId()%>">
-                    <%= city.getName() %>
-                </option>
-                <% } %>
+                <c:forEach items="${cities}" var="city">
+                    <option value="${city.getId()}">
+                        ${city.getName()}
+                    </option>
+                </c:forEach>
             </select>
         </fieldset>
         <button type="submit" class="btn btn-success" name="action" value="create">Add Truck</button>

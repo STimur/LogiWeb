@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class TruckController extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    static List<City> cities = Services.getCityService().findAll();
 
     final static Logger logger = Logger.getLogger(TruckController.class);
 
@@ -59,6 +60,11 @@ public class TruckController extends HttpServlet {
 
         if (action != null) {
             switch (action) {
+                case "add": {
+                    request.setAttribute("cities", cities);
+                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/addTruck.jsp");
+                    rd.forward(request, response);
+                }
                 case "create":
                     Truck truck = null;
                     try {
@@ -87,6 +93,7 @@ public class TruckController extends HttpServlet {
                         id = parseTruckId(request);
                         Truck truckToEdit = Services.getTruckService().findById(id);
                         request.setAttribute("truckToEdit", truckToEdit);
+                        request.setAttribute("cities", cities);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/editTruck.jsp");
                         rd.forward(request, response);
                     } catch (Exception ex) {
@@ -108,6 +115,7 @@ public class TruckController extends HttpServlet {
                         id = parseTruckId(request);
                         Truck truckToEdit = Services.getTruckService().findById(id);
                         request.setAttribute("truckToEdit", truckToEdit);
+                        request.setAttribute("cities", cities);
                         request.setAttribute("truckValidationException", ex);
                         RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/editTruck.jsp");
                         rd.forward(request, response);

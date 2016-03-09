@@ -16,8 +16,9 @@
         <c:otherwise>
             <h2>Trucks</h2>
             <div class="text-right">
-                <a href="${pageContext.request.contextPath}/jsp/manager/trucks/addTruck.jsp"
-                   class="btn btn-primary btn-success">Add Truck</a>
+                <form method="post" action="${pageContext.request.contextPath}/Truck">
+                    <button type="submit" class="btn btn-primary btn-success" name="action" value="add">Add Truck</button>
+                </form>
             </div>
             <table class="table middleAligned table-bordered table-striped table-hover">
                 <tr>
