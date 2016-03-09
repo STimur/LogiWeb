@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.timber.logiweb.view;
+package com.tsystems.javaschool.timber.logiweb.view.util;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;

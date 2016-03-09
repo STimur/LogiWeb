@@ -7,6 +7,10 @@
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%-5p [%c] %m %n" />
         </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="TRACE" />
+            <param name="LevelMax" value="FATAL" />
+        </filter>
     </appender>
 
     <appender name="STDERR" class="org.apache.log4j.ConsoleAppender">
@@ -127,9 +131,14 @@
         <appender-ref ref="PERSISTENCE-LOG-INFO-FILE-APPENDER" />
     </logger>
 
+    <logger name="com.tsystems.javaschool.timber.logiweb.view.util.Log4jConsoleTest" additivity="false">
+        <level value="TRACE" />
+        <!--<appender-ref ref="STDERR" />-->
+        <appender-ref ref="STDOUT" />
+    </logger>
+
     <root>
-        <!--<level value="debug" />
-        <appender-ref ref="STDERR" />
+        <!--<level value="DEBUG" />
         <appender-ref ref="LOG-ERROR-FILE-APPENDER"/>
         <appender-ref ref="LOG-INFO-FILE-APPENDER"/>-->
     </root>
