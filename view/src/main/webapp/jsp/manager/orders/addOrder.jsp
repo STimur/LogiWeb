@@ -1,5 +1,3 @@
-<%@ page import="java.util.List" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%--
   Created by IntelliJ IDEA.
@@ -20,30 +18,6 @@
     <c:param name="activeTab" value="Orders"/>
 </c:import>
 <div class="container">
-    <%
-        List<City> cities = (List<City>) session.getAttribute("cities");
-        List<RoutePoint> route = (List<RoutePoint>) session.getAttribute("route");
-        List<Truck> trucks = (List<Truck>) session.getAttribute("trucks");
-        List<Driver> drivers = (List<Driver>) session.getAttribute("drivers");
-        List<Cargo> loadedCargos = (List<Cargo>) session.getAttribute("loadedCargos");
-        Order order = (Order) session.getAttribute("order");
-
-        session.setAttribute("isTruckAssigned", false);
-        boolean isValidRoute = Boolean.valueOf((String) session.getAttribute("isValidRoute"));
-        String getTrucksButtonVisisbility = isValidRoute ? "" : "invisible";
-        session.setAttribute("isShiftFormed", false);
-
-        if (order != null) {
-            if (order.getAssignedTruck() != null) {
-                session.setAttribute("isTruckAssigned", true);
-            }
-            if (session.getAttribute("isTruckAssigned").equals(true))
-                if (order.getAssignedDrivers() != null)
-                    if (order.getAssignedDrivers().size() == order.getAssignedTruck().getShiftSize()) {
-                        session.setAttribute("isShiftFormed", true);
-                    }
-        }
-    %>
     <h2>Add Order</h2>
     <c:if test="${!isRouteFormed}">
         <h3>Add cargos for delivery:</h3>
@@ -61,11 +35,11 @@
             <div class="form-group">
                 <label class="sr-only" for="pointCity">Choose city</label>
                 <select class="form-control" id="pointCity" name="pointCity">
-                    <% for (City city : cities) { %>
-                    <option value="<%= city.getId()%>">
-                        <%= city.getName() %>
-                    </option>
-                    <% } %>
+                    <c:forEach items="${cities}" var="city">
+                        <option value="${city.getId()}">
+                                ${city.getName()}
+                        </option>
+                    </c:forEach>
                 </select>
             </div>
             <div class="form-group">
@@ -103,27 +77,22 @@
                     <span style="margin: 0 10px;">cargo</span>
                     <div class="form-group">
                         <select class="form-control" id="cargo" name="cargoToUnload">
-                            <%
-                                int size = loadedCargos.size();
-                                Cargo loadedCargo;
-                                for (int i = 0; i < size; i++) {
-                                    loadedCargo = loadedCargos.get(i);
-                            %>
-                            <option value="<%= loadedCargo.getId()%> <%=i%>">
-                                <%= loadedCargo.toString() %>
-                            </option>
-                            <% } %>
+                            <c:forEach items="${loadedCargos}" var="loadedCargo" varStatus="loop">
+                                <option value="${loadedCargo.getId()} ${loop.index}">
+                                    ${loadedCargo}
+                                </option>
+                            </c:forEach>
                         </select>
                     </div>
                     <span style="margin: 0 10px;">in</span>
                     <div class="form-group">
                         <label class="sr-only" for="unloadPointCity">Choose city</label>
                         <select class="form-control" id="unloadPointCity" name="unloadPointCityId">
-                            <% for (City city : cities) { %>
-                            <option value="<%= city.getId()%>">
-                                <%= city.getName() %>
-                            </option>
-                            <% } %>
+                            <c:forEach items="${cities}" var="city">
+                                <option value="${city.getId()}">
+                                        ${city.getName()}
+                                </option>
+                            </c:forEach>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" name="action" value="addUnloadPoint">Add</button>

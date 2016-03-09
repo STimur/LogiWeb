@@ -270,6 +270,8 @@ public class OrderController extends HttpServlet {
         loadedCargos.clear();
         session.setAttribute("loadedCargos", loadedCargos);
         session.setAttribute("isRouteFormed", false);
+        session.setAttribute("isTruckAssigned", false);
+        session.setAttribute("isShiftFormed", false);
     }
 
     private void setAddOrderSessionAttributes(HttpSession session, List<RoutePoint> route,
@@ -283,6 +285,17 @@ public class OrderController extends HttpServlet {
         session.setAttribute("loadedCargos", loadedCargos);
         session.setAttribute("trucks", suitableTrucks);
         session.setAttribute("drivers", suitableDrivers);
+
+        if (orderToCreate != null) {
+            if (orderToCreate.getAssignedTruck() != null) {
+                session.setAttribute("isTruckAssigned", true);
+            }
+            if (session.getAttribute("isTruckAssigned").equals(true))
+                if (orderToCreate.getAssignedDrivers() != null)
+                    if (orderToCreate.getAssignedDrivers().size() == orderToCreate.getAssignedTruck().getShiftSize()) {
+                        session.setAttribute("isShiftFormed", true);
+                    }
+        }
     }
 
     private void retrieveAddOrderSessionAttributes(HttpSession session, List<RoutePoint> route,
