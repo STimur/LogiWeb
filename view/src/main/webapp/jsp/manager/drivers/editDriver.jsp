@@ -1,11 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CityDaoJpa" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.City" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver" %>
-<%@ page import="com.tsystems.javaschool.timber.logiweb.service.util.Services" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: tims
   Date: 2/19/2016
@@ -20,32 +14,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
-<%!
-    static CityService cityService = Services.getCityService();
-    static List<City> cities = cityService.findAll();
-%>
 <c:import url="/navbar.jspf">
     <c:param name="activeTab" value="Drivers"/>
 </c:import>
 <div class="container">
     <h2>Edit Driver</h2>
-    <%
-        Driver driver = (Driver) request.getAttribute("driverToEdit");
-        String selectRestState = "";
-        String selectShiftState = "";
-        String selectDriveState = "";
-        switch (driver.getState()) {
-            case REST:
-                selectRestState = "selected";
-                break;
-            case SHIFT:
-                selectShiftState = "selected";
-                break;
-            case DRIVE:
-                selectDriveState = "selected";
-                break;
-        }
-    %>
     <form id="editDriverForm" method="post" action="${pageContext.request.contextPath}/Driver">
         <fieldset class="form-group">
             <label for="name">Driver name</label>
@@ -83,27 +56,29 @@
         <fieldset class="form-group">
             <label for="state">Driver state</label>
             <select class="form-control" id="state" name="state">
-                <option value="DRIVE" <%=selectDriveState%>>Driving</option>
-                <option value="REST" <%=selectRestState%>>On rest</option>
-                <option value="SHIFT" <%=selectShiftState%>>On shift</option>
+                <c:set var="driverState" value="${driverToEdit.getState()}"/>
+                <c:set var="selectRestState" value="${(driverState eq 'REST') ? 'selected' : ''}"/>
+                <c:set var="selectShiftState" value="${(driverState eq 'SHIFT') ? 'selected' : ''}"/>
+                <c:set var="selectDriveState" value="${(driverState eq 'DRIVE') ? 'selected' : ''}"/>
+                <option value="DRIVE" ${selectDriveState}>Driving</option>
+                <option value="REST" ${selectRestState}>On rest</option>
+                <option value="SHIFT" ${selectShiftState}>On shift</option>
             </select>
         </fieldset>
         <fieldset class="form-group">
             <label for="city">City</label>
             <select class="form-control" id="city" name="cityId">
-                <%
-                    int driverCityId = driver.getCurrentCity().getId();
-                    for (City city : cities) {
-                        String selected = (driverCityId == city.getId()) ? "selected" : "";
-                %>
-                <option value="<%= city.getId()%>" <%=selected%>>
-                    <%= city.getName() %>
-                </option>
-                <% } %>
+                <c:set var="driverCityId" value="${driverToEdit.getCurrentCity().getId()}"/>
+                <c:forEach items="${cities}" var="city">
+                    <c:set var="selected" value="${(driverCityId == city.getId()) ? 'selected' : ''}"/>
+                    <option value="${city.getId()}" ${selected}>
+                            ${city.getName()}
+                    </option>
+                </c:forEach>
             </select>
         </fieldset>
         <button type="submit" class="btn btn-success" name="action" value="update">Save Changes</button>
-        <input type="hidden" name="id" value="<%=driver.getId()%>">
+        <input type="hidden" name="id" value="${driverToEdit.getId()}">
     </form>
 </div>
 <jsp:include page="/footer.jspf"/>
