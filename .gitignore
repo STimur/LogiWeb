@@ -1,5 +1,9 @@
+# ignore idea specific files
 .idea
 .settings
 *.iml
-/WEB-INF
 target/
+
+# ignore prj specific generated files in this folders
+/WEB-INF/
+/view/WEB-INF/
