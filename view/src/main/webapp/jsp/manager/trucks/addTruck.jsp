@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
-<c:import url="/navbar.jspf">
+<c:import url="/WEB-INF/views/navbar.jspf">
     <c:param name="activeTab" value="Trucks"/>
 </c:import>
 <div class="container">
@@ -72,6 +72,6 @@
         <button type="submit" class="btn btn-success" name="action" value="create">Add Truck</button>
     </form>
 </div>
-<jsp:include page="/footer.jspf"/>
+<jsp:include page="/WEB-INF/views/footer.jspf"/>
 </body>
 </html>

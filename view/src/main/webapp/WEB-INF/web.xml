@@ -1,163 +1,32 @@
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-         id="WebApp_ID" version="3.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
     <display-name>T-Logist Web</display-name>
 
     <servlet>
-        <servlet-name>FrontController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.view.controllers.FrontController</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>TruckController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.view.controllers.TruckController</servlet-class>
-    </servlet>
-
-    <!-- servlet to try it out a sample of using js on client -->
-    <servlet>
-        <servlet-name>TruckJSController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.view.controllers.TruckJSController</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>DriverController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.view.controllers.DriverController</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>OrderController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.view.controllers.OrderController</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>CargoController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.view.controllers.CargoController</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>LogoutController</servlet-name>
-        <servlet-class>com.tsystems.javaschool.timber.logiweb.view.controllers.LogoutController</servlet-class>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>FrontController</servlet-name>
-        <url-pattern>/Home</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>TruckController</servlet-name>
-        <url-pattern>/Truck</url-pattern>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>TruckJSController</servlet-name>
-        <url-pattern>/TruckJSController</url-pattern>
-    </servlet-mapping>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
+    </context-param>
 
-    <servlet-mapping>
-        <servlet-name>DriverController</servlet-name>
-        <url-pattern>/Driver</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>OrderController</servlet-name>
-        <url-pattern>/Order</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>CargoController</servlet-name>
-        <url-pattern>/Cargo</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>LogoutController</servlet-name>
-        <url-pattern>/Logout</url-pattern>
-    </servlet-mapping>
-
-    <welcome-file-list>
-        <welcome-file>home.jsp</welcome-file>
-    </welcome-file-list>
-
-    <error-page>
-        <!-- Forbidden directory listing -->
-        <error-code>403</error-code>
-        <location>/accessDenied.jsp</location>
-    </error-page>
-
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>ManagerWorkspace</web-resource-name>
-            <url-pattern>/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>manager</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <security-role>
-        <role-name>manager</role-name>
-    </security-role>
-
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>GetDriverJobInfoForm</web-resource-name>
-            <url-pattern>/jsp/driver/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>driver</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Logout</web-resource-name>
-            <url-pattern>/Logout</url-pattern>
-            <url-pattern>/Driver</url-pattern>
-            <url-pattern>/home.jsp</url-pattern>
-            <url-pattern>/error.jsp</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>driver</role-name>
-            <role-name>manager</role-name>
-        </auth-constraint>
-    </security-constraint>
-    <security-role>
-        <role-name>driver</role-name>
-    </security-role>
-
-   <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Exclude from Security</web-resource-name>
-            <url-pattern>/images/*</url-pattern>
-            <url-pattern>/css/*</url-pattern>
-            <url-pattern>/js/*</url-pattern>
-            <url-pattern>/</url-pattern>
-        </web-resource-collection>
-    </security-constraint>
-
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Restricted Access</web-resource-name>
-            <url-pattern>/jsp/manager/trucks/trucksJS.jsp</url-pattern>
-        </web-resource-collection>
-        <auth-constraint />
-    </security-constraint>
-
-    <login-config>
-        <auth-method>FORM</auth-method>
-        <form-login-config>
-            <form-login-page>/login.jsp</form-login-page>
-            <form-error-page>/login_failure.jsp</form-error-page>
-        </form-login-config>
-    </login-config>
-
-    <jsp-config>
-        <jsp-property-group>
-            <url-pattern>*.jsp</url-pattern>
-            <url-pattern>*.jspf</url-pattern>
-            <el-ignored>false</el-ignored>
-        </jsp-property-group>
-    </jsp-config>
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
 
 </web-app>
