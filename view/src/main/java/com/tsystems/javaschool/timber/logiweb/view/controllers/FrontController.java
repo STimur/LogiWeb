@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,7 +18,7 @@ public class FrontController {
     }
 
     @RequestMapping("/login")
-    public String login() {
+    public String login(ModelMap map) {
         return "login";
     }
 
