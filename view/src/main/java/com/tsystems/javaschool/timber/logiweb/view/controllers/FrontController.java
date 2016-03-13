@@ -15,4 +15,14 @@ public class FrontController {
         mv.addObject("message", message);
         return mv;
     }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @RequestMapping("/logout")
+    public String logout() {
+        return "login";
+    }
 }

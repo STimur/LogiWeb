@@ -31,7 +31,13 @@
                 </c:choose>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="${pageContext.request.contextPath}/Logout">Logout</a></li>
+                <li>
+                    <form action="logout" method="post">
+                        <input type="submit" value="Logout"/>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+                </li>
+                <%--<li><a href="${pageContext.request.contextPath}/Logout">Logout</a></li>--%>
             </ul>
         </c:if>
     </div>

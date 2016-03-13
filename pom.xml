@@ -28,6 +28,7 @@
         <log4j.version>1.2.17</log4j.version>
         <skipTests>true</skipTests>
         <spring.version>4.2.4.RELEASE</spring.version>
+        <spring-security.version>4.0.4.RELEASE</spring-security.version>
     </properties>
 
     <dependencyManagement>
@@ -104,6 +105,17 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
+            </dependency>
+            <!-- Spring Security -->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring-security.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
