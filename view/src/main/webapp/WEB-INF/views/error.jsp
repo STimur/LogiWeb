@@ -4,11 +4,11 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 <body>
-<jsp:include page="navbar.jspf"/>
+<jsp:include page="../../jspf/navbar.jspf"/>
 <div class="container col-md-4 col-md-offset-4">
     <h2 class="text-info">Sorry, some error occur due to your actions. Go back and try again.</h2>
     <p><b>Message: </b>${sessionScope.errorMessage}</p>
 </div>
-<jsp:include page="footer.jspf"/>
+<jsp:include page="../../jspf/footer.jspf"/>
 </body>
 </html>

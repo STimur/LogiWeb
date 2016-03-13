@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 <body>
-<c:import url="/WEB-INF/views/navbar.jspf">
+<c:import url="/jspf/navbar.jspf">
     <c:param name="activeTab" value="Trucks"/>
 </c:import>
 <div class="container">
@@ -74,6 +74,6 @@
         </c:otherwise>
     </c:choose>
 </div>
-<jsp:include page="/WEB-INF/views/footer.jspf"/>
+<jsp:include page="/jspf/footer.jspf"/>
 </body>
 </html>

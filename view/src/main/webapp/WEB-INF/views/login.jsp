@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 <body>
-<jsp:include page="navbar.jspf"/>
+<jsp:include page="../../jspf/navbar.jspf"/>
 <div class="container col-md-2 col-md-offset-5">
     <h2>Login Page</h2>
     <form role="form" method="post" action="j_security_check">
@@ -19,6 +19,6 @@
         <button type="submit" class="btn btn-default" value="Login">Login</button>
     </form>
 </div>
-<jsp:include page="footer.jspf"/>
+<jsp:include page="../../jspf/footer.jspf"/>
 </body>
 </html>

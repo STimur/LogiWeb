@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
-<c:import url="/WEB-INF/views/navbar.jspf">
+<c:import url="/jspf/navbar.jspf">
     <c:param name="activeTab" value="Drivers"/>
 </c:import>
 <div class="container">
@@ -74,6 +74,6 @@
         <button type="submit" class="btn btn-success" name="action" value="create">Add Driver</button>
     </form>
 </div>
-<jsp:include page="/WEB-INF/views/footer.jspf"/>
+<jsp:include page="/jspf/footer.jspf"/>
 </body>
 </html>

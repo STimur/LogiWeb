@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
-<c:import url="/WEB-INF/views/navbar.jspf">
+<c:import url="/jspf/navbar.jspf">
     <c:param name="activeTab" value="Trucks"/>
 </c:import>
 <div class="container">
@@ -79,6 +79,6 @@
         <input type="hidden" name="id" value="${truckToEdit.getId()}">
     </form>
 </div>
-<jsp:include page="/WEB-INF/views/footer.jspf"/>
+<jsp:include page="/jspf/footer.jspf"/>
 </body>
 </html>

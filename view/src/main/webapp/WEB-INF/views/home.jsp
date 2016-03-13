@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 <body>
-<c:import url="/WEB-INF/views/navbar.jspf">
+<c:import url="jspf/navbar.jspf">
     <c:param name="activeTab" value="Home"/>
 </c:import>
 <div class="container">
@@ -21,7 +21,8 @@
     </c:choose>
     <p>Hello, <b>${username}</b>! You authorized as <span class="text-info">${userrole}</span>.--%>
     <h2>Spring MVC message is: <i>${message}</i></h2>
+    ${today}
 </div>
-<jsp:include page="footer.jspf"/>
+<jsp:include page="jspf/footer.jspf"/>
 </body>
 </html>
