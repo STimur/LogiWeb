@@ -24,6 +24,10 @@ import com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.view.util.InputParser;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.PersistenceException;
 import javax.servlet.RequestDispatcher;
@@ -37,9 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
-/**
- * Servlet implementation class Test
- */
+@Controller
 public class OrderController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -58,10 +60,13 @@ public class OrderController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @RequestMapping("/orders")
+    protected ModelAndView getOrders() throws ServletException, IOException {
+        List<Order> orders = orderService.findAll();
+        ModelAndView mv = new ModelAndView("manager/orders/orders");
+        mv.addObject("orders", orders);
+        return mv;
+        /*
         String action = request.getParameter("action");
         List<Order> orders = orderService.findAll();
         RequestDispatcher requestDispatcher;
@@ -79,9 +84,16 @@ public class OrderController extends HttpServlet {
                     requestDispatcher.forward(request, response);
                     break;
             }
-        }
+        }*/
     }
 
+    @RequestMapping("/orders-state")
+    protected ModelAndView getOrdersState() throws ServletException, IOException {
+        List<Order> orders = orderService.findAll();
+        ModelAndView mv = new ModelAndView("manager/orders/ordersState");
+        mv.addObject("orders", orders);
+        return mv;
+    }
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */

@@ -44,7 +44,7 @@ public class DriverController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-    @RequestMapping("/Driver")
+    @RequestMapping("/drivers")
     protected ModelAndView getDrivers(Authentication auth) throws ServletException, IOException {
         Boolean isManager = auth.getAuthorities().toString().contains("ROLE_manager");
         if (isManager) {

@@ -32,12 +32,22 @@
 
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
-        <url-pattern>/Truck</url-pattern>
+        <url-pattern>/trucks</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
-        <url-pattern>/Driver</url-pattern>
+        <url-pattern>/drivers</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/orders</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/orders-state</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

@@ -42,7 +42,7 @@ public class TruckController extends HttpServlet {
     }
 
 
-    @RequestMapping("/Truck")
+    @RequestMapping("/trucks")
     protected ModelAndView getTrucks() throws ServletException, IOException {
         List<Truck> trucks = Services.getTruckService().findAll();
         ModelAndView mv = new ModelAndView("manager/trucks/trucks");
