@@ -1,10 +1,14 @@
 package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CargoDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Cargo;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.CargoService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.CargoServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.util.Services;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,9 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Servlet implementation class Test
- */
+@Controller
 public class CargoController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -28,11 +30,13 @@ public class CargoController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
+    @RequestMapping("/cargos-state")
+    protected ModelAndView getCargosState() throws ServletException, IOException {
+        List<Cargo> cargos = Services.getCargoService().findAll();
+        ModelAndView mv = new ModelAndView("manager/cargos/cargosState");
+        mv.addObject("cargos", cargos);
+        return mv;
+        /*String action = request.getParameter("action");
         List<Cargo> cargos = Services.getCargoService().findAll();
         RequestDispatcher requestDispatcher;
 
@@ -49,7 +53,7 @@ public class CargoController extends HttpServlet {
                     requestDispatcher.forward(request, response);
                     break;
             }
-        }
+        }*/
     }
 
     /**

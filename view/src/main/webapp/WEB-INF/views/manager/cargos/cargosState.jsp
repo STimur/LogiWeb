@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
-<c:import url="/jspf/navbar.jspf">
+<c:import url="../../navbar.jsp">
     <c:param name="activeTab" value="Cargos"/>
 </c:import>
 <div class="container">
@@ -39,6 +39,6 @@
         </c:otherwise>
     </c:choose>
 </div>
-<jsp:include page="/jspf/footer.jspf"/>
+<jsp:include page="../../footer.jsp"/>
 </body>
 </html>

@@ -51,6 +51,11 @@
     </servlet-mapping>
 
     <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/cargos-state</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/css/*</url-pattern>
     </servlet-mapping>
