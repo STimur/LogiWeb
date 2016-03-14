@@ -12,6 +12,9 @@ import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.view.util.InputParser;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,9 +26,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class Test
- */
+@Controller
 public class TruckController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     static List<City> cities = Services.getCityService().findAll();
@@ -40,14 +41,13 @@ public class TruckController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    @RequestMapping("/Truck")
+    protected ModelAndView getTrucks() throws ServletException, IOException {
         List<Truck> trucks = Services.getTruckService().findAll();
-        request.setAttribute("trucks", trucks);
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/trucks.jsp");
-        rd.forward(request, response);
+        ModelAndView mv = new ModelAndView("manager/trucks/trucks");
+        mv.addObject("trucks", trucks);
+        return mv;
     }
 
     /**

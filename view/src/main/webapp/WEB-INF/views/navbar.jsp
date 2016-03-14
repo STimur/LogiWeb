@@ -3,7 +3,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header ${param.activeTab eq "Home" ? 'active' : ''}">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/WEB-INF/views/home.jsp">LogiWeb</a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/home">LogiWeb</a>
         </div>
         <c:if test="${not empty pageContext.request.userPrincipal}">
             <ul class="nav navbar-nav">

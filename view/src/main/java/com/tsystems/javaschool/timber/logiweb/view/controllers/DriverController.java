@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.*;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CityDaoJpa;
@@ -13,6 +14,10 @@ import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.view.util.InputParser;
 import org.apache.log4j.Logger;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,9 +28,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
-/**
- * Servlet implementation class Test
- */
+@Controller
 public class DriverController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     static List<City> cities = Services.getCityService().findAll();
@@ -41,17 +44,17 @@ public class DriverController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.isUserInRole("manager")) {
+    @RequestMapping("/Driver")
+    protected ModelAndView getDrivers(Authentication auth) throws ServletException, IOException {
+        Boolean isManager = auth.getAuthorities().toString().contains("ROLE_manager");
+        if (isManager) {
             List<Driver> drivers = Services.getDriverService().findAll();
-            request.setAttribute("drivers", drivers);
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/drivers.jsp");
-            rd.forward(request, response);
+            ModelAndView mv = new ModelAndView("manager/drivers/drivers");
+            mv.addObject("drivers", drivers);
+            return mv;
         } else {
-            response.sendRedirect(getServletContext().getContextPath() + "/accessDenied.jsp");
+            ModelAndView mv = new ModelAndView("accessDenied");
+            return mv;
         }
     }
 
