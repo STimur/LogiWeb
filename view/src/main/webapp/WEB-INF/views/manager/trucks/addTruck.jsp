@@ -14,12 +14,12 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
-<c:import url="/jspf/navbar.jspf">
+<c:import url="../../navbar.jsp">
     <c:param name="activeTab" value="Trucks"/>
 </c:import>
 <div class="container">
     <h2>Add Truck</h2>
-    <form id="addTruckForm" method="post" action="${pageContext.request.contextPath}/Truck">
+    <form id="addTruckForm" method="post" action="${pageContext.request.contextPath}/trucks/create">
         <fieldset class="form-group">
             <label for="regNumber">Truck registration number</label>
             <input type="text" class="form-control" id="regNumber" name="regNumber"
@@ -70,8 +70,9 @@
             </select>
         </fieldset>
         <button type="submit" class="btn btn-success" name="action" value="create">Add Truck</button>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>
 </div>
-<jsp:include page="/jspf/footer.jspf"/>
+<jsp:include page="../../footer.jsp"/>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CityDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.City;
@@ -13,11 +14,18 @@ import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
 import com.tsystems.javaschool.timber.logiweb.view.util.InputParser;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.PatternSyntaxException;
 
 import javax.servlet.RequestDispatcher;
@@ -27,20 +35,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-public class TruckController extends HttpServlet {
+public class TruckController {
     private static final long serialVersionUID = 1L;
     static List<City> cities = Services.getCityService().findAll();
 
     final static Logger logger = Logger.getLogger(TruckController.class);
-
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public TruckController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
 
     @RequestMapping("/trucks")
     protected ModelAndView getTrucks() throws ServletException, IOException {
@@ -50,91 +49,83 @@ public class TruckController extends HttpServlet {
         return mv;
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @RequestMapping("/trucks/add")
+    protected ModelAndView addTruck(HttpServletRequest request, Model model) throws ServletException, IOException {
+        TruckValidationException ex = (TruckValidationException)model.asMap().get("truckValidationException");
+        ModelAndView mv = new ModelAndView("manager/trucks/addTruck");
+        mv.addObject("cities", cities);
+        mv.addObject("truckValidationException", ex);
+        return mv;
+    }
 
-        String action = request.getParameter("action");
-        int id;
+    @RequestMapping(value = "/trucks/delete", method = RequestMethod.POST)
+    protected ModelAndView deleteTruck(HttpServletRequest request) throws ServletException, IOException {
+        int id = parseTruckId(request);
+        Services.getTruckService().delete(id);
+        return new ModelAndView("redirect:/trucks");
+    }
 
-        if (action != null) {
-            switch (action) {
-                case "add": {
-                    request.setAttribute("cities", cities);
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/addTruck.jsp");
-                    rd.forward(request, response);
-                }
-                case "create":
-                    Truck truck = null;
-                    try {
-                        truck = parseTruck(request);
-                        Services.getTruckService().create(truck);
-                    } catch (TruckValidationException ex) {
-                        request.setAttribute("truckValidationException", ex);
-                        request.setAttribute("cities", cities);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/addTruck.jsp");
-                        rd.forward(request, response);
-                    } catch (Exception ex) {
-                        logger.error(ex.toString());
-                        request.getSession().setAttribute("errorMessage", ex.toString());
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
-                        rd.forward(request, response);
-                        return;
-                    }
-                    break;
-                case "list":
-                    break;
-                case "delete":
-                    id = parseTruckId(request);
-                    Services.getTruckService().delete(id);
-                    break;
-                case "edit":
-                    try {
-                        id = parseTruckId(request);
-                        Truck truckToEdit = Services.getTruckService().findById(id);
-                        request.setAttribute("truckToEdit", truckToEdit);
-                        request.setAttribute("cities", cities);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/editTruck.jsp");
-                        rd.forward(request, response);
-                    } catch (Exception ex) {
-                        logger.error(ex.toString());
-                        request.getSession().setAttribute("errorMessage", ex.toString());
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
-                        rd.forward(request, response);
-                        return;
-                    }
-                    break;
-                case "update":
-                    try {
-                        Truck updatedTruck = null;
-                        updatedTruck = parseTruck(request);
-                        id = parseTruckId(request);
-                        updatedTruck.setId(id);
-                        updateTruck(updatedTruck);
-                    } catch (TruckValidationException ex) {
-                        id = parseTruckId(request);
-                        Truck truckToEdit = Services.getTruckService().findById(id);
-                        request.setAttribute("truckToEdit", truckToEdit);
-                        request.setAttribute("cities", cities);
-                        request.setAttribute("truckValidationException", ex);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/editTruck.jsp");
-                        rd.forward(request, response);
-                    } catch (Exception ex) {
-                        logger.error(ex.toString());
-                        request.getSession().setAttribute("errorMessage", ex.toString());
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
-                        rd.forward(request, response);
-                        return;
-                    }
-                    break;
-            }
+    @RequestMapping(value = "/trucks/create", method = RequestMethod.POST)
+    protected String createTruck(HttpServletRequest request, RedirectAttributes redirectAttributes) throws ServletException, IOException {
+        Truck truck = null;
+        try {
+            truck = parseTruck(request);
+            Services.getTruckService().create(truck);
+            return "redirect:/trucks";
+        } catch (TruckValidationException ex) {
+            redirectAttributes.addFlashAttribute("truckValidationException", ex);
+            return "redirect:/trucks/add";
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+            request.getSession().setAttribute("errorMessage", ex.toString());
+            return "redirect:/error";
         }
+    }
 
-        List<Truck> trucks = Services.getTruckService().findAll();
-        request.setAttribute("trucks", trucks);
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/trucks/trucks.jsp");
-        rd.forward(request, response);
+    @RequestMapping(value = "/trucks/edit")
+    protected ModelAndView editTruck(HttpServletRequest request, Model model) throws ServletException, IOException {
+        try {
+            ModelAndView mv = new ModelAndView("manager/trucks/editTruck");
+            TruckValidationException ex = (TruckValidationException)model.asMap().get("truckValidationException");
+            int id;
+            if (ex != null) {
+                mv.addObject("truckValidationException", ex);
+                id = (Integer)model.asMap().get("id");
+            }
+            else
+                id = parseTruckId(request);
+            Truck truckToEdit = Services.getTruckService().findById(id);
+            request.setAttribute("truckToEdit", truckToEdit);
+            request.setAttribute("cities", cities);
+            return mv;
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+            request.getSession().setAttribute("errorMessage", ex.toString());
+            ModelAndView mv = new ModelAndView("/error");
+            return mv;
+        }
+    }
+
+    @RequestMapping(value = "/trucks/update", method = RequestMethod.POST)
+    protected String updateTruck(HttpServletRequest request, RedirectAttributes redirectAttributes) throws ServletException, IOException {
+        int id;
+        try {
+            Truck updatedTruck = null;
+            updatedTruck = parseTruck(request);
+            id = parseTruckId(request);
+            updatedTruck.setId(id);
+            updateTruck(updatedTruck);
+            return "redirect:/trucks";
+        } catch (TruckValidationException ex) {
+            id = parseTruckId(request);
+            redirectAttributes.addFlashAttribute("id", id);
+            redirectAttributes.addFlashAttribute("truckValidationException", ex);
+            return "redirect:/trucks/edit";
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+            request.getSession().setAttribute("errorMessage", ex.toString());
+            return "redirect:/error";
+        }
     }
 
     private synchronized void updateTruck(Truck updatedTruck) {
