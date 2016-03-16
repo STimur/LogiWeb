@@ -90,13 +90,14 @@ public class OrderServiceImpl implements OrderService {
                 throw new PersistenceException("Truck have already been assigned to order in another client.");
             Daos.getTruckDao().update(order.getAssignedTruck());
             //now we can update corresponding drivers rows
-            DriverDao driverDao = Daos.getDriverDao();
+            //after transition to SpringMVC drivers updated on auto
+            /*DriverDao driverDao = Daos.getDriverDao();
             List<Driver> drivers = order.getAssignedDrivers();
             for (Driver driver : drivers) {
                 if (Daos.getDriverDao().find(driver.getId()).getOrder() != null)
                     throw new PersistenceException("Driver have already been assigned to order in another client.");
                 driverDao.update(driver);
-            }
+            }*/
             JpaUtil.commitTransaction();
             logger.info("New order created successfully.");
         } catch (UnloadNotLoadedCargoException| NotAllCargosUnloadedException

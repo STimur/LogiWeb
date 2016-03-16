@@ -20,8 +20,9 @@
 <div class="container">
     <h2>Orders</h2>
     <div class="text-right">
-        <form method="post" action="${pageContext.request.contextPath}/Order">
+        <form method="post" action="${pageContext.request.contextPath}/orders/add">
             <button type="submit" class="btn btn-primary btn-success" name="action" value="add">Add Order</button>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
     </div>
     <table id="ordersTable" class="table table-bordered table-striped table-hover">
@@ -55,11 +56,12 @@
                     </ol>
                 </td>
                 <td class="buttonsCell">
-                    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
+                    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/orders/delete">
                         <button type="submit" class="btn btn-primary btn-danger" name="action" value="deleteOrder">
                             Remove
                         </button>
                         <input type="hidden" name="id" value="${order.getId()}"/>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     </form>
                 </td>
             </tr>

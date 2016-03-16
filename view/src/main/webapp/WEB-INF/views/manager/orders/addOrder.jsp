@@ -14,14 +14,14 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
-<c:import url="/jspf/navbar.jspf">
+<c:import url="../../navbar.jsp">
     <c:param name="activeTab" value="Orders"/>
 </c:import>
 <div class="container">
     <h2>Add Order</h2>
     <c:if test="${!isRouteFormed}">
         <h3>Add cargos for delivery:</h3>
-        <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
+        <form class="form-inline" method="post" action="${pageContext.request.contextPath}/orders/add-load-point">
             <div class="form-group">
                 <label class="sr-only" for="pointType">Point type</label>
                 <select class="form-control" id="pointType" disabled>
@@ -64,11 +64,13 @@
                     <span class="text-danger">Cargo weight should be between 1 and 40000.</span>
                 </div>
             </c:if>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
 
         <c:choose>
             <c:when test="${not empty loadedCargos}">
-                <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
+                <form class="form-inline" method="post"
+                      action="${pageContext.request.contextPath}/orders/add-unload-point">
                     <div class="form-group">
                         <select class="form-control" disabled>
                             <option>Unload</option>
@@ -79,7 +81,7 @@
                         <select class="form-control" id="cargo" name="cargoToUnload">
                             <c:forEach items="${loadedCargos}" var="loadedCargo" varStatus="loop">
                                 <option value="${loadedCargo.getId()} ${loop.index}">
-                                    ${loadedCargo}
+                                        ${loadedCargo}
                                 </option>
                             </c:forEach>
                         </select>
@@ -96,6 +98,7 @@
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" name="action" value="addUnloadPoint">Add</button>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </form>
             </c:when>
             <c:otherwise>
@@ -123,11 +126,13 @@
     </c:choose>
     <c:choose>
         <c:when test="${isValidRoute && empty order.getAssignedTruck() && !isRouteFormed}">
-            <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
+            <form class="form-inline" method="post"
+                  action="${pageContext.request.contextPath}/orders/get-available-trucks">
                 <button type="submit" class="btn btn-primary" name="action" value="getTrucks">Get Available Trucks
                 </button>
                 <span class="text-warning"
                       style="margin-left: 10px;">After pushing this button, you won't be able to add more routepoints.</span>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
         </c:when>
         <c:when test="${isValidRoute && not empty order.getAssignedTruck()}">
@@ -144,7 +149,7 @@
         <c:choose>
             <c:when test="${not empty trucks && trucks.size() > 0 && !isTruckAssigned}">
                 <h3>Available trucks:</h3>
-                <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
+                <form class="form-inline" method="post" action="${pageContext.request.contextPath}/orders/assign-truck">
                     <div class="form-group">
                         <label class="sr-only" for="truckToAssign">Choose truck</label>
                         <select class="form-control" id="truckToAssign" name="truckToAssign">
@@ -160,6 +165,7 @@
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" name="action" value="assignTruck">Assign</button>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </form>
             </c:when>
             <c:when test="${empty trucks}">
@@ -184,7 +190,8 @@
                 <c:if test="${shiftSize != numOfAssignedDrivers}">
                     <h3>Available drivers:</h3>
                     <!-- <h2>Assign order.getAssignedTruck().getShiftSize() Drivers:</h2> -->
-                    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
+                    <form class="form-inline" method="post"
+                          action="${pageContext.request.contextPath}/orders/assign-driver">
                         <div class="form-group">
                             <label class="sr-only" for="driverToAssign">Choose driver(s)</label>
                             <select class="form-control" id="driverToAssign" name="driverToAssign">
@@ -194,6 +201,7 @@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary" name="action" value="assignDriver">Assign</button>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <span class="text-warning"
                               style="margin-left: 10px;">Shift size is ${shiftSize}! Assign ${shiftSize-numOfAssignedDrivers} more driver(s).</span>
                     </form>
@@ -207,10 +215,11 @@
                     </ol>
                 </c:if>
                 <c:if test="${isShiftFormed}">
-                    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Order">
+                    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/orders/create">
                         <button type="submit" class="btn btn-primary btn-success" name="action" value="create">Create
                             Order
                         </button>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     </form>
                 </c:if>
             </c:when>
@@ -222,6 +231,6 @@
         </c:choose>
     </c:if>
 </div>
-<jsp:include page="/jspf/footer.jspf"/>
+<jsp:include page="../../footer.jsp"/>
 </body>
 </html>
