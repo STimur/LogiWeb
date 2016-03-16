@@ -1,48 +1,35 @@
 package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
-import com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck;
-import com.tsystems.javaschool.timber.logiweb.service.util.Services;
-import com.tsystems.javaschool.timber.logiweb.view.exceptions.*;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CityDaoJpa;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.DriverDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.City;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.DriverState;
-import com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService;
-import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
-import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
-import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
+import com.tsystems.javaschool.timber.logiweb.service.util.Services;
+import com.tsystems.javaschool.timber.logiweb.view.exceptions.DriverIdNotNumberException;
+import com.tsystems.javaschool.timber.logiweb.view.exceptions.DriverValidationException;
+import com.tsystems.javaschool.timber.logiweb.view.exceptions.IntegerOutOfRangeException;
 import com.tsystems.javaschool.timber.logiweb.view.util.InputParser;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
 @Controller
-public class DriverController extends HttpServlet {
+public class DriverController {
     private static final long serialVersionUID = 1L;
     static List<City> cities = Services.getCityService().findAll();
 
-
     final static Logger logger = Logger.getLogger(DriverController.class);
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DriverController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
     @RequestMapping("/drivers")
     protected ModelAndView getDrivers(Authentication auth) throws ServletException, IOException {
@@ -58,128 +45,88 @@ public class DriverController extends HttpServlet {
         }
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @RequestMapping("/drivers/add")
+    protected ModelAndView addDriver(Model model) throws ServletException, IOException {
+        DriverValidationException ex = (DriverValidationException) model.asMap().get("driverValidationException");
+        ModelAndView mv = new ModelAndView("manager/drivers/addDriver");
+        mv.addObject("cities", cities);
+        mv.addObject("driverValidationException", ex);
+        return mv;
+    }
 
-
-        String action = request.getParameter("action");
-        DriverService driverService = Services.getDriverService();
-        int id;
-
-        if (action != null) {
-            switch (action) {
-                case "add": {
-                    request.setAttribute("cities", cities);
-                    RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/addDriver.jsp");
-                    rd.forward(request, response);
-                }
-                case "create": {
-                    try {
-                        Driver driver = parseDriver(request);
-                        driverService.create(driver);
-                    } catch (DriverValidationException ex) {
-                        request.setAttribute("driverValidationException", ex);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/addDriver.jsp");
-                        rd.forward(request, response);
-                        return;
-                    } catch (Exception ex) {
-                        logger.error(ex.toString());
-                        request.getSession().setAttribute("errorMessage", ex.toString());
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
-                        rd.forward(request, response);
-                        return;
-                    }
-                    break;
-                }
-                case "list": {
-                    break;
-                }
-                case "delete": {
-                    try {
-                        id = parseDriverId(request);
-                        driverService.delete(id);
-                        break;
-                    } catch (DriverIdNotNumberException e) {
-                        e.printStackTrace();
-                    }
-                }
-                case "edit": {
-                    try {
-                        id = parseDriverId(request);
-                        Driver driverToEdit = driverService.findById(id);
-                        request.setAttribute("driverToEdit", driverToEdit);
-                        request.setAttribute("cities", cities);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
-                        rd.forward(request, response);
-                    } catch (Exception | DriverIdNotNumberException ex) {
-                        logger.error(ex.toString());
-                        request.getSession().setAttribute("errorMessage", ex.toString());
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
-                        rd.forward(request, response);
-                        return;
-                    }
-                    break;
-                }
-                case "update": {
-                    try {
-                        Driver driverToUpdate = parseDriver(request);
-                        try {
-                            id = parseDriverId(request);
-                            driverToUpdate.setId(id);
-                            driverService.update(driverToUpdate);
-                        } catch (DriverIdNotNumberException e) {
-                            e.printStackTrace();
-                        }
-                    } catch (DriverValidationException ex) {
-                        try {
-                            id = parseDriverId(request);
-                            Driver driverToEdit = driverService.findById(id);
-                            request.setAttribute("driverToEdit", driverToEdit);
-                            request.setAttribute("cities", cities);
-                            request.setAttribute("driverValidationException", ex);
-                            RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/editDriver.jsp");
-                            rd.forward(request, response);
-                        } catch (DriverIdNotNumberException e) {
-                            e.printStackTrace();
-                        }
-                    } catch (Exception ex) {
-                        logger.error(ex.toString());
-                        request.getSession().setAttribute("errorMessage", ex.toString());
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
-                        rd.forward(request, response);
-                        return;
-                    }
-                    break;
-                }
-                case "getJobInfo": {
-                    try {
-                        id = parseDriverId(request);
-                        Driver driver = driverService.findById(id);
-                        request.setAttribute("driver", driver);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/driver/driverJobInfo.jsp");
-                        rd.forward(request, response);
-                    } catch (DriverIdNotNumberException ex) {
-                        request.setAttribute("driverIdNotNumberException", ex);
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/driver/driverGetJobInfo.jsp");
-                        rd.forward(request, response);
-                    } catch (Exception ex) {
-                        logger.error(ex.toString());
-                        request.getSession().setAttribute("errorMessage", ex.toString());
-                        RequestDispatcher rd = getServletContext().getRequestDispatcher("/error.jsp");
-                        rd.forward(request, response);
-                        return;
-                    }
-                    break;
-                }
-            }
+    @RequestMapping(value = "/drivers/create", method = RequestMethod.POST)
+    protected String createDriver(HttpServletRequest request, RedirectAttributes redirectAttributes) throws ServletException, IOException {
+        Driver driver = null;
+        try {
+            driver = parseDriver(request);
+            Services.getDriverService().create(driver);
+            return "redirect:/drivers";
+        } catch (DriverValidationException ex) {
+            redirectAttributes.addFlashAttribute("driverValidationException", ex);
+            return "redirect:/drivers/add";
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+            request.getSession().setAttribute("errorMessage", ex.toString());
+            return "redirect:/error";
         }
+    }
 
-        List<Driver> drivers = driverService.findAll();
-        request.setAttribute("drivers", drivers);
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/jsp/manager/drivers/drivers.jsp");
-        rd.forward(request, response);
+    @RequestMapping(value = "/drivers/edit")
+    protected ModelAndView editDriver(HttpServletRequest request, Model model) throws ServletException, IOException {
+        try {
+            ModelAndView mv = new ModelAndView("manager/drivers/editDriver");
+            DriverValidationException ex = (DriverValidationException) model.asMap().get("driverValidationException");
+            int id;
+            if (ex != null) {
+                mv.addObject("driverValidationException", ex);
+                id = (Integer) model.asMap().get("id");
+            } else
+                id = parseDriverId(request);
+            Driver driverToEdit = Services.getDriverService().findById(id);
+            request.setAttribute("driverToEdit", driverToEdit);
+            request.setAttribute("cities", cities);
+            return mv;
+        } catch (Exception | DriverIdNotNumberException ex) {
+            logger.error(ex.toString());
+            request.getSession().setAttribute("errorMessage", ex.toString());
+            ModelAndView mv = new ModelAndView("/error");
+            return mv;
+        }
+    }
+
+    @RequestMapping(value = "/drivers/update", method = RequestMethod.POST)
+    protected String updateDriver(HttpServletRequest request, RedirectAttributes redirectAttributes) throws ServletException, IOException {
+        int id = -1;
+        try {
+            id = parseDriverId(request);
+            Driver updatedDriver = null;
+            updatedDriver = parseDriver(request);
+            updatedDriver.setId(id);
+            Services.getDriverService().update(updatedDriver);
+            return "redirect:/drivers";
+        } catch (DriverValidationException ex) {
+            redirectAttributes.addFlashAttribute("id", id);
+            redirectAttributes.addFlashAttribute("driverValidationException", ex);
+            return "redirect:/drivers/edit";
+        } catch (Exception | DriverIdNotNumberException ex) {
+            logger.error(ex.toString());
+            request.getSession().setAttribute("errorMessage", ex.toString());
+            return "redirect:/error";
+        }
+    }
+
+    @RequestMapping(value = "/drivers/delete", method = RequestMethod.POST)
+    protected String deleteDriver(HttpServletRequest request) throws ServletException, IOException {
+        int id = 0;
+        try {
+            id = parseDriverId(request);
+            Services.getDriverService().delete(id);
+            return "redirect:/drivers";
+        } catch (DriverIdNotNumberException ex) {
+            logger.error(ex.toString());
+            request.getSession().setAttribute("errorMessage", ex.toString());
+            return "redirect:/error";
+        }
     }
 
     private int parseDriverId(HttpServletRequest request) throws DriverIdNotNumberException {

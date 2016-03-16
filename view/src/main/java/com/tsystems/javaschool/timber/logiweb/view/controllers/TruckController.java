@@ -1,38 +1,24 @@
 package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CityDaoJpa;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.City;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.service.util.Services;
-import com.tsystems.javaschool.timber.logiweb.view.exceptions.*;
-import com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService;
-import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
-import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
-import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
+import com.tsystems.javaschool.timber.logiweb.view.exceptions.IntegerOutOfRangeException;
+import com.tsystems.javaschool.timber.logiweb.view.exceptions.TruckValidationException;
 import com.tsystems.javaschool.timber.logiweb.view.util.InputParser;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
-import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.PatternSyntaxException;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class TruckController {

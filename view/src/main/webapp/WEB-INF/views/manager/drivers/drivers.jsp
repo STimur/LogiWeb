@@ -16,8 +16,9 @@
         <c:otherwise>
             <h2>Drivers</h2>
             <div class="text-right">
-                <form method="post" action="${pageContext.request.contextPath}/Driver">
+                <form method="post" action="${pageContext.request.contextPath}/drivers/add">
                     <button type="submit" class="btn btn-primary btn-success" name="action" value="add">Add Driver</button>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </form>
             </div>
             <table class="table middleAligned table-bordered table-striped table-hover">
@@ -53,17 +54,19 @@
                         <td class="buttonsCell">
                             <div class="row">
                                 <div class="col-md-6 editButton">
-                                    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Driver">
+                                    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/drivers/edit">
                                         <button type="submit" class="btn btn-primary btn-primary" name="action" value="edit">Edit
                                         </button>
                                         <input type="hidden" name="id" value="${driver.getId()}"/>
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                     </form>
                                 </div>
                                 <div class="col-md-6 removeButton">
-                                    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/Driver">
+                                    <form class="form-inline" method="post" action="${pageContext.request.contextPath}/drivers/delete">
                                         <button type="submit" class="btn btn-primary btn-danger" name="action" value="delete">Remove
                                         </button>
                                         <input type="hidden" name="id" value="${driver.getId()}"/>
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                     </form>
                                 </div>
                             </div>

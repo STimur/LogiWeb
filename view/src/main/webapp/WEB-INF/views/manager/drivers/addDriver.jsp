@@ -14,12 +14,12 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 </head>
 <body>
-<c:import url="/jspf/navbar.jspf">
+<c:import url="../../navbar.jsp">
     <c:param name="activeTab" value="Drivers"/>
 </c:import>
 <div class="container">
     <h2>Add Driver</h2>
-    <form id="addDriverForm" method="post" action="${pageContext.request.contextPath}/Driver">
+    <form id="addDriverForm" method="post" action="${pageContext.request.contextPath}/drivers/create">
         <fieldset class="form-group">
             <label for="name">Driver name</label>
             <input type="text" class="form-control" id="name" name="name"
@@ -72,8 +72,9 @@
             </select>
         </fieldset>
         <button type="submit" class="btn btn-success" name="action" value="create">Add Driver</button>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>
 </div>
-<jsp:include page="/jspf/footer.jspf"/>
+<jsp:include page="../../footer.jsp"/>
 </body>
 </html>
