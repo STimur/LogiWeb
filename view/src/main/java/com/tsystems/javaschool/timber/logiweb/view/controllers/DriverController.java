@@ -129,6 +129,32 @@ public class DriverController {
         }
     }
 
+    @RequestMapping("/drivers/get-job-info")
+    protected String getDriverJobInfo(Authentication auth) throws ServletException, IOException {
+        Boolean isDriver = auth.getAuthorities().toString().contains("ROLE_driver");
+        if (isDriver) {
+            return "driver/driverGetJobInfo";
+        } else
+            return "redirect:/accessDenied";
+    }
+
+    @RequestMapping("/drivers/job-info")
+    protected String showDriverJobInfo(HttpServletRequest request, RedirectAttributes redirectAttributes) throws ServletException, IOException {
+        try {
+            int id = parseDriverId(request);
+            Driver driver = Services.getDriverService().findById(id);
+            request.setAttribute("driver", driver);
+            return "driver/driverJobInfo";
+        } catch (DriverIdNotNumberException ex) {
+            redirectAttributes.addFlashAttribute("driverIdNotNumberException", ex);
+            return "redirect:/drivers/get-job-info";
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+            request.getSession().setAttribute("errorMessage", ex.toString());
+            return "redirect:/error";
+        }
+    }
+
     private int parseDriverId(HttpServletRequest request) throws DriverIdNotNumberException {
         int id = 0;
         // this validation needed for case when driver enters his id to get info about his order

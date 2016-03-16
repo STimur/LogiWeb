@@ -1,7 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,13 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
-/**
- * Servlet implementation class Test
- */
 public class LogoutController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     final static Logger logger = Logger.getLogger(LogoutController.class);
+
     /**
      * @see HttpServlet#HttpServlet()
      */

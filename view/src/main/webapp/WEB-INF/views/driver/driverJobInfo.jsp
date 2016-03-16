@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
 <body>
-<c:import url="/jspf/navbar.jspf">
+<c:import url="../navbar.jsp">
     <c:param name="activeTab" value="GetJobInfo"/>
 </c:import>
 <div class="container">
@@ -70,6 +70,6 @@
         </c:otherwise>
     </c:choose>
 </div>
-<jsp:include page="/jspf/footer.jspf"/>
+<jsp:include page="../footer.jsp"/>
 </body>
 </html>

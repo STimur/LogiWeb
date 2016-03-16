@@ -1,9 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
