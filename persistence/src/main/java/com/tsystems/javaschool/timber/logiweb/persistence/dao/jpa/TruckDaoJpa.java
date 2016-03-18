@@ -4,15 +4,21 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.TruckDa
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Repository
 public class TruckDaoJpa extends GenericDaoJpa<Truck> implements TruckDao {
 
-    public TruckDaoJpa(Class<Truck> entityClass) {
+/*public TruckDaoJpa() {
+        super();
+    }*/
+
+    /*public TruckDaoJpa(Class<Truck> entityClass) {
         super(entityClass);
-    }
+    }*/
 
     @Override
     public List<Truck> getSuitableTrucksForOrder(Order order) {

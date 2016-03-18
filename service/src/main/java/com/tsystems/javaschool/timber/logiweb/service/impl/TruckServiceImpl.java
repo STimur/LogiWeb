@@ -6,16 +6,20 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.TruckDa
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
 
+@Service
 public class TruckServiceImpl implements TruckService {
 
     private static TruckDao truckDao;
 
     final static Logger logger = Logger.getLogger(TruckServiceImpl.class);
 
+    @Autowired
     public TruckServiceImpl(TruckDao truckDao) {
         this.truckDao = truckDao;
     }

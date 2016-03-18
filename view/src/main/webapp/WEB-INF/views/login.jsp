@@ -8,7 +8,7 @@
 <c:import url="navbar.jsp"/>
 <div class="container col-md-2 col-md-offset-5">
     <h2>Login Page</h2>
-    <c:url value="/login" var="loginProcessingUrl"/>
+    <c:url var="loginProcessingUrl" value="/login"/>
     <form action="${loginProcessingUrl}" method="post">
         <!-- use param.error assuming FormLoginConfigurer#failureUrl contains the query parameter error -->
         <c:if test="${param.error != null}">

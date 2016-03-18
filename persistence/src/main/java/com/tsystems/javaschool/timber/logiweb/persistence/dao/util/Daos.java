@@ -48,7 +48,7 @@ public class Daos {
     }
 
     public static TruckDao getTruckDao() {
-        if (truckDao == null) truckDao = new TruckDaoJpa(Truck.class);
+        if (truckDao == null) truckDao = new TruckDaoJpa();
         return truckDao;
     }
 

@@ -4,6 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class FrontController {
     String message = "Welcome to Spring MVC!";
@@ -23,6 +26,7 @@ public class FrontController {
 
     @RequestMapping(value = "/logout")
     public String logout() {
+        this.logout();
         return "home";
     }
 }

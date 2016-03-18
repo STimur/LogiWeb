@@ -4,6 +4,8 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.Generic
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
 
 import javax.persistence.EntityManager;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -11,6 +13,12 @@ import java.util.List;
  */
 public abstract class GenericDaoJpa<T> implements GenericDao<T> {
     private Class<T> entityClass;
+
+    public GenericDaoJpa() {
+        Type t = getClass().getGenericSuperclass();
+        ParameterizedType pt = (ParameterizedType) t;
+        entityClass = (Class) pt.getActualTypeArguments()[0];
+    }
 
     public GenericDaoJpa(Class<T> entityClass) {
         this.entityClass = entityClass;

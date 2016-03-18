@@ -2,11 +2,13 @@ package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.City;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
 import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.IntegerOutOfRangeException;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.TruckValidationException;
 import com.tsystems.javaschool.timber.logiweb.view.util.InputParser;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +27,14 @@ public class TruckController {
     private static final long serialVersionUID = 1L;
     static List<City> cities = Services.getCityService().findAll();
 
+    @Autowired
+    TruckService truckService;
+
     final static Logger logger = Logger.getLogger(TruckController.class);
 
     @RequestMapping("/trucks")
     protected ModelAndView getTrucks() throws ServletException, IOException {
-        List<Truck> trucks = Services.getTruckService().findAll();
+        List<Truck> trucks = truckService.findAll();
         ModelAndView mv = new ModelAndView("manager/trucks/trucks");
         mv.addObject("trucks", trucks);
         return mv;
@@ -47,7 +52,7 @@ public class TruckController {
     @RequestMapping(value = "/trucks/delete", method = RequestMethod.POST)
     protected ModelAndView deleteTruck(HttpServletRequest request) throws ServletException, IOException {
         int id = parseTruckId(request);
-        Services.getTruckService().delete(id);
+        truckService.delete(id);
         return new ModelAndView("redirect:/trucks");
     }
 
@@ -56,7 +61,7 @@ public class TruckController {
         Truck truck = null;
         try {
             truck = parseTruck(request);
-            Services.getTruckService().create(truck);
+            truckService.create(truck);
             return "redirect:/trucks";
         } catch (TruckValidationException ex) {
             redirectAttributes.addFlashAttribute("truckValidationException", ex);
@@ -80,7 +85,7 @@ public class TruckController {
             }
             else
                 id = parseTruckId(request);
-            Truck truckToEdit = Services.getTruckService().findById(id);
+            Truck truckToEdit = truckService.findById(id);
             request.setAttribute("truckToEdit", truckToEdit);
             request.setAttribute("cities", cities);
             return mv;
@@ -115,7 +120,7 @@ public class TruckController {
     }
 
     private synchronized void updateTruck(Truck updatedTruck) {
-        Services.getTruckService().update(updatedTruck);
+        truckService.update(updatedTruck);
     }
 
     private int parseTruckId(HttpServletRequest request) {
