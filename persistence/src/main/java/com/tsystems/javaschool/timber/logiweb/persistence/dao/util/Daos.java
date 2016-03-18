@@ -18,12 +18,12 @@ public class Daos {
     private static TruckDao truckDao;
 
     public static CargoDao getCargoDao() {
-        if (cargoDao == null) cargoDao = new CargoDaoJpa(Cargo.class);
+        if (cargoDao == null) cargoDao = new CargoDaoJpa();
         return cargoDao;
     }
 
     public static CityDao getCityDao() {
-        if (cityDao == null) cityDao = new CityDaoJpa(City.class);
+        if (cityDao == null) cityDao = new CityDaoJpa();
         return cityDao;
     }
 
@@ -33,12 +33,12 @@ public class Daos {
     }
 
     public static DriverDao getDriverDao() {
-        if (driverDao == null) driverDao = new DriverDaoJpa(Driver.class);
+        if (driverDao == null) driverDao = new DriverDaoJpa();
         return driverDao;
     }
 
     public static OrderDao getOrderDao() {
-        if (orderDao == null) orderDao = new OrderDaoJpa(Order.class);
+        if (orderDao == null) orderDao = new OrderDaoJpa();
         return orderDao;
     }
 

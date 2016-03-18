@@ -3,12 +3,14 @@ package com.tsystems.javaschool.timber.logiweb.view.controllers;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.City;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.DriverState;
-import com.tsystems.javaschool.timber.logiweb.service.util.Services;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.DriverIdNotNumberException;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.DriverValidationException;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.IntegerOutOfRangeException;
 import com.tsystems.javaschool.timber.logiweb.view.util.InputParser;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +28,10 @@ import java.util.regex.PatternSyntaxException;
 @Controller
 public class DriverController {
     private static final long serialVersionUID = 1L;
-    static List<City> cities = Services.getCityService().findAll();
+    @Autowired
+    CityService cityService;
+    @Autowired
+    DriverService driverService;
 
     final static Logger logger = Logger.getLogger(DriverController.class);
 
@@ -35,7 +40,7 @@ public class DriverController {
     protected ModelAndView getDrivers(Authentication auth) throws ServletException, IOException {
         Boolean isManager = auth.getAuthorities().toString().contains("ROLE_manager");
         if (isManager) {
-            List<Driver> drivers = Services.getDriverService().findAll();
+            List<Driver> drivers = driverService.findAll();
             ModelAndView mv = new ModelAndView("manager/drivers/drivers");
             mv.addObject("drivers", drivers);
             return mv;
@@ -49,7 +54,7 @@ public class DriverController {
     protected ModelAndView addDriver(Model model) throws ServletException, IOException {
         DriverValidationException ex = (DriverValidationException) model.asMap().get("driverValidationException");
         ModelAndView mv = new ModelAndView("manager/drivers/addDriver");
-        mv.addObject("cities", cities);
+        mv.addObject("cities", cityService.findAll());
         mv.addObject("driverValidationException", ex);
         return mv;
     }
@@ -59,7 +64,7 @@ public class DriverController {
         Driver driver = null;
         try {
             driver = parseDriver(request);
-            Services.getDriverService().create(driver);
+            driverService.create(driver);
             return "redirect:/drivers";
         } catch (DriverValidationException ex) {
             redirectAttributes.addFlashAttribute("driverValidationException", ex);
@@ -82,9 +87,9 @@ public class DriverController {
                 id = (Integer) model.asMap().get("id");
             } else
                 id = parseDriverId(request);
-            Driver driverToEdit = Services.getDriverService().findById(id);
+            Driver driverToEdit = driverService.findById(id);
             request.setAttribute("driverToEdit", driverToEdit);
-            request.setAttribute("cities", cities);
+            request.setAttribute("cities", cityService.findAll());
             return mv;
         } catch (Exception | DriverIdNotNumberException ex) {
             logger.error(ex.toString());
@@ -102,7 +107,7 @@ public class DriverController {
             Driver updatedDriver = null;
             updatedDriver = parseDriver(request);
             updatedDriver.setId(id);
-            Services.getDriverService().update(updatedDriver);
+            driverService.update(updatedDriver);
             return "redirect:/drivers";
         } catch (DriverValidationException ex) {
             redirectAttributes.addFlashAttribute("id", id);
@@ -120,7 +125,7 @@ public class DriverController {
         int id = 0;
         try {
             id = parseDriverId(request);
-            Services.getDriverService().delete(id);
+            driverService.delete(id);
             return "redirect:/drivers";
         } catch (DriverIdNotNumberException ex) {
             logger.error(ex.toString());
@@ -142,7 +147,7 @@ public class DriverController {
     protected String showDriverJobInfo(HttpServletRequest request, RedirectAttributes redirectAttributes) throws ServletException, IOException {
         try {
             int id = parseDriverId(request);
-            Driver driver = Services.getDriverService().findById(id);
+            Driver driver = driverService.findById(id);
             request.setAttribute("driver", driver);
             return "driver/driverJobInfo";
         } catch (DriverIdNotNumberException ex) {
@@ -200,7 +205,7 @@ public class DriverController {
 
         DriverState state = DriverState.valueOf(request.getParameter("state"));
         int cityId = Integer.valueOf(request.getParameter("cityId"));
-        City city = Services.getCityService().findById(cityId);
+        City city = cityService.findById(cityId);
         Driver driver = new Driver(name, surname, hoursWorkedThisMonth, state, city);
         return driver;
     }

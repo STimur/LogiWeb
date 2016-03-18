@@ -4,6 +4,7 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.Generic
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -13,6 +14,9 @@ import java.util.List;
  */
 public abstract class GenericDaoJpa<T> implements GenericDao<T> {
     private Class<T> entityClass;
+
+    @PersistenceContext
+    private EntityManager em;
 
     public GenericDaoJpa() {
         Type t = getClass().getGenericSuperclass();
@@ -30,33 +34,28 @@ public abstract class GenericDaoJpa<T> implements GenericDao<T> {
 
     @Override
     public void persist(T entity) {
-        EntityManager em = JpaUtil.getEntityManager();
         em.persist(entity);
     }
 
     @Override
     public void update(T entity) {
-        EntityManager em = JpaUtil.getEntityManager();
         em.merge(entity);
     }
 
     @Override
     public void delete(int id) {
-        EntityManager em = JpaUtil.getEntityManager();
         T entity = em.find(getEntityClass(), id);
         em.remove(entity);
     }
 
     @Override
     public T find(int id) {
-        EntityManager em = JpaUtil.getEntityManager();
         T entity = em.find(getEntityClass(), id);
         return entity;
     }
 
     @Override
     public List<T> findAll() {
-        EntityManager em = JpaUtil.getEntityManager();
         List<T> entities = (List<T>) em.createQuery("from " + getEntityClass().getSimpleName()).getResultList();
         em.close();
         return entities;

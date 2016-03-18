@@ -112,6 +112,13 @@
                 <version>${spring.version}</version>
             </dependency>
 
+            <!-- Spring JPA -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-jpa</artifactId>
+                <version>1.9.4.RELEASE</version>
+            </dependency>
+
             <!-- Spring Security -->
             <dependency>
                 <groupId>org.springframework.security</groupId>

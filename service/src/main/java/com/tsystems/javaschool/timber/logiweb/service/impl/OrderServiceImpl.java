@@ -2,6 +2,7 @@ package com.tsystems.javaschool.timber.logiweb.service.impl;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.DriverDao;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.GenericDao;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.OrderDao;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CargoDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.DistanceDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.RoutePointDaoJpa;
@@ -20,6 +21,9 @@ import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceException;
 import java.util.*;
@@ -27,13 +31,15 @@ import java.util.*;
 /**
  * Created by tims on 2/15/2016.
  */
+@Service
 public class OrderServiceImpl implements OrderService {
-    private static GenericDao orderDao;
+    private OrderDao orderDao;
 
     final static Logger logger = Logger.getLogger(OrderServiceImpl.class);
 
-    public OrderServiceImpl(GenericDao truckDao) {
-        this.orderDao = truckDao;
+    @Autowired
+    public OrderServiceImpl(OrderDao orderDao) {
+        this.orderDao = orderDao;
     }
 
     @Override
@@ -42,6 +48,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public synchronized void delete(int id) {
         try {
             logger.info("Deleting order...");
@@ -78,6 +85,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void create(Order order) throws UnloadNotLoadedCargoException, NotAllCargosUnloadedException, DoubleLoadCargoException, OrderNotCreated {
         try {
             logger.info("Creating new order...");

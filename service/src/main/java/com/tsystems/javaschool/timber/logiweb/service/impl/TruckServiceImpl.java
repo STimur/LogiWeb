@@ -8,6 +8,7 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 @Service
 public class TruckServiceImpl implements TruckService {
 
-    private static TruckDao truckDao;
+    private TruckDao truckDao;
 
     final static Logger logger = Logger.getLogger(TruckServiceImpl.class);
 
@@ -25,41 +26,35 @@ public class TruckServiceImpl implements TruckService {
     }
 
     @Override
+    @Transactional
     public void create(Truck truck) {
         try {
             logger.info("Creating new truck...");
-            JpaUtil.beginTransaction();
             truckDao.persist(truck);
-            JpaUtil.commitTransaction();
         } catch (PersistenceException ex) {
             logger.error("Error while creating new truck.");
-            JpaUtil.rollbackTransaction();
         }
     }
 
     @Override
+    @Transactional
     public synchronized void update(Truck truck) {
         try {
             logger.info("Updating truck...");
-            JpaUtil.beginTransaction();
             truckDao.update(truck);
-            JpaUtil.commitTransaction();
         } catch (PersistenceException ex) {
             logger.error("Error while updating truck.");
-            JpaUtil.rollbackTransaction();
         }
     }
 
     @Override
+    @Transactional
     public synchronized void delete(int id) {
         try {
             logger.info("Deleting truck...");
-            JpaUtil.beginTransaction();
             truckDao.delete(id);
-            JpaUtil.commitTransaction();
         } catch (PersistenceException ex) {
             logger.error("Error while deleting truck.");
-            JpaUtil.rollbackTransaction();
         }
     }
 

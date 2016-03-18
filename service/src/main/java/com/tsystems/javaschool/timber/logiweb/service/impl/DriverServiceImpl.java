@@ -6,6 +6,10 @@ import com.tsystems.javaschool.timber.logiweb.persistence.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
 import org.apache.log4j.Logger;
+import org.jmock.auto.Auto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
@@ -13,51 +17,47 @@ import java.util.List;
 /**
  * Created by tims on 2/15/2016.
  */
+@Service
 public class DriverServiceImpl implements DriverService {
-    private static DriverDao driverDao;
+    private DriverDao driverDao;
 
     final static Logger logger = Logger.getLogger(DriverServiceImpl.class);
 
+    @Autowired
     public DriverServiceImpl(DriverDao driverDao) {
         this.driverDao = driverDao;
     }
 
     @Override
+    @Transactional
     public void create(Driver driver) {
         try {
             logger.info("Creating new driver...");
-            JpaUtil.beginTransaction();
             driverDao.persist(driver);
-            JpaUtil.commitTransaction();
         } catch (PersistenceException ex) {
             logger.error("Error while creating new driver.");
-            JpaUtil.rollbackTransaction();
         }
     }
 
     @Override
+    @Transactional
     public synchronized void update(Driver driver) {
         try {
             logger.info("Updating driver...");
-            JpaUtil.beginTransaction();
             driverDao.update(driver);
-            JpaUtil.commitTransaction();
         } catch (PersistenceException ex) {
             logger.error("Error while updating driver.");
-            JpaUtil.rollbackTransaction();
         }
     }
 
     @Override
+    @Transactional
     public synchronized void delete(int id) {
         try {
             logger.info("Deleting driver...");
-            JpaUtil.beginTransaction();
             driverDao.delete(id);
-            JpaUtil.commitTransaction();
         } catch (PersistenceException ex) {
             logger.error("Error while deleting driver.");
-            JpaUtil.rollbackTransaction();
         }
     }
 

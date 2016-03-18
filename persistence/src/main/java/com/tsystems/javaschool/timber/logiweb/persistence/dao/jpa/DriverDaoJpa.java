@@ -4,6 +4,7 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.DriverD
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -11,12 +12,8 @@ import java.util.List;
 /**
  * Created by tims on 2/15/2016.
  */
+@Repository
 public class DriverDaoJpa extends GenericDaoJpa<Driver> implements DriverDao {
-
-    public DriverDaoJpa(Class<Driver> entityClass) {
-        super(entityClass);
-    }
-
     @Override
     public List<Driver> getSuitableDriversForOrder(Order order, int deliveryTimeThisMonth, int deliveryTimeNextMonth) {
         EntityManager entityManager = JpaUtil.getEntityManager();

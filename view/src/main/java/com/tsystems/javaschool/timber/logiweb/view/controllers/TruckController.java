@@ -2,8 +2,8 @@ package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.City;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
-import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.IntegerOutOfRangeException;
 import com.tsystems.javaschool.timber.logiweb.view.exceptions.TruckValidationException;
 import com.tsystems.javaschool.timber.logiweb.view.util.InputParser;
@@ -25,10 +25,12 @@ import java.util.regex.PatternSyntaxException;
 @Controller
 public class TruckController {
     private static final long serialVersionUID = 1L;
-    static List<City> cities = Services.getCityService().findAll();
 
     @Autowired
     TruckService truckService;
+
+    @Autowired
+    CityService cityService;
 
     final static Logger logger = Logger.getLogger(TruckController.class);
 
@@ -44,7 +46,7 @@ public class TruckController {
     protected ModelAndView addTruck(HttpServletRequest request, Model model) throws ServletException, IOException {
         TruckValidationException ex = (TruckValidationException)model.asMap().get("truckValidationException");
         ModelAndView mv = new ModelAndView("manager/trucks/addTruck");
-        mv.addObject("cities", cities);
+        mv.addObject("cities", cityService.findAll());
         mv.addObject("truckValidationException", ex);
         return mv;
     }
@@ -87,7 +89,7 @@ public class TruckController {
                 id = parseTruckId(request);
             Truck truckToEdit = truckService.findById(id);
             request.setAttribute("truckToEdit", truckToEdit);
-            request.setAttribute("cities", cities);
+            request.setAttribute("cities", cityService.findAll());
             return mv;
         } catch (Exception ex) {
             logger.error(ex.toString());
@@ -161,7 +163,7 @@ public class TruckController {
             throw truckValidationException;
         String state = request.getParameter("state");
         int cityId = Integer.valueOf(request.getParameter("cityId"));
-        City city = Services.getCityService().findById(cityId);
+        City city = cityService.findById(cityId);
         Truck truck = new Truck(regNumber, shiftSize, capacity, state, city);
         return truck;
     }

@@ -1,10 +1,13 @@
 package com.tsystems.javaschool.timber.logiweb.service.impl;
 
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.CityDao;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.GenericDao;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.City;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
@@ -12,12 +15,16 @@ import java.util.List;
 /**
  * Created by tims on 2/11/2016.
  */
+@Service
 public class CityServiceImpl implements CityService {
-    private static GenericDao cityDao;
+
+
+    private CityDao cityDao;
 
     final static Logger logger = Logger.getLogger(CityServiceImpl.class);
 
-    public CityServiceImpl(GenericDao cityDao) {
+    @Autowired
+    public CityServiceImpl(CityDao cityDao) {
         this.cityDao = cityDao;
     }
 

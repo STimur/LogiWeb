@@ -14,8 +14,11 @@ import com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
 import com.tsystems.javaschool.timber.logiweb.view.util.InputParser;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.PersistenceException;
@@ -28,20 +31,45 @@ import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
 @Controller
+//@SessionAttributes({"route", "orderToCreate", "suitableTrucks", "suitableDrivers", "cities", "loadedCargos"})
 public class OrderController {
     private static final long serialVersionUID = 1L;
 
     final static Logger logger = Logger.getLogger(OrderController.class);
-    private CityService cityService = Services.getCityService();
-    private TruckService truckService = Services.getTruckService();
-    private DriverService driverService = Services.getDriverService();
-    private OrderService orderService = Services.getOrderService();
-    private List<RoutePoint> route = new ArrayList<RoutePoint>();
-    private Order orderToCreate = new Order();
-    private List<Truck> suitableTrucks = new ArrayList<Truck>();
-    private List<Driver> suitableDrivers = new ArrayList<Driver>();
-    private List<City> cities = cityService.findAll();
-    private List<Cargo> loadedCargos = new ArrayList<Cargo>();
+    @Autowired
+    private CityService cityService;
+    @Autowired
+    private TruckService truckService;
+    @Autowired
+    private DriverService driverService;
+    @Autowired
+    private OrderService orderService;
+
+
+    /*@ModelAttribute(value = "route")
+    public List<RoutePoint> initRoute() {
+        return new ArrayList<RoutePoint>();
+    }
+    @ModelAttribute(value = "orderToCreate")
+    public Order createOrder() {
+        return new Order();
+    }
+    @ModelAttribute(value = "suitableTrucks")
+    public List<Truck> createSuitableTrucks() {
+        return new ArrayList<Truck>();
+    }
+    @ModelAttribute(value = "suitableDrivers")
+    public List<Driver> createSuitableDrivers() {
+        return new ArrayList<Driver>();
+    }
+    @ModelAttribute(value = "cities")
+    public List<City> getCities() {
+        return cityService.findAll();
+    }
+    @ModelAttribute(value = "loadedCargos")
+    public List<Cargo> initLoadedCargos() {
+        return new ArrayList<Cargo>();
+    }*/
 
     @RequestMapping("/orders")
     protected ModelAndView getOrders() throws ServletException, IOException {
@@ -59,14 +87,14 @@ public class OrderController {
         return mv;
     }
 
-    @RequestMapping("/orders/add")
+    /*@RequestMapping("/orders/add")
     protected String addOrder(HttpServletRequest request) throws ServletException, IOException {
         clearAttributes(request.getSession());
         setAddOrderSessionAttributes(request.getSession());
         return "manager/orders/addOrder";
-    }
+    }*/
 
-    @RequestMapping("/orders/add-load-point")
+    /*@RequestMapping("/orders/add-load-point")
     protected String addLoadPoint(HttpServletRequest request) {
         try {
             retrieveAddOrderSessionAttributes(request.getSession());
@@ -222,7 +250,7 @@ public class OrderController {
         loadedCargos = (List<Cargo>) session.getAttribute("loadedCargos");
         suitableTrucks = (List<Truck>) session.getAttribute("trucks");
         suitableDrivers = (List<Driver>) session.getAttribute("drivers");
-    }
+    }*/
 
     private RoutePoint parseRoutePoint(HttpServletRequest request) throws CargoValidationException {
         CargoValidationException cargoValidationException = new CargoValidationException("");
