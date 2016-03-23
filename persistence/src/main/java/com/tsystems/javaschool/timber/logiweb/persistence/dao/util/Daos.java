@@ -28,7 +28,7 @@ public class Daos {
     }
 
     public static DistanceDao getDistanceDao() {
-        if (distanceDao == null) distanceDao = new DistanceDaoJpa(Distance.class);
+        if (distanceDao == null) distanceDao = new DistanceDaoJpa();
         return distanceDao;
     }
 
@@ -43,7 +43,7 @@ public class Daos {
     }
 
     public static RoutePointDao getRoutePointDao() {
-        if (routePointDao == null) routePointDao = new RoutePointDaoJpa(RoutePoint.class);
+        if (routePointDao == null) routePointDao = new RoutePointDaoJpa();
         return routePointDao;
     }
 

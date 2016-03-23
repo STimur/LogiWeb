@@ -38,7 +38,8 @@ public class Services {
     }
 
     public static OrderService getOrderService() {
-        if (orderService == null) orderService = new OrderServiceImpl(Daos.getOrderDao());
+        if (orderService == null) orderService = new OrderServiceImpl(Daos.getOrderDao(), Daos.getDistanceDao(),
+                Daos.getCargoDao(), Daos.getRoutePointDao(), Daos.getTruckDao(), Daos.getDriverDao());
         return orderService;
     }
 

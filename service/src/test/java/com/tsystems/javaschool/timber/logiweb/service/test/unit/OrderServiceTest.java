@@ -1,7 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.service.test.unit;
 
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.GenericDao;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.OrderDao;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.*;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.*;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.NotAllCargosUnloadedException;
@@ -46,7 +45,13 @@ public class OrderServiceTest {
     public void GetOrdersList() {
         Mockery context = new Mockery();
         final OrderDao mockOrderDao = context.mock(OrderDao.class);
-        OrderService orderService = new OrderServiceImpl(mockOrderDao);
+        final DistanceDao mockDistanceDao = context.mock(DistanceDao.class);
+        final CargoDao mockCargoDao = context.mock(CargoDao.class);
+        final RoutePointDao mockRoutePointDao = context.mock(RoutePointDao.class);
+        final TruckDao mockTruckDao = context.mock(TruckDao.class);
+        final DriverDao mockDriverDao = context.mock(DriverDao.class);
+        OrderService orderService = new OrderServiceImpl(mockOrderDao, mockDistanceDao, mockCargoDao,
+                mockRoutePointDao, mockTruckDao, mockDriverDao);
 
         context.checking(new Expectations() {{
             oneOf(mockOrderDao).findAll();
@@ -84,8 +89,12 @@ public class OrderServiceTest {
             throws DoubleLoadCargoException, NotAllCargosUnloadedException, UnloadNotLoadedCargoException {
         Mockery context = new Mockery();
         final OrderDao mockOrderDao = context.mock(OrderDao.class);
-
-        OrderService orderService = new OrderServiceImpl(mockOrderDao);
+        final DistanceDao mockDistanceDao = context.mock(DistanceDao.class);
+        final CargoDao mockCargoDao = context.mock(CargoDao.class);
+        final RoutePointDao mockRoutePointDao = context.mock(RoutePointDao.class);
+        final TruckDao mockTruckDao = context.mock(TruckDao.class);
+        final DriverDao mockDriverDao = context.mock(DriverDao.class);
+        OrderService orderService = new OrderServiceImpl(mockOrderDao, mockDistanceDao, mockCargoDao, mockRoutePointDao, mockTruckDao, mockDriverDao);
 
         Order order = ordersData.get(0);
         order.getRoute().getNextRoutePoint().setType(RoutePointType.LOAD);
@@ -104,7 +113,12 @@ public class OrderServiceTest {
             throws DoubleLoadCargoException, NotAllCargosUnloadedException, UnloadNotLoadedCargoException {
         Mockery context = new Mockery();
         final OrderDao mockOrderDao = context.mock(OrderDao.class);
-        OrderService orderService = new OrderServiceImpl(mockOrderDao);
+        final DistanceDao mockDistanceDao = context.mock(DistanceDao.class);
+        final CargoDao mockCargoDao = context.mock(CargoDao.class);
+        final RoutePointDao mockRoutePointDao = context.mock(RoutePointDao.class);
+        final TruckDao mockTruckDao = context.mock(TruckDao.class);
+        final DriverDao mockDriverDao = context.mock(DriverDao.class);
+        OrderService orderService = new OrderServiceImpl(mockOrderDao, mockDistanceDao, mockCargoDao, mockRoutePointDao, mockTruckDao, mockDriverDao);
 
         Order order = ordersData.get(0);
         order.getRoute().setNextRoutePoint(null);
@@ -123,8 +137,12 @@ public class OrderServiceTest {
             throws DoubleLoadCargoException, NotAllCargosUnloadedException, UnloadNotLoadedCargoException {
         Mockery context = new Mockery();
         final OrderDao mockOrderDao = context.mock(OrderDao.class);
-
-        OrderService orderService = new OrderServiceImpl(mockOrderDao);
+        final DistanceDao mockDistanceDao = context.mock(DistanceDao.class);
+        final CargoDao mockCargoDao = context.mock(CargoDao.class);
+        final RoutePointDao mockRoutePointDao = context.mock(RoutePointDao.class);
+        final TruckDao mockTruckDao = context.mock(TruckDao.class);
+        final DriverDao mockDriverDao = context.mock(DriverDao.class);
+        OrderService orderService = new OrderServiceImpl(mockOrderDao, mockDistanceDao, mockCargoDao, mockRoutePointDao, mockTruckDao, mockDriverDao);
 
         Order order = ordersData.get(0);
         order.getRoute().setType(RoutePointType.UNLOAD);

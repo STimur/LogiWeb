@@ -1,8 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.service.impl;
 
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.DriverDao;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.GenericDao;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.OrderDao;
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.*;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CargoDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.DistanceDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.RoutePointDaoJpa;
@@ -34,12 +32,23 @@ import java.util.*;
 @Service
 public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
+    private DistanceDao distanceDao;
+    private CargoDao cargoDao;
+    private RoutePointDao routePointDao;
+    private TruckDao truckDao;
+    private DriverDao driverDao;
 
     final static Logger logger = Logger.getLogger(OrderServiceImpl.class);
 
     @Autowired
-    public OrderServiceImpl(OrderDao orderDao) {
+    public OrderServiceImpl(OrderDao orderDao, DistanceDao distanceDao, CargoDao cargoDao,
+                            RoutePointDao routePointDao, TruckDao truckDao, DriverDao driverDao) {
         this.orderDao = orderDao;
+        this.distanceDao = distanceDao;
+        this.cargoDao = cargoDao;
+        this.routePointDao = routePointDao;
+        this.truckDao = truckDao;
+        this.driverDao = driverDao;
     }
 
     @Override
@@ -52,17 +61,16 @@ public class OrderServiceImpl implements OrderService {
     public synchronized void delete(int id) {
         try {
             logger.info("Deleting order...");
-            JpaUtil.beginTransaction();
-            Order foundOrder = Daos.getOrderDao().find(id);
+            Order foundOrder = orderDao.find(id);
             //updating corresponding truck and drivers rows
             Truck orderTruck = foundOrder.getAssignedTruck();
             orderTruck.setOrder(null);
-            Daos.getTruckDao().update(orderTruck);
+            truckDao.update(orderTruck);
             List<Driver> drivers = foundOrder.getAssignedDrivers();
             for (Driver driver : drivers) {
                 driver.setCurrentTruck(null);
                 driver.setOrder(null);
-                Daos.getDriverDao().update(driver);
+                driverDao.update(driver);
             }
             //deleting corresponding routepoints and cargos rows
             RoutePoint currentPoint = foundOrder.getRoute();
@@ -70,16 +78,14 @@ public class OrderServiceImpl implements OrderService {
             while (currentPoint != null) {
                 pointToRemove = currentPoint;
                 currentPoint = currentPoint.getNextRoutePoint();
-                Cargo cargoToRemove = Daos.getCargoDao().find(pointToRemove.getCargo().getId());
+                Cargo cargoToRemove = cargoDao.find(pointToRemove.getCargo().getId());
                 if (cargoToRemove != null)
-                    Daos.getCargoDao().delete(cargoToRemove.getId());
-                Daos.getRoutePointDao().delete(pointToRemove.getId());
+                    cargoDao.delete(cargoToRemove.getId());
+                routePointDao.delete(pointToRemove.getId());
             }
-            Daos.getOrderDao().delete(foundOrder.getId());
-            JpaUtil.commitTransaction();
+            orderDao.delete(foundOrder.getId());
         } catch (NullPointerException | PersistenceException ex) {
             logger.error("Error while deleting order.");
-            JpaUtil.rollbackTransaction();
             throw new PersistenceException("Another client already deleted this order. Refresh your orders page.");
         }
     }
@@ -89,45 +95,42 @@ public class OrderServiceImpl implements OrderService {
     public void create(Order order) throws UnloadNotLoadedCargoException, NotAllCargosUnloadedException, DoubleLoadCargoException, OrderNotCreated {
         try {
             logger.info("Creating new order...");
-            JpaUtil.beginTransaction();
             validate(order);
             createRoutePointsInOrder(order);
             orderDao.persist(order);
             //now we can update corresponding truck row
-            if (Daos.getTruckDao().find(order.getAssignedTruck().getId()).getOrder() != null)
+            if (truckDao.find(order.getAssignedTruck().getId()).getOrder() != null)
                 throw new PersistenceException("Truck have already been assigned to order in another client.");
-            Daos.getTruckDao().update(order.getAssignedTruck());
+            truckDao.update(order.getAssignedTruck());
             //now we can update corresponding drivers rows
             //after transition to SpringMVC drivers updated on auto
-            /*DriverDao driverDao = Daos.getDriverDao();
             List<Driver> drivers = order.getAssignedDrivers();
             for (Driver driver : drivers) {
-                if (Daos.getDriverDao().find(driver.getId()).getOrder() != null)
+                if (driverDao.find(driver.getId()).getOrder() != null)
                     throw new PersistenceException("Driver have already been assigned to order in another client.");
                 driverDao.update(driver);
-            }*/
-            JpaUtil.commitTransaction();
+            }
             logger.info("New order created successfully.");
         } catch (UnloadNotLoadedCargoException| NotAllCargosUnloadedException
                 | DoubleLoadCargoException | PersistenceException ex) {
             logger.error("Error while creating new order: " + ex.getMessage());
-            JpaUtil.rollbackTransaction();
             throw new OrderNotCreated("Another client assigned this truck or drivers. Try again");
         }
     }
 
+    @Transactional
     private void createRoutePointsInOrder(Order order) {
         RoutePoint currentPoint = order.getRoute();
         //need to add points in reversed order cause the first ones have
         //the links to the next
         List<RoutePoint> revertedRoute = new ArrayList<RoutePoint>();
         while (currentPoint != null) {
-            Services.getCargoService().create(currentPoint.getCargo());
+            cargoDao.persist(currentPoint.getCargo());
             revertedRoute.add(0, currentPoint);
             currentPoint = currentPoint.getNextRoutePoint();
         }
         for (RoutePoint point: revertedRoute)
-            Services.getRoutePointService().create(point);
+            routePointDao.persist(point);
 
     }
 
@@ -165,7 +168,7 @@ public class OrderServiceImpl implements OrderService {
     public int getDeliveryTime(Order order) {
         int velocity = 80;
 
-        List<Distance> distances = Services.getDistanceService().findAll();
+        List<Distance> distances = distanceDao.findAll();
 
         RoutePoint currentPoint = order.getRoute();
         RoutePoint nextPoint = currentPoint.getNextRoutePoint();

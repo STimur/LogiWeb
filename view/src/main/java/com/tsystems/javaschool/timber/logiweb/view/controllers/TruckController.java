@@ -24,8 +24,6 @@ import java.util.regex.PatternSyntaxException;
 
 @Controller
 public class TruckController {
-    private static final long serialVersionUID = 1L;
-
     @Autowired
     TruckService truckService;
 

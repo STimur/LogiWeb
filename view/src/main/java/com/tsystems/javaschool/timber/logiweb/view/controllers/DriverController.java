@@ -27,7 +27,6 @@ import java.util.regex.PatternSyntaxException;
 
 @Controller
 public class DriverController {
-    private static final long serialVersionUID = 1L;
     @Autowired
     CityService cityService;
     @Autowired
