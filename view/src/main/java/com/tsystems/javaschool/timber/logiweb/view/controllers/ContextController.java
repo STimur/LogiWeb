@@ -1,7 +1,5 @@
 package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -18,12 +16,9 @@ public class ContextController implements ServletContextListener {
         ServletContext context = event.getServletContext();
         String rootPath = context.getRealPath("/");
         System.setProperty("rootPath", rootPath);
-
-        JpaUtil.getEntityManager();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
-        JpaUtil.closeEntityManagerFactory();
     }
 }

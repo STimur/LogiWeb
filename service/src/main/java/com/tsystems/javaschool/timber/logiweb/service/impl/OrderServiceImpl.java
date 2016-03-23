@@ -1,21 +1,12 @@
 package com.tsystems.javaschool.timber.logiweb.service.impl;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.*;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CargoDaoJpa;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.DistanceDaoJpa;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.RoutePointDaoJpa;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.Daos;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.*;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.NotAllCargosUnloadedException;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.OrderNotCreated;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.UnloadNotLoadedCargoException;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
-import com.tsystems.javaschool.timber.logiweb.service.interfaces.CargoService;
-import com.tsystems.javaschool.timber.logiweb.service.interfaces.DistanceService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService;
-import com.tsystems.javaschool.timber.logiweb.service.interfaces.RoutePointService;
-import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
@@ -24,7 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by tims on 2/15/2016.

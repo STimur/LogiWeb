@@ -1,10 +1,9 @@
 package com.tsystems.javaschool.timber.logiweb.service.impl;
 
+import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.TruckDao;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.TruckDao;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,6 @@
 package com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.GenericDao;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,6 +16,10 @@ public abstract class GenericDaoJpa<T> implements GenericDao<T> {
 
     @PersistenceContext
     private EntityManager em;
+
+    protected EntityManager getEntityManager() {
+        return em;
+    }
 
     public GenericDaoJpa() {
         Type t = getClass().getGenericSuperclass();

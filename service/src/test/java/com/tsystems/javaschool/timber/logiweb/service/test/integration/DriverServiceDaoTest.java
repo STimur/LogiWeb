@@ -1,19 +1,15 @@
 package com.tsystems.javaschool.timber.logiweb.service.test.integration;
 
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CityDaoJpa;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.DriverDaoJpa;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.City;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.DriverState;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck;
-import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
-import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
-import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
-import com.tsystems.javaschool.timber.logiweb.service.util.Services;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -21,6 +17,13 @@ import java.util.List;
  * Created by tims on 2/15/2016.
  */
 public class DriverServiceDaoTest {
+    @Autowired
+    private DriverService driverService;
+    @Autowired
+    private CityService cityService;
+    @Autowired
+    private TruckService truckService;
+
     @Test
     public void CanCreateDriverInDB() {
         Driver driver = new Driver();
@@ -28,12 +31,11 @@ public class DriverServiceDaoTest {
         driver.setSurname("Popov");
         driver.setHoursWorkedThisMonth(10);
         driver.setState(DriverState.DRIVE);
-        City city = Services.getCityService().findById(1);
+        City city = cityService.findById(1);
         driver.setCurrentCity(city);
-        Truck truck = Services.getTruckService().findById(1);
+        Truck truck = truckService.findById(1);
         driver.setCurrentTruck(truck);
 
-        DriverService driverService = Services.getDriverService();
         int numOfDriversBefore = driverService.findAll().size();
         driverService.create(driver);
         int numOfDriversAfter = driverService.findAll().size();
@@ -43,7 +45,7 @@ public class DriverServiceDaoTest {
 
     @Test
     public void CanReadDriversTableFromDB() {
-        List<Driver> drivers = Services.getDriverService().findAll();
+        List<Driver> drivers = driverService.findAll();
         Assert.assertNotNull(drivers);
         Assert.assertTrue(drivers.size() > 0);
     }
@@ -51,7 +53,6 @@ public class DriverServiceDaoTest {
     @Test
     public void CanUpdateDriverInDB() {
         createDriver();
-        DriverService driverService = Services.getDriverService();
         Driver driverBeforeUpdate = driverService.findById(getLastDriverId());
         Driver driverAfterUpdate = driverService.findById(getLastDriverId());
         driverAfterUpdate.setHoursWorkedThisMonth(driverAfterUpdate.getHoursWorkedThisMonth()+1);
@@ -63,7 +64,6 @@ public class DriverServiceDaoTest {
     @Test
     public void CanDeleteDriverInDB() {
         createDriver();
-        DriverService driverService = Services.getDriverService();
         List<Driver> drivers = driverService.findAll();
         int lenBefore = drivers.size();
         driverService.delete(drivers.get(lenBefore-1).getId());
@@ -77,16 +77,16 @@ public class DriverServiceDaoTest {
         driver.setSurname("Popov");
         driver.setHoursWorkedThisMonth(10);
         driver.setState(DriverState.DRIVE);
-        City city = Services.getCityService().findById(1);
+        City city = cityService.findById(1);
         driver.setCurrentCity(city);
-        Truck truck = Services.getTruckService().findById(1);
+        Truck truck = truckService.findById(1);
         driver.setCurrentTruck(truck);
 
-        Services.getDriverService().create(driver);
+        driverService.create(driver);
     }
 
     private int getLastDriverId() {
-        List<Driver> drivers = Services.getDriverService().findAll();
+        List<Driver> drivers = driverService.findAll();
         int len = drivers.size();
         return drivers.get(len-1).getId();
     }

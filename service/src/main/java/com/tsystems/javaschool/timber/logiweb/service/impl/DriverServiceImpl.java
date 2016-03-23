@@ -4,9 +4,7 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.DriverD
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Order;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.util.JpaUtil;
 import org.apache.log4j.Logger;
-import org.jmock.auto.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

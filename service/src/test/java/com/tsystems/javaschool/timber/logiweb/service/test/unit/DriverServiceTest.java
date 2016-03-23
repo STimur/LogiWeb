@@ -2,9 +2,8 @@ package com.tsystems.javaschool.timber.logiweb.service.test.unit;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.DriverDao;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.*;
-import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
-import com.tsystems.javaschool.timber.logiweb.service.util.Services;
+import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Assert;

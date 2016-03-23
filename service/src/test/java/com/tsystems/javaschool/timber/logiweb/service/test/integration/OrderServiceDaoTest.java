@@ -1,9 +1,5 @@
 package com.tsystems.javaschool.timber.logiweb.service.test.integration;
 
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.CityDaoJpa;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.DriverDaoJpa;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.OrderDaoJpa;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.*;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.NotAllCargosUnloadedException;
@@ -13,14 +9,10 @@ import com.tsystems.javaschool.timber.logiweb.service.interfaces.CityService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
-import com.tsystems.javaschool.timber.logiweb.service.impl.CityServiceImpl;
-import com.tsystems.javaschool.timber.logiweb.service.impl.DriverServiceImpl;
-import com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl;
-import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
-import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +21,14 @@ import java.util.List;
  * Created by tims on 2/18/2016.
  */
 public class OrderServiceDaoTest {
-    static CityService cityService = Services.getCityService();
-    static TruckService truckService = Services.getTruckService();
-    static DriverService driverService = Services.getDriverService();
-    static OrderService orderService = Services.getOrderService();
+    @Autowired
+    private CityService cityService;
+    @Autowired
+    private TruckService truckService;
+    @Autowired
+    private DriverService driverService;
+    @Autowired
+    private OrderService orderService;
     Order order;
 
     @Before

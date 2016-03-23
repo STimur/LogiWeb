@@ -2,8 +2,6 @@ package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Cargo;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.CargoService;
-import com.tsystems.javaschool.timber.logiweb.service.util.Services;
-import org.jmock.auto.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

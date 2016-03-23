@@ -2,12 +2,10 @@ package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa.TruckDaoJpa;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Truck;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.TruckService;
-import com.tsystems.javaschool.timber.logiweb.service.impl.TruckServiceImpl;
-import com.tsystems.javaschool.timber.logiweb.service.util.Services;
 import com.tsystems.javaschool.timber.logiweb.view.util.TruckSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +21,8 @@ import java.util.List;
  */
 public class TruckJSController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private TruckService truckService = Services.getTruckService();
+    @Autowired
+    private TruckService truckService;
 
     /**
      * @see HttpServlet#HttpServlet()
