@@ -1,3 +1,4 @@
+/*
 package com.tsystems.javaschool.timber.logiweb.view.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/login").permitAll()
-                    .antMatchers("/css/**").permitAll()
+                    .antMatchers("/css*/
+/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
@@ -30,3 +32,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic();
     }
 }
+*/
