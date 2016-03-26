@@ -2,8 +2,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <title>Drivers Page</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
+<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap/flatly.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/logiweb.css" />">
 <body>
 <c:import url="../navbar.jsp">
     <c:param name="activeTab" value="GetJobInfo"/>

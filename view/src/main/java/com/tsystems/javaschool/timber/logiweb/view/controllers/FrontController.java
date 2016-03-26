@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 public class FrontController {
     String message = "Welcome to Spring MVC!";
 
-    @RequestMapping("/home")
+    @RequestMapping(value = {"/", "/home"})
     public ModelAndView sayHello() {
         System.out.println("Hi, this is Spring MVC! =)");
         ModelAndView mv = new ModelAndView("home");

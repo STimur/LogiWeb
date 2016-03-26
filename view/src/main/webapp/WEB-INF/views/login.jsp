@@ -2,8 +2,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <title>Login Page</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
+<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap/flatly.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/logiweb.css" />">
 <body>
 <c:import url="navbar.jsp"/>
 <div class="container col-md-2 col-md-offset-5">

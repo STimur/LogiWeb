@@ -2,42 +2,28 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx.xsd">
+        http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+    <!-- Scan the the domain package for Spring repositories and services -->
+    <context:component-scan base-package="com.tsystems.javaschool.timber.logiweb" />
 
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
-        <property name="persistenceUnitName" value="Logiweb" />
-        <property name="dataSource" ref="dataSource" />
-        <property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
-        <property name="jpaDialect" ref="jpaDialect" />
-    </bean>
+    <!-- Look up the database in JNDI -->
+    <jee:jndi-lookup jndi-name="java:/jdbc/mysqlds" id="dataSource"
+                     expected-type="javax.sql.DataSource" />
 
-    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-        <property name="database" value="MYSQL" />
-        <property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
-    </bean>
+    <!-- Look up the container deployed EntityManager -->
+    <jee:jndi-lookup jndi-name="java:comp/env/Logiweb/EntityManager"
+                     id="entityManager" expected-type="javax.persistence.EntityManager" />
 
-    <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+    <!-- Use JTA transactions with the container-deployed EntityManager -->
+    <tx:jta-transaction-manager />
 
-    <tx:annotation-driven transaction-manager="transactionManager" />
-
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory" />
-        <property name="dataSource" ref="dataSource" />
-        <property name="jpaDialect" ref="jpaDialect" />
-    </bean>
-
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/logiweb" />
-        <property name="username" value="root" />
-        <property name="password" value="" />
-    </bean>
+    <!-- Use declarative transactions on the services -->
+    <tx:annotation-driven />
 
 </beans>

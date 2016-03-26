@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.timber.logiweb.persistence.dao.jpa;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.GenericDao;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +15,7 @@ import java.util.List;
 public abstract class GenericDaoJpa<T> implements GenericDao<T> {
     private Class<T> entityClass;
 
-    @PersistenceContext
+    @Autowired
     private EntityManager em;
 
     protected EntityManager getEntityManager() {
@@ -60,7 +61,6 @@ public abstract class GenericDaoJpa<T> implements GenericDao<T> {
     @Override
     public List<T> findAll() {
         List<T> entities = (List<T>) em.createQuery("from " + getEntityClass().getSimpleName()).getResultList();
-        em.close();
         return entities;
     }
 }

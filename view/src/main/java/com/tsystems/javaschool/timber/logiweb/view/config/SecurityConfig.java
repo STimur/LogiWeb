@@ -1,4 +1,3 @@
-/*
 package com.tsystems.javaschool.timber.logiweb.view.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +13,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal (AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("manager").password("manager").roles("manager");
+        auth.inMemoryAuthentication().withUser("manager").password("manager").roles("manager");
+        auth.inMemoryAuthentication().withUser("driver").password("driver").roles("driver");
     }
 
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                     .antMatchers("/login").permitAll()
-                    .antMatchers("/css*/
-/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
@@ -32,4 +29,3 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic();
     }
 }
-*/

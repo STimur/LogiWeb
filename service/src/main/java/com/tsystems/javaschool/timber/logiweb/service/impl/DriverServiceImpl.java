@@ -7,6 +7,7 @@ import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceException;
@@ -15,6 +16,7 @@ import java.util.List;
 /**
  * Created by tims on 2/15/2016.
  */
+@EnableTransactionManagement
 @Service
 public class DriverServiceImpl implements DriverService {
     private DriverDao driverDao;

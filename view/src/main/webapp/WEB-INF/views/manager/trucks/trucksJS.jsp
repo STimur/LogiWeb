@@ -15,8 +15,8 @@
     <link href="${pageContext.request.contextPath}/css/metro/crimson/jtable.css" rel="stylesheet" type="text/css"/>
     <link href="${pageContext.request.contextPath}/css/metro/crimson/myAdditions.css" rel="stylesheet" type="text/css"/>
     <link href="${pageContext.request.contextPath}/css/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
+    <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap/flatly.css" />">
+    <link rel="stylesheet" href="<c:url value="/resources/css/logiweb.css" />">
     <!-- Include jTable script file. -->
     <script src="${pageContext.request.contextPath}/js/jquery-1.8.2.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/js/jquery-ui-1.10.3.custom.js" type="text/javascript"></script>

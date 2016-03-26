@@ -5,6 +5,10 @@
          version="3.1">
     <display-name>T-Logist Web</display-name>
 
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/spring-database.xml</param-value>
+    </context-param>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
@@ -12,21 +16,20 @@
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
+        </init-param>
     </servlet>
-
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
-    </context-param>
 
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!--<servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/css/*</url-pattern>
-    </servlet-mapping>-->
+    <persistence-context-ref>
+        <persistence-context-ref-name>Logiweb/EntityManager</persistence-context-ref-name>
+        <persistence-unit-name>Logiweb</persistence-unit-name>
+    </persistence-context-ref>
 
 </web-app>

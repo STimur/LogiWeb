@@ -3,8 +3,8 @@
 <html>
 <head>
     <title>Driver Get Job Info</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap/flatly.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/logiweb.css">
+    <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap/flatly.css" />">
+    <link rel="stylesheet" href="<c:url value="/resources/css/logiweb.css" />">
 </head>
 <body>
 <c:import url="../navbar.jsp">
