@@ -18,14 +18,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                    .antMatchers("/login").permitAll()
-                    .anyRequest().authenticated()
-                    .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .and()
-                .httpBasic();
+        http.authorizeRequests()
+                .antMatchers("/", "/home").access("hasRole('manager') or hasRole('driver')")
+                .antMatchers("/drivers*").access("hasRole('manager')")
+                .antMatchers("/trucks*").access("hasRole('manager')")
+                .antMatchers("/orders*").access("hasRole('manager')")
+                .antMatchers("/cargos*").access("hasRole('manager')")
+                .antMatchers("/drivers/get-job-info").access("hasRole('driver')")
+                .antMatchers("/drivers/job-info").access("hasRole('driver')")
+                .and().formLogin().loginPage("/login")
+                .usernameParameter("username").passwordParameter("password")
+                .and().exceptionHandling().accessDeniedPage("/accessDenied");
     }
 }
