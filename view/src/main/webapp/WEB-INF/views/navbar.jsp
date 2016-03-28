@@ -32,13 +32,8 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <c:url value="/logout" var="logoutProcessingUrl"/>
-                    <form action="${logoutProcessingUrl}" method="post">
-                        <input type="submit" value="Logout"/>
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    </form>
+                    <a href="<c:url value="/logout" />">Logout</a>
                 </li>
-                <%--<li><a href="${pageContext.request.contextPath}/Logout">Logout</a></li>--%>
             </ul>
         </c:if>
     </div>
