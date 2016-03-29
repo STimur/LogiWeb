@@ -12,6 +12,7 @@
         <module>view</module>
         <module>service</module>
         <module>persistence</module>
+        <module>webservice</module>
     </modules>
 
     <properties>
