@@ -30,6 +30,7 @@
         <skipTests>true</skipTests>
         <spring.version>4.2.4.RELEASE</spring.version>
         <spring-security.version>4.0.4.RELEASE</spring-security.version>
+        <jackson.version>2.7.1</jackson.version>
     </properties>
 
     <dependencyManagement>
@@ -136,6 +137,12 @@
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-config</artifactId>
                 <version>${spring-security.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,5 +1,7 @@
 package com.tsystems.javaschool.timber.logiweb.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Calendar;
 
@@ -104,6 +106,7 @@ public class Driver {
 
     @OneToOne
     @JoinColumn(name = "currentCityId")
+    @JsonIgnore
     public City getCurrentCity() {
         return currentCity;
     }
@@ -114,6 +117,7 @@ public class Driver {
 
     @ManyToOne
     @JoinColumn(name = "currentTruckId")
+    @JsonIgnore
     public Truck getCurrentTruck() {
         return currentTruck;
     }
@@ -124,6 +128,7 @@ public class Driver {
 
     @ManyToOne
     @JoinColumn(name = "currentOrderId")
+    @JsonIgnore
     public Order getOrder() {
         return order;
     }
