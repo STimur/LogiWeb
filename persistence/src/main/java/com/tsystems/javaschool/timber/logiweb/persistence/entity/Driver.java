@@ -140,7 +140,7 @@ public class Driver {
     }
 
     @Column(name = "shiftStartTime")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     public Date getShiftStartTime() {
         return shiftStartTime;
     }
@@ -195,5 +195,9 @@ public class Driver {
     @Override
     public String toString() {
         return name + " " + surname;
+    }
+
+    public void addWorkHours(int hoursWorked) {
+        this.hoursWorkedThisMonth += hoursWorked;
     }
 }
