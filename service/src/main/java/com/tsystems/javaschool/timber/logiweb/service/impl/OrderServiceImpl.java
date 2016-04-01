@@ -52,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public synchronized void delete(int id) {
+    public void delete(int id) {
         try {
             logger.info("Deleting order...");
             Order foundOrder = orderDao.find(id);

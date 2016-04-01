@@ -40,7 +40,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     @Transactional
-    public synchronized void update(City city) {
+    public void update(City city) {
         try {
             logger.info("Updating city...");
             cityDao.update(city);
@@ -51,7 +51,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     @Transactional
-    public synchronized void delete(int id) {
+    public void delete(int id) {
         try {
             logger.info("Deleting city...");
             cityDao.delete(id);

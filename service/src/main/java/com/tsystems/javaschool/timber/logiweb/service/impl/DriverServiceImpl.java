@@ -41,7 +41,7 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     @Transactional
-    public synchronized void update(Driver driver) {
+    public void update(Driver driver) {
         try {
             logger.info("Updating driver...");
             driverDao.update(driver);
@@ -52,7 +52,7 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     @Transactional
-    public synchronized void delete(int id) {
+    public void delete(int id) {
         try {
             logger.info("Deleting driver...");
             driverDao.delete(id);

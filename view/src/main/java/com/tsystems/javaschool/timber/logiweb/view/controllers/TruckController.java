@@ -119,7 +119,7 @@ public class TruckController {
         }
     }
 
-    private synchronized void updateTruck(Truck updatedTruck) {
+    private void updateTruck(Truck updatedTruck) {
         truckService.update(updatedTruck);
     }
 

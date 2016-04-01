@@ -37,7 +37,7 @@ public class TruckServiceImpl implements TruckService {
 
     @Override
     @Transactional
-    public synchronized void update(Truck truck) {
+    public void update(Truck truck) {
         try {
             logger.info("Updating truck...");
             truckDao.update(truck);
@@ -48,7 +48,7 @@ public class TruckServiceImpl implements TruckService {
 
     @Override
     @Transactional
-    public synchronized void delete(int id) {
+    public void delete(int id) {
         try {
             logger.info("Deleting truck...");
             truckDao.delete(id);
