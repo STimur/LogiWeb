@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver;
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.DriverState;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
 import com.tsystems.javaschool.timber.logiweb.view.dto.DriverDto;
 import org.joda.time.DateTime;
@@ -28,6 +29,15 @@ public class DriverRestController {
         Driver driverFound = driverService.findById(driver.getId());
         Date creationTime = new Date();
         driverFound.setShiftStartTime(creationTime);
+        driverFound.setState(driver.getState());
+        driverService.update(driverFound);
+        return driverFound;
+    }
+
+    @RequestMapping(value = "/change-state", method = RequestMethod.POST, produces = "application/json")
+    Driver changeState(@RequestBody DriverDto driver) {
+        Driver driverFound = driverService.findById(driver.getId());
+        driverFound.setState(driver.getState());
         driverService.update(driverFound);
         return driverFound;
     }
@@ -40,15 +50,9 @@ public class DriverRestController {
         Period p = new Period(startTime, endTime);
         int hoursWorked = p.toStandardHours().getHours();
         driverFound.addWorkHours(hoursWorked);
+        driverFound.setShiftStartTime(null);
+        driverFound.setState(DriverState.REST);
         driverService.update(driverFound);
         return driverFound;
-
-        /*
-        int totalDeliveryTime = getDeliveryTime(order);
-        DateTime startTime = new DateTime();
-        DateTime endTime = startTime.dayOfMonth().withMaximumValue().withTime(23,59,59,999);
-        Period p = new Period(startTime, endTime);
-        int timeTillMonthEnd = p.toStandardHours().getHours();
-        */
     }
 }

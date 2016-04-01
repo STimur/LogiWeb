@@ -1,17 +1,13 @@
 package com.tsystems.javaschool.timber.logiweb.view.dto;
 
-import com.tsystems.javaschool.timber.logiweb.persistence.entity.DriverState;
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.CargoState;
 
 /**
  * Created by tims on 4/1/2016.
  */
-public class DriverDto {
+public class CargoDto {
     private int id;
-    private DriverState state;
-
-    public DriverDto() {
-        this.id = 0;
-    }
+    private CargoState state;
 
     public int getId() {
         return id;
@@ -21,11 +17,11 @@ public class DriverDto {
         this.id = id;
     }
 
-    public DriverState getState() {
+    public CargoState getState() {
         return state;
     }
 
-    public void setState(DriverState state) {
+    public void setState(CargoState state) {
         this.state = state;
     }
 }
