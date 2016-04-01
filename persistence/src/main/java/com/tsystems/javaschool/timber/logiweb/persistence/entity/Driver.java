@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by tims on 2/15/2016.
@@ -28,6 +29,7 @@ public class Driver {
     private City currentCity;
     private Truck currentTruck;
     private Order order;
+    private Date shiftStartTime;
 
     public Driver() {
     }
@@ -135,6 +137,16 @@ public class Driver {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    @Column(name = "shiftStartTime")
+    @Temporal(TemporalType.DATE)
+    public Date getShiftStartTime() {
+        return shiftStartTime;
+    }
+
+    public void setShiftStartTime(Date shiftStartTime) {
+        this.shiftStartTime = shiftStartTime;
     }
 
     @Override
