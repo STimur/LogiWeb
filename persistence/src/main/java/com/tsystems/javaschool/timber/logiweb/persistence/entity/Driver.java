@@ -68,6 +68,7 @@ public class Driver {
 
     @Basic
     @Column(name="name")
+    @JsonIgnore
     public String getName() {
         return name;
     }
@@ -78,6 +79,7 @@ public class Driver {
 
     @Basic
     @Column(name="surname")
+    @JsonIgnore
     public String getSurname() {
         return surname;
     }
@@ -88,6 +90,7 @@ public class Driver {
 
     @Basic
     @Column(name="hoursWorkedThisMonth")
+    @JsonIgnore
     public int getHoursWorkedThisMonth() {
         return hoursWorkedThisMonth;
     }
@@ -141,6 +144,7 @@ public class Driver {
 
     @Column(name = "shiftStartTime")
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     public Date getShiftStartTime() {
         return shiftStartTime;
     }

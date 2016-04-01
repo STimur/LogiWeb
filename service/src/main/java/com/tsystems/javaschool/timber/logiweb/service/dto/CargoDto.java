@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.timber.logiweb.view.dto;
+package com.tsystems.javaschool.timber.logiweb.service.dto;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.CargoState;
 

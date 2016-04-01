@@ -5,14 +5,14 @@
     <artifactId>logiweb</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>Logiweb</name>
+    <name>logiweb</name>
     <url>http://maven.apache.org</url>
 
     <modules>
         <module>view</module>
         <module>service</module>
         <module>persistence</module>
-        <module>webservice</module>
+        <module>rs-client</module>
     </modules>
 
     <properties>

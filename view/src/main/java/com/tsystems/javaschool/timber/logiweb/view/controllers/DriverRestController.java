@@ -2,8 +2,8 @@ package com.tsystems.javaschool.timber.logiweb.view.controllers;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.DriverState;
+import com.tsystems.javaschool.timber.logiweb.service.dto.DriverDto;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
-import com.tsystems.javaschool.timber.logiweb.view.dto.DriverDto;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.springframework.beans.factory.annotation.Autowired;

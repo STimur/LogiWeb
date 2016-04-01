@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.timber.logiweb.view.dto;
+package com.tsystems.javaschool.timber.logiweb.service.dto;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.DriverState;
 
@@ -27,5 +27,13 @@ public class DriverDto {
 
     public void setState(DriverState state) {
         this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "DriverDto{" +
+                "id=" + id +
+                ", state=" + state +
+                '}';
     }
 }
