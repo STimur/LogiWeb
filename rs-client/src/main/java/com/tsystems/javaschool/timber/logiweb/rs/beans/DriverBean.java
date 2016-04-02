@@ -17,9 +17,11 @@ import java.io.IOException;
 @ViewScoped
 public class DriverBean {
 
-    private static final String RS_SERVER_URL = "http://localhost:8080/logiweb/driver/change-state";
+    private static final String RS_CHANGE_STATE_URL = "http://localhost:8080/logiweb/driver/change-state";
+    private static final String RS_OPEN_SHIFT_URL = "http://localhost:8080/logiweb/driver/open-shift";
+    private static final String RS_CLOSE_SHIFT_URL = "http://localhost:8080/logiweb/driver/close-shift";
 
-    private int id;
+    private int id = 5;
 
     public int getId() {
         return id;
@@ -29,34 +31,41 @@ public class DriverBean {
         this.id = id;
     }
 
-    public void setDriveStatus() throws IOException {
+    public void setDriverDriveStatus() throws IOException {
+        invokeRestService(RS_CHANGE_STATE_URL, DriverState.DRIVE);
+    }
+
+    public void setDriverRestStatus() throws IOException {
+        invokeRestService(RS_CHANGE_STATE_URL, DriverState.REST);
+    }
+
+    public void setDriverShiftStatus() throws IOException {
+        invokeRestService(RS_CHANGE_STATE_URL, DriverState.SHIFT);
+    }
+
+    public void openDriverShift() throws IOException {
+        invokeRestService(RS_OPEN_SHIFT_URL, DriverState.DRIVE);
+    }
+
+    public void closeDriverShift() throws IOException {
+        invokeRestService(RS_CLOSE_SHIFT_URL, DriverState.REST);
+    }
+
+    private void invokeRestService(String restURL, DriverState newState) throws IOException {
         Client client = Client.create();
-        WebResource webResource = client.resource(RS_SERVER_URL);
+        WebResource webResource = client.resource(restURL);
         ObjectMapper mapper = new ObjectMapper();
         DriverDto driver = new DriverDto();
         driver.setId(this.id);
-        driver.setState(DriverState.DRIVE);
+        driver.setState(newState);
         String JSONDriverDto = mapper.writeValueAsString(driver);
         ClientResponse response = webResource
                 .accept(MediaType.APPLICATION_JSON)
                 .type(MediaType.APPLICATION_JSON)
                 .post(ClientResponse.class, JSONDriverDto);
         if (response.getStatus() != 200) {
-            throw new RuntimeException("Failed : HTTP erro code : "
+            throw new RuntimeException("Failed : HTTP error code : "
                     + response.getStatus());
         }
-        String output = response.getEntity(String.class);
-        DriverDto newDriver = mapper.readValue(output, DriverDto.class);
-        System.out.println("Old car: " + driver);
-        System.out.println("Output from Server ....");
-        System.out.println(newDriver);
-    }
-
-    public void setRestStatus() {
-
-    }
-
-    public void setShiftStatus() {
-
     }
 }

@@ -14,7 +14,10 @@
             <h:form>
                 <h:panelGrid columns="5">
                     <h:outputLabel value="Driver ID" style="display: inline-block; padding-top: 5px;" />
-                    <h:inputText value="#{driverBean.id}" style="margin-left: 5px" />
+                    <h:inputText label="Driver ID" id="driverID" value="#{driverBean.id}" validatorMessage="Driver Id should be more or equal to 1."
+                                 style="margin-left: 5px; width: 80px; padding-left: 5px">
+                        <f:validateLongRange minimum="1"/>
+                    </h:inputText>
                     <h:commandButton action="#{driverBean.setDriverDriveStatus}"
                                      value="Driving" style="margin-left: 10px"/>
                     <h:commandButton action="#{driverBean.setDriverShiftStatus}"
@@ -22,6 +25,7 @@
                     <h:commandButton action="#{driverBean.setDriverRestStatus}"
                                      value="On rest" style="margin-left: 10px"/>
                 </h:panelGrid>
+                <h:message showSummary="true" showDetail="false" for="driverID" style="color:red; margin: 5px 0 0 5px"/>
             </h:form>
 
         </ui:define>

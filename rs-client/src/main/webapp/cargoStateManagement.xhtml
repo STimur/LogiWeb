@@ -14,12 +14,16 @@
             <h:form>
                 <h:panelGrid columns="4">
                     <h:outputLabel value="Cargo ID" style="display: inline-block; padding-top: 5px;"/>
-                    <h:inputText value="#{cargoBean.id}" style="margin-left: 5px"/>
+                    <h:inputText label="Cargo ID" id="cargoID" value="#{cargoBean.id}"
+                                 style="margin-left: 5px; width: 80px; padding-left: 5px" validatorMessage="Cargo Id should be more or equal to 1.">
+                        <f:validateLongRange minimum="1"/>
+                    </h:inputText>
                     <h:commandButton action="#{cargoBean.setCargoShippedStatus}"
                                      value="Shipped" style="margin-left: 10px"/>
                     <h:commandButton action="#{cargoBean.setCargoDeliveredStatus}"
                                      value="Delivered" style="margin-left: 10px"/>
                 </h:panelGrid>
+                <h:message showSummary="true" showDetail="false" for="cargoID" style="color:red; margin: 5px 0 0 5px"/>
             </h:form>
         </ui:define>
     </ui:composition>

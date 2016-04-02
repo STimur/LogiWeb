@@ -18,12 +18,6 @@ public class DriverRestController {
     @Autowired
     DriverService driverService;
 
-    @RequestMapping(value = "/{driverId}", method = RequestMethod.GET, produces = "application/json")
-    Driver getDriver(@PathVariable int driverId) {
-        Driver driver = driverService.findById(driverId);
-        return driver;
-    }
-
     @RequestMapping(value = "/open-shift", method = RequestMethod.POST, produces = "application/json")
     Driver openShift(@RequestBody DriverDto driver) {
         Driver driverFound = driverService.findById(driver.getId());
