@@ -10,15 +10,15 @@
 <h:body>
     <ui:composition template="layout.xhtml">
         <ui:define name="content">
-            <h1>Shift Management</h1>
+            <h2>Shift Management</h2>
             <h:form>
                 <h:panelGrid columns="4">
-                    <h:outputLabel value="Driver ID"/>
-                    <h:inputText value="#{driverBean.id}"/>
+                    <h:outputLabel value="Driver ID" style="display: inline-block; padding-top: 5px;"/>
+                    <h:inputText value="#{driverBean.id}" style="margin-left: 5px"/>
                     <h:commandButton action="#{driverBean.openDriverShift}"
-                                     value="Open Shift"/>
+                                     value="Open Shift" style="margin-left: 10px"/>
                     <h:commandButton action="#{driverBean.closeDriverShift}"
-                                     value="Close Shift"/>
+                                     value="Close Shift" style="margin-left: 10px"/>
                 </h:panelGrid>
             </h:form>
         </ui:define>

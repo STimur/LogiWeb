@@ -10,17 +10,17 @@
 <h:body>
     <ui:composition template="layout.xhtml">
         <ui:define name="content">
-            <h1>Set Driver State</h1>
+            <h2>Set Driver State</h2>
             <h:form>
                 <h:panelGrid columns="5">
-                    <h:outputLabel value="Driver ID" />
-                    <h:inputText value="#{driverBean.id}" />
+                    <h:outputLabel value="Driver ID" style="display: inline-block; padding-top: 5px;" />
+                    <h:inputText value="#{driverBean.id}" style="margin-left: 5px" />
                     <h:commandButton action="#{driverBean.setDriverDriveStatus}"
-                                     value="Driving"/>
+                                     value="Driving" style="margin-left: 10px"/>
                     <h:commandButton action="#{driverBean.setDriverShiftStatus}"
-                                     value="On shift"/>
+                                     value="On shift" style="margin-left: 10px"/>
                     <h:commandButton action="#{driverBean.setDriverRestStatus}"
-                                     value="On rest"/>
+                                     value="On rest" style="margin-left: 10px"/>
                 </h:panelGrid>
             </h:form>
 

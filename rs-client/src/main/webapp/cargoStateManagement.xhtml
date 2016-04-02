@@ -10,15 +10,15 @@
 <h:body>
     <ui:composition template="layout.xhtml">
         <ui:define name="content">
-            <h1>Set Cargo State</h1>
+            <h2>Set Cargo State</h2>
             <h:form>
                 <h:panelGrid columns="4">
-                    <h:outputLabel value="Cargo ID"/>
-                    <h:inputText value="#{cargoBean.id}"/>
+                    <h:outputLabel value="Cargo ID" style="display: inline-block; padding-top: 5px;"/>
+                    <h:inputText value="#{cargoBean.id}" style="margin-left: 5px"/>
                     <h:commandButton action="#{cargoBean.setCargoShippedStatus}"
-                                     value="Shipped"/>
+                                     value="Shipped" style="margin-left: 10px"/>
                     <h:commandButton action="#{cargoBean.setCargoDeliveredStatus}"
-                                     value="Delivered"/>
+                                     value="Delivered" style="margin-left: 10px"/>
                 </h:panelGrid>
             </h:form>
         </ui:define>
