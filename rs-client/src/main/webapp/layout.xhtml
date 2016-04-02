@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+    <h:outputStylesheet library="css" name="flatly.css"/>
+    <h:outputStylesheet library="css" name="logiweb.css"/>
+</h:head>
+<h:body>
+    <ui:insert name="header">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="driverShiftManagement.xhtml">LogiRest</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="driverShiftManagement.xhtml">Shifts</a></li>
+                    <li><a href="driverStateManagement.xhtml">DriverStates</a></li>
+                    <li><a href="cargoStateManagement.xhtml">CargoStates</a></li>
+                </ul>
+            </div>
+        </nav>
+    </ui:insert>
+    <div class="container">
+        <ui:insert name="content">
+            <p>Main content</p>
+        </ui:insert>
+    </div>
+    <ui:insert name="footer">
+        <footer class="footer navbar-inverse">
+            <div class="container col-md-12">
+                <p class="text-right"><b>Number 1</b> logistics company in the world!</p>
+            </div>
+        </footer>
+    </ui:insert>
+</h:body>
+</html>
