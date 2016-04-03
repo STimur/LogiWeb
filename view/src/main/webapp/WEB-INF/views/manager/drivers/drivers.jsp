@@ -47,7 +47,7 @@
                                 ${driver.getHoursWorkedThisMonth()}
                         </td>
                         <td>
-                                ${driver.getState()}
+                                ${driver.getState().toString()}
                         </td>
                         <td>
                                 ${driver.getCurrentCity().getName()}
