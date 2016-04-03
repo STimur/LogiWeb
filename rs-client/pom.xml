@@ -47,6 +47,16 @@
     </dependencies>
 
     <build>
-        <finalName>rs-client</finalName>
+        <finalName>logirest</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                    <port>9991</port>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>
