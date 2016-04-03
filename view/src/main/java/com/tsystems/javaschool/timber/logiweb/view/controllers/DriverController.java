@@ -37,7 +37,6 @@ public class DriverController {
 
     @RequestMapping("/drivers")
     protected ModelAndView getDrivers(Authentication auth) throws ServletException, IOException {
-        logger.info("i am working!");
         Boolean isManager = auth.getAuthorities().toString().contains("ROLE_manager");
         if (isManager) {
             List<Driver> drivers = driverService.findAll();
