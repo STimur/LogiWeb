@@ -4,6 +4,7 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.*;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.*;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.DoubleLoadCargoException;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.NotAllCargosUnloadedException;
+import com.tsystems.javaschool.timber.logiweb.service.exceptions.OrderNotCreated;
 import com.tsystems.javaschool.timber.logiweb.service.exceptions.UnloadNotLoadedCargoException;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.OrderService;
 import com.tsystems.javaschool.timber.logiweb.service.impl.OrderServiceImpl;
@@ -63,25 +64,6 @@ public class OrderServiceTest {
         Assert.assertTrue(orders.get(0).getRoute().getNextRoutePoint().getCity().getName().equals("Moscow"));
 
         context.assertIsSatisfied();
-    }
-
-    @Test
-    public void CreateOrder()
-            throws DoubleLoadCargoException, NotAllCargosUnloadedException, UnloadNotLoadedCargoException {
-        //not critical unit test, everything is mocked
-        //and we have integration test which passed, so it's ok
-        /*Mockery context = new Mockery();
-        final GenericDao<Order> mockOrderDao = context.mock(GenericDao.class);
-        OrderService orderService = new OrderServiceImpl(mockOrderDao);
-
-        Order order = ordersData.get(0);
-
-        context.checking(new Expectations() {{
-            oneOf(mockOrderDao).persist(order);
-        }});
-
-        orderService.create(order);
-        context.assertIsSatisfied();*/
     }
 
     @Test(expected = DoubleLoadCargoException.class)
