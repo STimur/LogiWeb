@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
  * 
  * @author Cody Burleson
  */
-public class 	Log4jConsoleTest {
+public class Log4jConsoleTest {
 	
 	static final Logger log = Logger.getLogger(Log4jConsoleTest.class);
 

@@ -32,4 +32,9 @@
         <persistence-unit-name>Logiweb</persistence-unit-name>
     </persistence-context-ref>
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/pageNotFound</location>
+    </error-page>
+
 </web-app>

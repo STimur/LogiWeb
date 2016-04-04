@@ -36,4 +36,14 @@ public class AuthController {
         }
         return "redirect:/login?logout";
     }
+
+    @RequestMapping(value = "/accessDenied")
+    public String accessDenied() {
+        return "accessDenied";
+    }
+
+    @RequestMapping(value = "/pageNotFound")
+    public String pageNotFound() {
+        return "pageNotFound";
+    }
 }

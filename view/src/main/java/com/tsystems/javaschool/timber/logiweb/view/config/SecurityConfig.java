@@ -19,7 +19,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                //.antMatchers("/driver/find/").permitAll()
                 .antMatchers("/", "/home").access("hasRole('manager') or hasRole('driver')")
                 .antMatchers("/drivers*").access("hasRole('manager')")
                 .antMatchers("/trucks*").access("hasRole('manager')")
