@@ -13,14 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class AuthController {
-    String message = "Welcome to Spring MVC!";
 
     @RequestMapping(value = {"/", "/home"})
-    public ModelAndView sayHello() {
-        System.out.println("Hi, this is Spring MVC! =)");
-        ModelAndView mv = new ModelAndView("home");
-        mv.addObject("message", message);
-        return mv;
+    public String homePage() {
+        return "home";
     }
 
     @RequestMapping(value = "/login")
