@@ -216,7 +216,11 @@ public class DriverController {
         int cityId = Integer.valueOf(request.getParameter("cityId"));
         City city = cityService.findById(cityId);
         Driver driver = new Driver(name, surname, hoursWorkedThisMonth, state, city);
-        long version = Long.valueOf(request.getParameter("version"));
+        String versionParam = request.getParameter("version");
+        long version = 1L;
+        if (versionParam != null) {
+            version = Long.valueOf(request.getParameter("version"));
+        }
         driver.setVersion(version);
         return driver;
     }
