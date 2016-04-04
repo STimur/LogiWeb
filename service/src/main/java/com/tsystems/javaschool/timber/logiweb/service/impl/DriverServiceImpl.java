@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 import java.util.List;
 
@@ -45,6 +46,9 @@ public class DriverServiceImpl implements DriverService {
         try {
             logger.info("Updating driver...");
             driverDao.update(driver);
+        } catch (OptimisticLockException ex) {
+            logger.error("Error while updating driver. Another client have already updated it.");
+            throw ex;
         } catch (PersistenceException ex) {
             logger.error("Error while updating driver.");
         }

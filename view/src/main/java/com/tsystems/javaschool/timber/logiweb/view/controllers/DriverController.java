@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.OptimisticLockException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -79,13 +80,18 @@ public class DriverController {
     protected ModelAndView editDriver(HttpServletRequest request, Model model) throws ServletException, IOException {
         try {
             ModelAndView mv = new ModelAndView("manager/drivers/editDriver");
-            DriverValidationException ex = (DriverValidationException) model.asMap().get("driverValidationException");
+            DriverValidationException driverValidationException = (DriverValidationException) model.asMap().get("driverValidationException");
+            OptimisticLockException optimisticLockException = (OptimisticLockException) model.asMap().get("optimisticLockException");
             int id;
-            if (ex != null) {
-                mv.addObject("driverValidationException", ex);
+            if (driverValidationException != null) {
+                mv.addObject("driverValidationException", driverValidationException);
                 id = (Integer) model.asMap().get("id");
-            } else
+            } else if (optimisticLockException != null) {
+                mv.addObject("optimisticLockException", optimisticLockException);
+                id = (Integer) model.asMap().get("id");
+            } else {
                 id = parseDriverId(request);
+            }
             Driver driverToEdit = driverService.findById(id);
             request.setAttribute("driverToEdit", driverToEdit);
             request.setAttribute("cities", cityService.findAll());
@@ -111,6 +117,10 @@ public class DriverController {
         } catch (DriverValidationException ex) {
             redirectAttributes.addFlashAttribute("id", id);
             redirectAttributes.addFlashAttribute("driverValidationException", ex);
+            return "redirect:/drivers/edit";
+        } catch (OptimisticLockException ex) {
+            redirectAttributes.addFlashAttribute("id", id);
+            redirectAttributes.addFlashAttribute("optimisticLockException", ex);
             return "redirect:/drivers/edit";
         } catch (Exception | DriverIdNotNumberException ex) {
             logger.error(ex.toString());
@@ -206,6 +216,8 @@ public class DriverController {
         int cityId = Integer.valueOf(request.getParameter("cityId"));
         City city = cityService.findById(cityId);
         Driver driver = new Driver(name, surname, hoursWorkedThisMonth, state, city);
+        long version = Long.valueOf(request.getParameter("version"));
+        driver.setVersion(version);
         return driver;
     }
 

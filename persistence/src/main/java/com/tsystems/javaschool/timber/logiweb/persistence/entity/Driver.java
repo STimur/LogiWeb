@@ -30,6 +30,17 @@ public class Driver {
     private Truck currentTruck;
     private Order order;
     private Date shiftStartTime;
+    private long version;
+
+    @Version
+    @Column(name="version")
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
 
     public Driver() {
     }

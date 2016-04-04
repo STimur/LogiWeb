@@ -20,6 +20,12 @@
 <div class="container">
     <h2>Edit Driver</h2>
     <form id="editDriverForm" method="post" action="${pageContext.request.contextPath}/drivers/update">
+        <c:if test="${not empty optimisticLockException}">
+            <div class="validationError">
+                <p><span class="text-danger">Sorry, driver was updated by another client.</span></p>
+                <p><span class="text-danger">You need to edit it again.</span></p>
+            </div>
+        </c:if>
         <fieldset class="form-group">
             <label for="name">Driver name</label>
             <input type="text" class="form-control" id="name" name="name"
@@ -80,6 +86,7 @@
         <button type="submit" class="btn btn-success" name="action" value="update">Save Changes</button>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <input type="hidden" name="id" value="${driverToEdit.getId()}">
+        <input type="hidden" name="version" value="${driverToEdit.getVersion()}">
     </form>
 </div>
 <jsp:include page="../../footer.jsp"/>
