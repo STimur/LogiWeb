@@ -4,6 +4,7 @@ import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.CargoDa
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.GenericDao;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Cargo;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver;
+import com.tsystems.javaschool.timber.logiweb.service.dto.CargoDto;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.CargoService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,15 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
+    @Transactional
+    public Cargo changeState(CargoDto cargo) {
+        Cargo cargoFound = findById(cargo.getId());
+        cargoFound.setState(cargo.getState());
+        update(cargoFound);
+        return cargoFound;
+    }
+
+    @Override
     public Cargo findById(int id) {
         return cargoDao.find(id);
     }
@@ -54,5 +64,7 @@ public class CargoServiceImpl implements CargoService {
     public List<Cargo> findAll() {
         return cargoDao.findAll();
     }
+
+
 }
 

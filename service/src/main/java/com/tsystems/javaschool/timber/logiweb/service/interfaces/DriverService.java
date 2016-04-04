@@ -2,6 +2,7 @@ package com.tsystems.javaschool.timber.logiweb.service.interfaces;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Order;
+import com.tsystems.javaschool.timber.logiweb.service.dto.DriverDto;
 
 import java.util.List;
 
@@ -48,4 +49,26 @@ public interface DriverService {
      * @return List of all suitable drivers in database.
      */
     List<Driver> getSuitableDriversForOrder(Order order, int deliveryTimeThisMonth, int deliveryTimeNextMonth);
+
+    /**
+     * Open shift for driver
+     * @param driver contains driver id and state which will be set
+     * @return Driver for which shift have been created
+     */
+    Driver openShift(DriverDto driver);
+
+    /**
+     * Close shift for driver
+     * @param driver contains driver id
+     * @return Driver for which shift have been closed
+     */
+    Driver closeShift(DriverDto driver);
+
+    /**
+     * Change state for driver
+     * @param driver contains driver id and state which will be set
+     * @return Driver for which state have been changed
+     */
+    Driver changeState(DriverDto driver);
+
 }

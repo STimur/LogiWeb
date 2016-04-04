@@ -20,33 +20,16 @@ public class DriverRestController {
 
     @RequestMapping(value = "/open-shift", method = RequestMethod.POST, produces = "application/json")
     Driver openShift(@RequestBody DriverDto driver) {
-        Driver driverFound = driverService.findById(driver.getId());
-        Date creationTime = new Date();
-        driverFound.setShiftStartTime(creationTime);
-        driverFound.setState(driver.getState());
-        driverService.update(driverFound);
-        return driverFound;
+        return driverService.openShift(driver);
     }
 
     @RequestMapping(value = "/change-state", method = RequestMethod.POST, produces = "application/json")
     Driver changeState(@RequestBody DriverDto driver) {
-        Driver driverFound = driverService.findById(driver.getId());
-        driverFound.setState(driver.getState());
-        driverService.update(driverFound);
-        return driverFound;
+        return driverService.changeState(driver);
     }
 
     @RequestMapping(value = "/close-shift", method = RequestMethod.POST, produces = "application/json")
     Driver closeShift(@RequestBody DriverDto driver) {
-        Driver driverFound = driverService.findById(driver.getId());
-        DateTime startTime = new DateTime(driverFound.getShiftStartTime());
-        DateTime endTime = new DateTime();
-        Period p = new Period(startTime, endTime);
-        int hoursWorked = p.toStandardHours().getHours();
-        driverFound.addWorkHours(hoursWorked);
-        driverFound.setShiftStartTime(null);
-        driverFound.setState(DriverState.REST);
-        driverService.update(driverFound);
-        return driverFound;
+        return driverService.closeShift(driver);
     }
 }

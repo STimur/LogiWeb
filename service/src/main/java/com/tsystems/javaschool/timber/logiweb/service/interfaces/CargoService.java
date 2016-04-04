@@ -2,6 +2,7 @@ package com.tsystems.javaschool.timber.logiweb.service.interfaces;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Cargo;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver;
+import com.tsystems.javaschool.timber.logiweb.service.dto.CargoDto;
 
 import java.util.List;
 
@@ -32,4 +33,11 @@ public interface CargoService {
      * @return List of all cargos in database.
      */
     List<Cargo> findAll();
+
+    /**
+     * Change state for cargo
+     * @param cargo contains cargo id and state which will be set
+     * @return Cargo for which state have been changed
+     */
+    Cargo changeState(CargoDto cargo);
 }

@@ -15,10 +15,7 @@ public class CargoRestController {
 
     @RequestMapping(value = "/change-state", method = RequestMethod.POST, produces = "application/json")
     Cargo changeState(@RequestBody CargoDto cargo) {
-        Cargo cargoFound = cargoService.findById(cargo.getId());
-        cargoFound.setState(cargo.getState());
-        cargoService.update(cargoFound);
-        return cargoFound;
+        return cargoService.changeState(cargo);
     }
 
 }

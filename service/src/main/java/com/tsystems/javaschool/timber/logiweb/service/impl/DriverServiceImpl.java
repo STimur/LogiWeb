@@ -2,9 +2,13 @@ package com.tsystems.javaschool.timber.logiweb.service.impl;
 
 import com.tsystems.javaschool.timber.logiweb.persistence.dao.interfaces.DriverDao;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Driver;
+import com.tsystems.javaschool.timber.logiweb.persistence.entity.DriverState;
 import com.tsystems.javaschool.timber.logiweb.persistence.entity.Order;
+import com.tsystems.javaschool.timber.logiweb.service.dto.DriverDto;
 import com.tsystems.javaschool.timber.logiweb.service.interfaces.DriverService;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -12,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -66,6 +71,41 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
+    @Transactional
+    public Driver openShift(DriverDto driver) {
+        Driver driverFound = findById(driver.getId());
+        Date creationTime = new Date();
+        driverFound.setShiftStartTime(creationTime);
+        driverFound.setState(driver.getState());
+        update(driverFound);
+        return driverFound;
+    }
+
+    @Override
+    @Transactional
+    public Driver closeShift(DriverDto driver) {
+        Driver driverFound = findById(driver.getId());
+        DateTime startTime = new DateTime(driverFound.getShiftStartTime());
+        DateTime endTime = new DateTime();
+        Period p = new Period(startTime, endTime);
+        int hoursWorked = p.toStandardHours().getHours();
+        driverFound.addWorkHours(hoursWorked);
+        driverFound.setShiftStartTime(null);
+        driverFound.setState(DriverState.REST);
+        update(driverFound);
+        return driverFound;
+    }
+
+    @Override
+    @Transactional
+    public Driver changeState(DriverDto driver) {
+        Driver driverFound = findById(driver.getId());
+        driverFound.setState(driver.getState());
+        update(driverFound);
+        return driverFound;
+    }
+
+    @Override
     public Driver findById(int id) {
         return (Driver) driverDao.find(id);
     }
@@ -79,4 +119,6 @@ public class DriverServiceImpl implements DriverService {
     public List<Driver> getSuitableDriversForOrder(Order order, int deliveryTimeThisMonth, int deliveryTimeNextMonth) {
         return driverDao.getSuitableDriversForOrder(order, deliveryTimeThisMonth, deliveryTimeNextMonth);
     }
+
+
 }
