@@ -84,7 +84,7 @@ public class RoutePoint {
 
     @Override
     public String toString() {
-        return city + " " + type + " " + cargo.getName();
+        return city + " " + type + " " + cargo.getName() + "(id = " + cargo.getId() + ")";
     }
 
     @Override
