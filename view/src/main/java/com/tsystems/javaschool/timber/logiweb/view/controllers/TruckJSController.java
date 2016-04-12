@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -22,30 +23,24 @@ import java.io.IOException;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
-@Controller
-public class TruckController {
+@RestController
+@RequestMapping("/trucks-js")
+public class TruckJSController {
     @Autowired
     TruckService truckService;
 
     @Autowired
     CityService cityService;
 
-    final static Logger logger = Logger.getLogger(TruckController.class);
+    final static Logger logger = Logger.getLogger(TruckJSController.class);
 
-    @RequestMapping(value = "/trucks")
-    protected ModelAndView getTrucks() throws ServletException, IOException {
+    @RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
+    protected List<Truck> getTrucks() throws ServletException, IOException {
         List<Truck> trucks = truckService.findAll();
-        ModelAndView mv = new ModelAndView("manager/trucks/trucks");
-        mv.addObject("trucks", trucks);
-        return mv;
+        return trucks;
     }
 
-    @RequestMapping(value = "/trucks-js")
-    protected String getTrucksJSPage() {
-        return "manager/trucks/trucks-js";
-    }
-
-    @RequestMapping("/trucks/add")
+    /*@RequestMapping("/trucks/add")
     protected ModelAndView addTruck(HttpServletRequest request, Model model) throws ServletException, IOException {
         TruckValidationException ex = (TruckValidationException)model.asMap().get("truckValidationException");
         ModelAndView mv = new ModelAndView("manager/trucks/addTruck");
@@ -169,5 +164,5 @@ public class TruckController {
         City city = cityService.findById(cityId);
         Truck truck = new Truck(regNumber, shiftSize, capacity, state, city);
         return truck;
-    }
+    }*/
 }

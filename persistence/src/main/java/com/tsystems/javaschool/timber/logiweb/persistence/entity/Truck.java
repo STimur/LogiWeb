@@ -1,5 +1,7 @@
 package com.tsystems.javaschool.timber.logiweb.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -97,6 +99,7 @@ public class Truck {
 
     @ManyToOne
     @JoinColumn(name = "currentCityId")
+    @JsonIgnore
     public City getCity() {
         return city;
     }
@@ -107,6 +110,7 @@ public class Truck {
 
     @OneToOne
     @JoinColumn(name = "orderId")
+    @JsonIgnore
     public Order getOrder() {
         return order;
     }
